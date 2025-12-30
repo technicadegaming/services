@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Technicade — Tech Help, Repairs, 3D Printing, Code Fixes</title>
+  <meta name="description" content="Technicade provides electronics repair, LED installations, remote PC troubleshooting, minor code fixes, Unity bug fixes, 3D design & 3D printing, and focused technical research." />
+  <style>
+    :root{
+      --bg: #0b0f19;
+      --panel: rgba(255,255,255,0.10);
+      --panel2: rgba(255,255,255,0.14);
+      --text: #ffffff;
+      --muted: rgba(255,255,255,0.92);
+      --muted2: rgba(255,255,255,0.82);
+      --border: rgba(255,255,255,0.22);
+      --accent: #7c5cff;
+      --accent2:#23d5ab;
+      --danger:#ff4d6d;
+      --shadow: 0 10px 30px rgba(0,0,0,0.35);
+      --radius: 16px;
+      --radius2: 24px;
+      --max: 1120px;
+      --focus: 0 0 0 4px rgba(124,92,255,0.45);
+      --font: Arial, Helvetica, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    }
+    *{ box-sizing:border-box; }
+    html,body{
+      margin:0;
+      font-family:var(--font);
+      color:var(--text);
+      background:#0b0f19;
+      line-height:1.6;
+      letter-spacing:0.2px;
+    }
+    body{
+      margin:0;
+      font-family:var(--font);
+      color:var(--text);
+      background:
+        radial-gradient(900px 500px at 15% 10%, rgba(124,92,255,0.26), transparent 60%),
+        radial-gradient(800px 500px at 85% 20%, rgba(35,213,171,0.18), transparent 55%),
+        radial-gradient(900px 700px at 40% 100%, rgba(124,92,255,0.14), transparent 60%),
+        linear-gradient(180deg, #070a12, #0b0f19 35%, #070a12);
+      line-height:1.55;
+      letter-spacing:0.2px;
+    }
+    a{ color:inherit; }
+    .wrap{ max-width:var(--max); margin:0 auto; padding:24px; }
+    header{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(10px);
+      background: rgba(7,10,18,0.75);
+      border-bottom:1px solid var(--border);
+    }
+    .nav{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:16px;
+      padding:14px 0;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px; text-decoration:none;
+    }
+    .logo{
+      width:40px; height:40px; border-radius:12px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: var(--shadow);
+    }
+    .brand b{ font-size:16px; letter-spacing:0.4px; }
+    .brand span{ display:block; font-size:12px; color:var(--muted2); margin-top:2px; }
+    .links{ display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+    .links a{
+      text-decoration:none;
+      padding:10px 12px;
+      border-radius:999px;
+      border:1px solid transparent;
+      color:var(--muted);
+      font-weight:600;
+      font-size:14px;
+    }
+    .links a:hover{ border-color:var(--border); background:rgba(255,255,255,0.05); color:var(--text); }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      gap:10px;
+      padding:12px 14px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,0.06);
+      color:var(--text);
+      font-weight:800;
+      text-decoration:none;
+      box-shadow: none;
+    }
+    .btn:hover{ background:rgba(255,255,255,0.10); }
+    .btn.primary{
+      border-color: rgba(124,92,255,0.55);
+      background: linear-gradient(135deg, rgba(124,92,255,0.85), rgba(35,213,171,0.55));
+      color:#091018;
+    }
+    .btn.primary:hover{ filter: brightness(1.05); }
+    .btn:focus, .links a:focus, input:focus, textarea:focus{ outline:none; box-shadow: var(--focus); }
+    .hero{ padding:44px 0 18px; }
+    .grid{
+      display:grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap:20px;
+      align-items:stretch;
+    }
+    @media (max-width: 920px){
+      .grid{ grid-template-columns: 1fr; }
+      header{ position:relative; }
+    }
+    .card{
+      background: var(--panel);
+      border:1px solid var(--border);
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .card .inner{ padding:22px; }
+    .kicker{
+      display:inline-flex; gap:10px; align-items:center;
+      font-size:12px; font-weight:900;
+      letter-spacing:0.9px;
+      text-transform:uppercase;
+      color:rgba(245,247,255,0.85);
+      background:rgba(255,255,255,0.06);
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid var(--border);
+    }
+    .dot{
+      width:9px; height:9px; border-radius:99px;
+      background: var(--accent2);
+      box-shadow: 0 0 0 4px rgba(35,213,171,0.14);
+    }
+    h1{
+      margin:14px 0 14px;
+      font-size: clamp(30px, 4.5vw, 46px);
+      line-height:1.15;
+      letter-spacing:-0.4px;
+      color:#ffffff;
+    }
+    p{ margin:0 0 14px; color:var(--muted); font-size:17px; line-height:1.7; }
+    .hero-actions{ display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; }
+    .bullets{
+      margin:16px 0 0;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+    }
+    @media (max-width: 520px){ .bullets{ grid-template-columns:1fr; } }
+    .pill{
+      padding:12px 12px;
+      border-radius: 14px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,0.04);
+      color: rgba(245,247,255,0.86);
+      font-weight:700;
+      font-size:14px;
+    }
+    .aside{
+      height:100%;
+      display:flex; flex-direction:column;
+      background:
+        radial-gradient(400px 250px at 30% 10%, rgba(124,92,255,0.18), transparent 70%),
+        radial-gradient(500px 300px at 70% 60%, rgba(35,213,171,0.12), transparent 65%),
+        rgba(255,255,255,0.04);
+    }
+    .aside h2{ color:#ffffff;  margin:0 0 8px; font-size:18px; letter-spacing:-0.2px; }
+    .aside p{ font-size:15px; color:var(--muted); }
+    .quicklist{ display:grid; gap:10px; margin-top:10px; }
+    .ql{
+      display:flex; gap:10px; align-items:flex-start;
+      padding:12px;
+      border-radius: 16px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,0.04);
+    }
+    .badge{
+      flex:0 0 auto;
+      width:30px; height:30px; border-radius:10px;
+      background: rgba(124,92,255,0.22);
+      border:1px solid rgba(124,92,255,0.35);
+      display:grid; place-items:center;
+      font-weight:900;
+      color: rgba(245,247,255,0.92);
+    }
+    section{ padding:28px 0; background:#0b0f19; }
+    .section-title{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      margin: 12px 0 18px;
+    }
+    .section-title h2{ color:#ffffff; font-size:26px; }
+    .section-title p{ color:#e6e6e6; font-size:16px; }
+    .section-title h2{ margin:0; font-size:22px; letter-spacing:-0.2px; }
+    .section-title p{ margin:0; max-width: 620px; color: var(--muted2); font-size:14px; }
+    .cards{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:14px;
+    }
+    @media (max-width: 980px){ .cards{ grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 620px){ .cards{ grid-template-columns: 1fr; } }
+    .service{
+      background:#151a2e;
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      padding:18px;
+      min-height: 160px;
+    }
+    .service h3{ margin:0 0 8px; font-size:18px; color:#ffffff; }
+    .service p{ margin:0 0 10px; font-size:15px; color:#f0f0f0; }
+    .service ul{ margin:0; padding-left:18px; color:#ffffff; font-size:15px; }
+    .service li{ margin:6px 0; color:#ffffff; }
+    .two{ display:grid; grid-template-columns: 1fr 1fr; gap:14px; }
+    @media (max-width: 820px){ .two{ grid-template-columns: 1fr; } }
+    .panel{ background: var(--panel); border:1px solid var(--border); border-radius: var(--radius); padding:18px; }
+    .steps{ display:grid; gap:10px; margin:10px 0 0; }
+    .step{
+      display:flex; gap:12px; align-items:flex-start;
+      padding:12px;
+      border-radius: 16px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,0.04);
+    }
+    .num{
+      width:30px; height:30px; border-radius:10px;
+      display:grid; place-items:center;
+      font-weight:900;
+      background: rgba(35,213,171,0.18);
+      border:1px solid rgba(35,213,171,0.30);
+    }
+    .contact{ display:grid; grid-template-columns: 1fr 1fr; gap:14px; }
+    @media (max-width: 920px){ .contact{ grid-template-columns: 1fr; } }
+    label{ font-size:13px; font-weight:800; color:rgba(245,247,255,0.88); }
+    input, textarea{
+      width:100%;
+      margin-top:6px;
+      padding:12px 12px;
+      border-radius: 14px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      font-size: 15px;
+    }
+    textarea{ min-height: 120px; resize: vertical; }
+    footer{
+      padding:26px 0 40px;
+      border-top:1px solid var(--border);
+      margin-top:18px;
+      color: var(--muted2);
+      font-size:13px;
+    }
+    .small{ font-size:13px; color: var(--muted2); margin-top:10px; }
+    .tagrow{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+    .tag{
+      font-size:12px;
+      font-weight:800;
+      padding:8px 10px;
+      border-radius:999px;
+      background: rgba(255,255,255,0.05);
+      border:1px solid var(--border);
+      color: rgba(245,247,255,0.86);
+    }
+    .notice{
+      margin-top:10px;
+      padding:12px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(255,77,109,0.35);
+      background: rgba(255,77,109,0.10);
+      color: rgba(245,247,255,0.92);
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <div class="wrap">
+    <div class="nav">
+      <a class="brand" href="#top" aria-label="Home">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <b>Technicade</b>
+          <span>Electronics • PCs • Code • 3D Printing</span>
+        </div>
+      </a>
+
+      <nav class="links" aria-label="Primary">
+        <a href="#services">Services</a>
+        <a href="#how">How it works</a>
+        <a href="#work">Work</a>
+        <a href="#contact">Contact</a>
+        <a class="btn primary" href="#contact">Request a quote</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<main id="top" class="wrap">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="grid">
+      <div class="card">
+        <div class="inner">
+          <div class="kicker"><span class="dot"></span> Fast, practical help with electronics + PCs + projects</div>
+          <h1>Need something fixed, installed, or figured out?</h1>
+          <p>
+            I help people solve real-world tech problems: LED lighting installs, electronic repair, remote PC troubleshooting,
+            minor code fixes, 3D design & 3D printing, Unity bug fixes, and research on specific topics.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn primary" href="#contact">Tell me what you need</a>
+            <a class="btn" href="#services">See services</a>
+            <a class="btn" href="#how">How it works</a>
+          </div>
+
+          <div class="bullets" aria-label="Highlights">
+            <div class="pill">✅ Clear communication & honest expectations</div>
+            <div class="pill">✅ Remote help or in-person (where available)</div>
+            <div class="pill">✅ Quick turnarounds on small fixes</div>
+            <div class="pill">✅ Practical, budget-aware solutions</div>
+          </div>
+
+          <div class="tagrow" aria-label="Tags">
+            <span class="tag">LED lighting</span>
+            <span class="tag">Electronics repair</span>
+            <span class="tag">PC troubleshooting</span>
+            <span class="tag">3D printing</span>
+            <span class="tag">Unity fixes</span>
+            <span class="tag">Research</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card aside">
+        <div class="inner">
+          <h2>What I can help with (examples)</h2>
+          <p>Common requests I handle — if it’s electronic, there’s a good chance I can help.</p>
+
+          <div class="quicklist">
+            <div class="ql">
+              <div class="badge">⚡</div>
+              <div>
+                <b>LED installs</b>
+                <div class="small">Accent lighting, under-cabinet, strips, controllers, clean wiring & setup.</div>
+              </div>
+            </div>
+            <div class="ql">
+              <div class="badge">🛠️</div>
+              <div>
+                <b>Repair & diagnostics</b>
+                <div class="small">Basic electronics repair, troubleshooting, parts guidance, “why won’t this work?”</div>
+              </div>
+            </div>
+            <div class="ql">
+              <div class="badge">💻</div>
+              <div>
+                <b>Remote PC help</b>
+                <div class="small">Performance issues, software problems, setup, cleanup, troubleshooting.</div>
+              </div>
+            </div>
+            <div class="ql">
+              <div class="badge">🧩</div>
+              <div>
+                <b>Code & Unity fixes</b>
+                <div class="small">Minor fixes, debugging, small features, bug hunts, guidance.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="notice">
+            <b>Heads up:</b> I’ll always tell you if a job is outside my scope or not worth your money.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="section-title">
+      <h2>Services</h2>
+      <p>Pick one, or mix & match. If you’re not sure which category fits, describe the issue and I’ll sort it out.</p>
+    </div>
+
+    <div class="cards">
+      <div class="service">
+        <h3>LED Light Installation</h3>
+        <p>Planning, installation, and setup for clean, reliable lighting.</p>
+        <ul>
+          <li>LED strips, controllers, power supplies</li>
+          <li>Under-cabinet / accent lighting</li>
+          <li>Tidy cable management & mounting</li>
+        </ul>
+      </div>
+
+      <div class="service">
+        <h3>Electronic Repair & Diagnostics</h3>
+        <p>Figure out what’s wrong and get it working again (or recommend the smartest next step).</p>
+        <ul>
+          <li>Basic board/device troubleshooting</li>
+          <li>Connector/cable issues, power problems</li>
+          <li>Parts identification & replacement guidance</li>
+        </ul>
+      </div>
+
+      <div class="service">
+        <h3>Remote PC Troubleshooting</h3>
+        <p>Fix software issues quickly without hauling your computer anywhere.</p>
+        <ul>
+          <li>Slow PC, errors, drivers, setup</li>
+          <li>App issues, installs, cleanup</li>
+          <li>Remote session guidance (you stay in control)</li>
+        </ul>
+      </div>
+
+      <div class="service">
+        <h3>Minor Code Fixes</h3>
+        <p>Small changes, bug fixes, and quick patches.</p>
+        <ul>
+          <li>Fixing broken features</li>
+          <li>Small improvements/refactors</li>
+          <li>Explanations so you can maintain it</li>
+        </ul>
+      </div>
+
+      <div class="service">
+        <h3>Unity Bug Fixes</h3>
+        <p>Debug gameplay, UI, performance, and project issues.</p>
+        <ul>
+          <li>Null refs, scene problems, prefabs</li>
+          <li>UI/layout glitches</li>
+          <li>Physics/inputs/logic bugs</li>
+        </ul>
+      </div>
+
+      <div class="service">
+        <h3>3D Design & 3D Printing</h3>
+        <p>From idea → model → printed part.</p>
+        <ul>
+          <li>Custom parts / replacements</li>
+          <li>Simple prototypes</li>
+          <li>Print prep & iteration</li>
+        </ul>
+      </div>
+
+      <div class="service">
+        <h3>Electronics Help (General)</h3>
+        <p>“How do I wire this?” “Which part do I need?” “Why isn’t it working?”</p>
+        <ul>
+          <li>Component selection & guidance</li>
+          <li>System-level troubleshooting</li>
+          <li>Practical recommendations</li>
+        </ul>
+      </div>
+
+      <div class="service">
+        <h3>Research on a Specific Topic</h3>
+        <p>Fast, targeted research with a clear summary.</p>
+        <ul>
+          <li>Compare options & tradeoffs</li>
+          <li>Actionable recommendations</li>
+          <li>Sources + next steps</li>
+        </ul>
+      </div>
+
+      <div class="service">
+        <h3>“Just get it done” Tech Help</h3>
+        <p>Odd jobs that don’t fit a box — if it’s techy, ask.</p>
+        <ul>
+          <li>Setup, troubleshooting, optimization</li>
+          <li>Quick fixes & guidance</li>
+          <li>Honest scope & pricing upfront</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="section-title">
+      <h2>How it works</h2>
+      <p>A simple process that keeps things moving without surprises.</p>
+    </div>
+
+    <div class="two">
+      <div class="panel">
+        <h3 style="margin:0 0 6px;">The process</h3>
+        <p style="margin:0 0 10px;">Most jobs follow these steps:</p>
+        <div class="steps">
+          <div class="step">
+            <div class="num">1</div>
+            <div>
+              <b>Describe the problem or goal</b>
+              <div class="small">Send details, photos, model numbers, error messages—anything helpful.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="num">2</div>
+            <div>
+              <b>I confirm scope + options</b>
+              <div class="small">What I’ll do, what you’ll get, and what it’ll cost (or an estimate).</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="num">3</div>
+            <div>
+              <b>Work + update</b>
+              <div class="small">I fix/install/research, then share results and next steps.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3 style="margin:0 0 6px;">What to send (to go faster)</h3>
+        <p class="small" style="margin-top:0;">Copy/paste this into your message and fill in what you can:</p>
+        <div class="panel" style="background:rgba(255,255,255,0.04); border-radius:16px;">
+          <div class="small" style="white-space:pre-wrap; margin:0; color:rgba(245,247,255,0.82); font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">
+Project type: (LED / Repair / Remote PC / Code / Unity / 3D / Research / Other)
+Goal / issue:
+What you’ve tried:
+Device / parts / software details:
+Deadline (if any):
+Budget range (optional):
+Best contact method:
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK / PORTFOLIO -->
+  <section id="work">
+    <div class="section-title">
+      <h2>Work & capabilities</h2>
+      <p>Add real examples here over time (photos, before/after, links, short case studies).</p>
+    </div>
+
+    <div class="two">
+      <div class="panel">
+        <h3 style="margin:0 0 6px;">Example portfolio items</h3>
+        <p class="small" style="margin-top:0;">Replace these placeholders with your actual projects.</p>
+        <div class="steps">
+          <div class="step">
+            <div class="badge">📦</div>
+            <div>
+              <b>3D printed replacement part</b>
+              <div class="small">Designed a custom part to restore function instead of replacing the whole device.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="badge">🎮</div>
+            <div>
+              <b>Unity bug fix / optimization</b>
+              <div class="small">Tracked down a logic bug + improved performance in a specific scene/UI flow.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="badge">💡</div>
+            <div>
+              <b>LED lighting install</b>
+              <div class="small">Planned power, wiring, and clean mounting for a polished look.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3 style="margin:0 0 6px;">Tools & strengths</h3>
+        <p class="small" style="margin-top:0;">Keep it simple and believable—this helps clients trust you.</p>
+        <ul style="margin:10px 0 0; padding-left:18px; color:rgba(245,247,255,0.82);">
+          <li>Practical diagnostics and troubleshooting mindset</li>
+          <li>Comfortable with electronics, wiring, and setup</li>
+          <li>Remote support: step-by-step guidance and clear communication</li>
+          <li>Small code fixes and debugging (including Unity projects)</li>
+          <li>3D design → print iteration workflow</li>
+          <li>Fast research with actionable summaries</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-title">
+      <h2>Contact</h2>
+      <p>Fill this out and I’ll respond with next steps. (This form uses your email client by default.)</p>
+    </div>
+
+    <div class="contact">
+      <div class="panel">
+        <h3 style="margin:0 0 6px;">Send a request</h3>
+        <p class="small" style="margin-top:0;">This opens your email app with a pre-filled message. Replace <b>technicadegaming@gmail.com</b> below with your real email.</p>
+
+        <form id="quoteForm">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <div>
+              <label for="name">Name</label>
+              <input id="name" name="name" placeholder="Your name" autocomplete="name" />
+            </div>
+            <div>
+              <label for="contactInfo">Contact (email or phone)</label>
+              <input id="contactInfo" name="contactInfo" placeholder="you@email.com" autocomplete="email" />
+            </div>
+          </div>
+
+          <div style="margin-top:10px;">
+            <label for="type">Project type</label>
+            <input id="type" name="type" placeholder="LED / Repair / Remote PC / Code / Unity / 3D / Research / Other" />
+          </div>
+
+          <div style="margin-top:10px;">
+            <label for="details">Details</label>
+            <textarea id="details" name="details" placeholder="What do you need help with? Include device/software details, errors, photos links, deadlines, etc."></textarea>
+          </div>
+
+          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
+            <button class="btn primary" type="submit">Open email draft</button>
+            <a class="btn" href="#services">Browse services</a>
+          </div>
+
+          <div class="small">Tip: For remote PC help, include your OS version and what you were doing when the issue started.</div>
+        </form>
+      </div>
+
+      <div class="panel">
+        <h3 style="margin:0 0 6px;">Direct info</h3>
+        <p class="small" style="margin-top:0;">Replace these placeholders:</p>
+
+        <div class="steps">
+          <div class="step">
+            <div class="badge">✉️</div>
+            <div>
+              <b>Email</b>
+              <div class="small">technicadegaming@gmail.com</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="badge">📍</div>
+            <div>
+              <b>Service area</b>
+              <div class="small">Your city/region (or “Remote available worldwide”)</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="badge">⏱️</div>
+            <div>
+              <b>Typical response time</b>
+              <div class="small">Same day / 24–48 hours (set what you prefer)</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="notice" style="border-color: rgba(255,255,255,0.18); background: rgba(255,255,255,0.05);">
+          <b>Optional:</b> Add links here (Upwork profile, portfolio, GitHub, Instagram, Etsy, etc.).
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div style="display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between;">
+      <div>© <span id="year"></span> Technicade. All rights reserved.</div>
+      <div><a class="btn" href="#top">Back to top</a></div>
+    </div>
+  </footer>
+</main>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  const form = document.getElementById("quoteForm");
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const name = (document.getElementById("name").value || "").trim();
+    const contactInfo = (document.getElementById("contactInfo").value || "").trim();
+    const type = (document.getElementById("type").value || "").trim();
+    const details = (document.getElementById("details").value || "").trim();
+
+    const to = "technicadegaming@gmail.com";
+    const subject = encodeURIComponent(`Service request: ${type || "Tech help"}${name ? " — " + name : ""}`);
+
+    const bodyLines = [
+      "Service request",
+      "----------------",
+      `Name: ${name || "(not provided)"}`,
+      `Contact: ${contactInfo || "(not provided)"}`,
+      `Project type: ${type || "(not provided)"}`,
+      "",
+      "Details:",
+      details || "(not provided)",
+      "",
+      "Preferred time / deadline (optional):",
+      "",
+      "Budget range (optional):",
+      ""
+    ];
+
+    const body = encodeURIComponent(bodyLines.join("\n"));
+    window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+  });
+</script>
+</body>
+</html>
