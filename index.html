@@ -819,24 +819,31 @@
               This form opens your email app (so it works on free hosting with no backend).
             </p>
 
-            <form id="contactForm">
+            <form id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+              <!-- Web3Forms (no-backend email sending). Get a free access key at web3forms.com and paste it below. -->
+              <input type="hidden" name="access_key" value="b6c503e9-95e9-45a7-8685-67423e055f2c" />
+              <input type="hidden" name="subject" value="Technicade Service Request" />
+              <input type="hidden" name="from_name" value="Technicade Website" />
+              <!-- Honeypot (anti-spam) -->
+              <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" autocomplete="off" />
               <div>
                 <label for="name">Name</label>
-                <input id="name" name="name" autocomplete="name" placeholder="Your name" />
+                <input id="name" name="name" autocomplete="name" placeholder="Your name" required />
               </div>
               <div>
                 <label for="email">Your email</label>
-                <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" />
+                <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required />
               </div>
               <div>
                 <label for="service">What do you need help with?</label>
-                <input id="service" name="service" placeholder="Remote PC help, LED install, electronics repair, code fix…" />
+                <input id="service" name="service" placeholder="Remote PC help, LED install, electronics repair, code fix, 3D print, Unity…" required />
               </div>
               <div>
                 <label for="details">Details</label>
-                <textarea id="details" name="details" placeholder="What’s going on? What device? Any error messages? Your timeline?" ></textarea>
+                <textarea id="details" name="message" placeholder="What’s going on? What device? Any error messages? Your timeline?" required></textarea>
               </div>
-              <button class="btn primary" type="submit"><span class="icon" aria-hidden="true">📨</span>Open email draft</button>
+              <button class="btn primary" type="submit"><span class="icon" aria-hidden="true">📨</span>Send request</button>
+              <p id="formStatus" class="kicker" style="margin:0; display:none;"></p>
               <div class="note">
                 <strong>Remote support:</strong> Never share passwords. If screen sharing is needed, you’ll approve it.
               </div>
@@ -908,33 +915,42 @@
         localStorage.setItem('technicade_theme', next);
       });
 
-      // Contact form -> mailto draft (no backend)
+      // Contact form -> Web3Forms (sends email without opening user's email app)
       const form = document.getElementById('contactForm');
-      form.addEventListener('submit', (e) => {
+      const statusEl = document.getElementById('formStatus');
+
+      form.addEventListener('submit', async (e) => {
+        // If you haven't added your Web3Forms access key yet, stop and show a helpful message.
+        const keyInput = form.querySelector('input[name="access_key"]');
+        if (keyInput && (keyInput.value || '').includes('PASTE_YOUR_WEB3FORMS_ACCESS_KEY_HERE')) {
+          e.preventDefault();
+          statusEl.style.display = 'block';
+          statusEl.textContent = 'Add your Web3Forms access key (access_key) in the HTML first.';
+          return;
+        }
+
         e.preventDefault();
-        const name = document.getElementById('name').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const service = document.getElementById('service').value.trim();
-        const details = document.getElementById('details').value.trim();
+        statusEl.style.display = 'block';
+        statusEl.textContent = 'Sending…';
 
-        const subject = encodeURIComponent('Technicade Service Request');
-        const bodyLines = [
-          'Hi Technicade,',
-          '',
-          'I need help with:',
-          service || '(describe service)',
-          '',
-          'Details:',
-          details || '(describe the issue)',
-          '',
-          'Name: ' + (name || '(your name)'),
-          'Reply-to: ' + (email || '(your email)'),
-          '',
-          'Thanks,'
-        ];
-        const body = encodeURIComponent(bodyLines.join('\n'));
+        try {
+          const formData = new FormData(form);
+          const res = await fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: { 'Accept': 'application/json' }
+          });
 
-        window.location.href = `mailto:technicadegaming@gmail.com?subject=${subject}&body=${body}`;
+          const data = await res.json().catch(() => ({}));
+          if (res.ok && (data.success === true || data.message)) {
+            statusEl.textContent = '✅ Sent! I’ll get back to you soon.';
+            form.reset();
+          } else {
+            statusEl.textContent = '❌ Something went wrong. Please email technicadegaming@gmail.com.';
+          }
+        } catch (err) {
+          statusEl.textContent = '❌ Network error. Please email technicadegaming@gmail.com.';
+        }
       });
     })();
   </script>
