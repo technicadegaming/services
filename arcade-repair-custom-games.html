@@ -1,0 +1,826 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Technicade provides arcade repair, claw machine service, ticket dispenser setup, card reader support, Unity and Arduino integration, and custom arcade game builds in the Wausau, Wisconsin area." />
+  <title>Arcade Repair, Claw Machine Service & Custom Game Builds | Technicade</title>
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Arcade Repair, Claw Machine Service & Custom Game Builds | Technicade" />
+  <meta property="og:description" content="Arcade machine repair, claw machine tuning, ticket dispenser setup, card reader support, Unity/Arduino integration, and custom redemption game builds." />
+  <meta property="og:type" content="website" />
+
+  <style>
+    :root{
+      --bg: #0b1220;
+      --panel: rgba(255,255,255,.06);
+      --panel2: rgba(255,255,255,.09);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.72);
+      --soft: rgba(255,255,255,.12);
+      --brand: #7c3aed;
+      --brand2: #22c55e;
+      --warn: #f59e0b;
+      --shadow: 0 18px 55px rgba(0,0,0,.45);
+      --radius: 18px;
+      --max: 1120px;
+      --ring: 0 0 0 3px rgba(124,58,237,.45);
+    }
+
+    [data-theme="light"]{
+      --bg: #e9eef5;
+      --panel: rgba(15,23,42,.08);
+      --panel2: rgba(15,23,42,.12);
+      --text: rgba(2,6,23,.95);
+      --muted: rgba(2,6,23,.75);
+      --soft: rgba(2,6,23,.16);
+      --shadow: 0 16px 44px rgba(2,6,23,.12);
+      --ring: 0 0 0 3px rgba(124,58,237,.30);
+    }
+
+    *{ box-sizing:border-box; }
+    html{ background: var(--bg); scroll-behavior:smooth; }
+    body{
+      min-height:100vh;
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background:
+        radial-gradient(1200px 800px at 10% 10%, rgba(124,58,237,.30), transparent 60%),
+        radial-gradient(1000px 700px at 95% 20%, rgba(34,197,94,.18), transparent 55%),
+        radial-gradient(900px 650px at 40% 105%, rgba(245,158,11,.10), transparent 55%),
+        var(--bg);
+      color:var(--text);
+      line-height:1.5;
+    }
+
+    a{ color:inherit; text-decoration:none; }
+    a:hover{ text-decoration:underline; }
+
+    .wrap{ max-width: var(--max); margin:0 auto; padding: 0 20px; }
+
+    header{
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(14px);
+      background: linear-gradient(to bottom, rgba(0,0,0,.38), rgba(0,0,0,0));
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    [data-theme="light"] header{
+      background: linear-gradient(to bottom, rgba(246,247,251,.85), rgba(246,247,251,0));
+      border-bottom: 1px solid rgba(2,6,23,.10);
+    }
+
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding: 14px 0;
+      gap: 16px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: 12px;
+      min-width: 190px;
+    }
+
+    .logo{
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--brand), rgba(34,197,94,.75));
+      box-shadow: 0 10px 30px rgba(124,58,237,.35);
+      position:relative;
+      overflow:hidden;
+      flex: 0 0 auto;
+    }
+    .logo:before{
+      content:"";
+      position:absolute;
+      inset:-30%;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,.55), transparent 40%),
+        radial-gradient(circle at 70% 70%, rgba(255,255,255,.25), transparent 48%);
+      transform: rotate(15deg);
+    }
+
+    .brand h1{
+      margin:0;
+      font-size: 15px;
+      letter-spacing: .3px;
+      line-height: 1.2;
+    }
+    .brand .tag{
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    nav{
+      display:flex;
+      gap: 14px;
+      align-items:center;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .navlink{
+      font-size: 13px;
+      color: var(--muted);
+      padding: 8px 10px;
+      border-radius: 10px;
+    }
+    .navlink:hover{
+      background: var(--panel);
+      color: var(--text);
+      text-decoration:none;
+    }
+
+    .actions{
+      display:flex;
+      gap: 10px;
+      align-items:center;
+      justify-content:flex-end;
+      min-width: 220px;
+    }
+
+    .btn{
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-size: 13px;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      box-shadow: 0 10px 22px rgba(0,0,0,.12);
+    }
+    [data-theme="light"] .btn{ border-color: rgba(2,6,23,.14); }
+    .btn:hover{ background: rgba(255,255,255,.10); text-decoration:none; }
+    [data-theme="light"] .btn:hover{ background: rgba(2,6,23,.06); }
+
+    .btn.primary{
+      border-color: rgba(124,58,237,.55);
+      background: linear-gradient(135deg, rgba(124,58,237,.95), rgba(34,197,94,.65));
+      color: white;
+    }
+    .btn.primary:hover{ filter: brightness(1.03); }
+
+    .icon{ width: 16px; height: 16px; display:inline-block; }
+
+    .hero{ padding: 56px 0 28px; }
+    .heroGrid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .card{
+      background: var(--panel);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    [data-theme="light"] .card{ border-color: rgba(2,6,23,.10); }
+    .cardPad{ padding: 22px; }
+
+    .headline{
+      font-size: clamp(30px, 4.6vw, 52px);
+      line-height: 1.02;
+      margin: 0 0 10px;
+      letter-spacing: -0.8px;
+    }
+
+    .subhead{
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 15px;
+      max-width: 68ch;
+    }
+
+    .heroCtas{ display:flex; gap: 10px; flex-wrap:wrap; margin-top: 18px; }
+    .chips{ display:flex; flex-wrap:wrap; gap: 10px; margin: 18px 0 0; }
+    .chip{
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      color: var(--text);
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+    }
+    [data-theme="light"] .chip{ border-color: rgba(2,6,23,.14); background: rgba(2,6,23,.04); }
+
+    .mini{ display:grid; gap: 12px; }
+    .mini .stat{
+      display:flex;
+      gap: 12px;
+      align-items:flex-start;
+      padding: 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.10);
+    }
+    [data-theme="light"] .mini .stat{ background: rgba(2,6,23,.04); border-color: rgba(2,6,23,.10); }
+    .badge{
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      display:grid;
+      place-items:center;
+      background: rgba(124,58,237,.18);
+      border: 1px solid rgba(124,58,237,.35);
+      flex: 0 0 auto;
+    }
+    .stat h3{ margin: 0; font-size: 13px; }
+    .stat p{ margin: 4px 0 0; font-size: 12px; color: var(--muted); }
+
+    section{ padding: 18px 0; }
+    .sectionTitle{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap: 16px;
+      margin: 18px 0 12px;
+    }
+    .sectionTitle h2{ margin:0; font-size: 18px; letter-spacing: .2px; }
+    .sectionTitle p{ margin:0; color: var(--muted); font-size: 13px; }
+    .kicker{ color: var(--muted); font-size: 12px; }
+
+    .grid3{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .grid2{ display:grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+    .service,
+    .priceCard,
+    .projectBox{
+      padding: 18px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.10);
+    }
+    [data-theme="light"] .service,
+    [data-theme="light"] .priceCard,
+    [data-theme="light"] .projectBox{ background: rgba(2,6,23,.04); border-color: rgba(2,6,23,.10); }
+
+    .service{ min-height: 190px; display:flex; flex-direction:column; gap: 10px; }
+    .service h3,
+    .priceCard h3,
+    .projectBox h3{ margin:0; font-size: 14px; }
+    .service p,
+    .priceCard p,
+    .projectBox p{ margin:0; color: var(--muted); font-size: 13px; }
+    .service ul,
+    .priceCard ul,
+    .projectBox ul{ margin: 0; padding-left: 18px; color: var(--muted); font-size: 13px; }
+    .service li,
+    .priceCard li,
+    .projectBox li{ margin: 6px 0; }
+
+    .pillRow{ margin-top:auto; display:flex; gap:8px; flex-wrap:wrap; }
+    .pill{
+      font-size: 11px;
+      padding: 6px 9px;
+      border-radius: 999px;
+      background: rgba(124,58,237,.14);
+      border: 1px solid rgba(124,58,237,.30);
+      color: var(--text);
+    }
+
+    .pricing{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .priceCard{ position:relative; }
+    .priceCard.featured{
+      border-color: rgba(124,58,237,.45);
+      box-shadow: 0 18px 55px rgba(124,58,237,.16);
+      background: linear-gradient(180deg, rgba(124,58,237,.14), rgba(255,255,255,.05));
+    }
+    .price{ margin: 8px 0 0; font-size: 26px; font-weight: 750; letter-spacing: -.2px; }
+    .price small{ font-size: 12px; font-weight: 600; color: var(--muted); }
+    .ribbon{
+      position:absolute;
+      top: 12px;
+      right: 12px;
+      font-size: 11px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(34,197,94,.14);
+      border: 1px solid rgba(34,197,94,.30);
+    }
+
+    .priceTable{
+      overflow:hidden;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+    }
+    [data-theme="light"] .priceTable{ border-color: rgba(2,6,23,.10); background: rgba(2,6,23,.04); }
+    .priceRow{
+      display:grid;
+      grid-template-columns: 1.4fr .6fr;
+      gap: 12px;
+      padding: 13px 16px;
+      border-bottom: 1px solid rgba(255,255,255,.10);
+      align-items:center;
+      font-size: 13px;
+    }
+    [data-theme="light"] .priceRow{ border-bottom-color: rgba(2,6,23,.10); }
+    .priceRow:last-child{ border-bottom:0; }
+    .priceRow strong{ color: var(--text); }
+    .priceRow span:last-child{ color: var(--brand2); text-align:right; font-weight: 750; }
+
+    .contactGrid{ display:grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    form{ display:grid; gap: 10px; }
+    label{ font-size: 12px; color: var(--muted); }
+    input, textarea{
+      width:100%;
+      padding: 11px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      color: var(--text);
+      outline: none;
+      font-size: 13px;
+    }
+    [data-theme="light"] input, [data-theme="light"] textarea{ border-color: rgba(2,6,23,.14); background: rgba(2,6,23,.04); }
+    input:focus, textarea:focus{ box-shadow: var(--ring); }
+    textarea{ min-height: 120px; resize: vertical; }
+
+    .note{
+      font-size: 12px;
+      color: var(--muted);
+      background: rgba(245,158,11,.12);
+      border: 1px solid rgba(245,158,11,.25);
+      padding: 10px 12px;
+      border-radius: 14px;
+    }
+
+    footer{ padding: 28px 0 36px; color: var(--muted); font-size: 12px; }
+    .footRow{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap: 12px;
+      flex-wrap:wrap;
+      border-top: 1px solid rgba(255,255,255,.10);
+      padding-top: 18px;
+    }
+    [data-theme="light"] .footRow{ border-top-color: rgba(2,6,23,.10); }
+
+    @media (max-width: 980px){
+      .heroGrid{ grid-template-columns: 1fr; }
+      .actions{ min-width: auto; }
+      .grid3{ grid-template-columns: 1fr 1fr; }
+      .grid2{ grid-template-columns: 1fr; }
+      .pricing{ grid-template-columns: 1fr; }
+      .contactGrid{ grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px){
+      nav{ display:none; }
+      .grid3{ grid-template-columns: 1fr; }
+      .topbar{ padding: 12px 0; }
+      .brand{ min-width: auto; }
+      .actions{ gap: 8px; }
+      .priceRow{ grid-template-columns: 1fr; }
+      .priceRow span:last-child{ text-align:left; }
+    }
+  </style>
+</head>
+
+<body>
+  <a class="sr" href="#main" style="position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden;">Skip to content</a>
+
+  <header>
+    <div class="wrap">
+      <div class="topbar">
+        <a class="brand" href="index.html" aria-label="Technicade home">
+          <div class="logo" aria-hidden="true"></div>
+          <div>
+            <h1>Technicade</h1>
+            <div class="tag">Arcade repair • custom games • tech services</div>
+          </div>
+        </a>
+
+        <nav aria-label="Primary">
+          <a class="navlink" href="index.html">Home</a>
+          <a class="navlink" href="#services">Arcade Services</a>
+          <a class="navlink" href="#pricing">Pricing</a>
+          <a class="navlink" href="#plans">Maintenance</a>
+          <a class="navlink" href="#contact">Contact</a>
+        </nav>
+
+        <div class="actions">
+          <button class="btn" id="themeBtn" type="button" aria-label="Toggle theme">
+            <span class="icon" aria-hidden="true">🌗</span>
+            <span>Theme</span>
+          </button>
+          <a class="btn primary" href="#contact">
+            <span class="icon" aria-hidden="true">🛠️</span>
+            <span>Request service</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <section class="hero">
+      <div class="heroGrid">
+        <div class="card">
+          <div class="cardPad">
+            <div class="kicker">Wausau area arcade repair, redemption systems, and custom builds.</div>
+            <h2 class="headline">Arcade machines should be earning, not sitting broken.</h2>
+            <p class="subhead">
+              Technicade repairs arcade cabinets, claw machines, ticket dispensers, coin/card systems, and custom
+              redemption games. We also build Unity and Arduino-powered arcade attractions for businesses, events,
+              schools, and private game rooms.
+            </p>
+
+            <div class="heroCtas">
+              <a class="btn primary" href="#contact"><span class="icon" aria-hidden="true">📨</span>Request arcade service</a>
+              <a class="btn" href="#pricing"><span class="icon" aria-hidden="true">💵</span>View pricing</a>
+              <a class="btn" href="mailto:technicadegaming@gmail.com?subject=Arcade%20Service%20Request"><span class="icon" aria-hidden="true">✉️</span>Email</a>
+            </div>
+
+            <div class="chips" aria-label="Highlights">
+              <span class="chip">✅ Arcade repair</span>
+              <span class="chip">✅ Claw machine tuning</span>
+              <span class="chip">✅ Ticket dispensers</span>
+              <span class="chip">✅ Coin/card systems</span>
+              <span class="chip">✅ Unity + Arduino</span>
+              <span class="chip">✅ 3D-printed parts</span>
+              <span class="chip">✅ Custom game builds</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="cardPad mini">
+            <div class="stat">
+              <div class="badge" aria-hidden="true">🔎</div>
+              <div>
+                <h3>$129+ on-site diagnostics</h3>
+                <p>Find the real issue before spending money on unnecessary parts.</p>
+              </div>
+            </div>
+            <div class="stat">
+              <div class="badge" aria-hidden="true">🧰</div>
+              <div>
+                <h3>$95/hr standard repair labor</h3>
+                <p>Arcade, electronics, wiring, cabinet, payout, and control troubleshooting.</p>
+              </div>
+            </div>
+            <div class="stat">
+              <div class="badge" aria-hidden="true">🎟️</div>
+              <div>
+                <h3>Ticket payout + redemption support</h3>
+                <p>Ticket dispenser wiring, pulse logic, Arduino controls, and payout testing.</p>
+              </div>
+            </div>
+            <div class="stat">
+              <div class="badge" aria-hidden="true">🎮</div>
+              <div>
+                <h3>$2,500+ custom arcade builds</h3>
+                <p>Custom Unity/Arduino game cabinets, event games, and redemption attractions.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="services">
+      <div class="sectionTitle">
+        <div>
+          <h2>Arcade Services</h2>
+          <p>Repair, setup, upgrades, and custom builds for earning machines and interactive attractions.</p>
+        </div>
+        <a class="btn" href="#contact"><span class="icon" aria-hidden="true">➡️</span>Start a request</a>
+      </div>
+
+      <div class="grid3">
+        <div class="service">
+          <h3>Arcade Machine Repair</h3>
+          <p>Troubleshooting for cabinets, controls, power, displays, and wiring.</p>
+          <ul>
+            <li>Buttons, joysticks, switches, and control panels</li>
+            <li>Power, display, and game controller issues</li>
+            <li>Cabinet cleanup and minor restoration</li>
+          </ul>
+          <div class="pillRow"><span class="pill">Diagnostics-first</span><span class="pill">In-person</span></div>
+        </div>
+
+        <div class="service">
+          <h3>Claw & Crane Machines</h3>
+          <p>Service for claw machines, duck cranes, toy cranes, and prize games.</p>
+          <ul>
+            <li>Claw strength and payout-style tuning</li>
+            <li>Motor, movement, and limit switch troubleshooting</li>
+            <li>Prize chute, drop zone, and cabinet fixes</li>
+          </ul>
+          <div class="pillRow"><span class="pill">Prize games</span><span class="pill">Tuning</span></div>
+        </div>
+
+        <div class="service">
+          <h3>Tickets & Redemption</h3>
+          <p>Setup and repair for ticket payout, scoring, credits, and game economy systems.</p>
+          <ul>
+            <li>Ticket dispenser wiring and pulse setup</li>
+            <li>Unity-to-hardware payout logic</li>
+            <li>Arduino-based credit and payout controls</li>
+          </ul>
+          <div class="pillRow"><span class="pill">Tickets</span><span class="pill">Arduino</span></div>
+        </div>
+
+        <div class="service">
+          <h3>Coin, Bill & Card Reader Support</h3>
+          <p>Help integrating or troubleshooting coin mechs, bill acceptors, and card readers.</p>
+          <ul>
+            <li>Credit input troubleshooting</li>
+            <li>Reader wiring and signal checks</li>
+            <li>Game credit/start logic testing</li>
+          </ul>
+          <div class="pillRow"><span class="pill">Credits</span><span class="pill">Operators</span></div>
+        </div>
+
+        <div class="service">
+          <h3>3D-Printed Machine Parts</h3>
+          <p>Replacement and custom parts when a machine needs a practical fix.</p>
+          <ul>
+            <li>Sensor mounts, brackets, guards, and chute guides</li>
+            <li>Button/control panel supports</li>
+            <li>Prototype-to-part iteration</li>
+          </ul>
+          <div class="pillRow"><span class="pill">3D printing</span><span class="pill">Custom parts</span></div>
+        </div>
+
+        <div class="service">
+          <h3>Custom Arcade Game Builds</h3>
+          <p>Interactive games for venues, events, schools, and private game rooms.</p>
+          <ul>
+            <li>Unity game development</li>
+            <li>Arduino hardware controls and sensors</li>
+            <li>Cabinet, lighting, scoring, timers, and payout logic</li>
+          </ul>
+          <div class="pillRow"><span class="pill">Unity</span><span class="pill">Custom cabinets</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="pricing">
+      <div class="sectionTitle">
+        <div>
+          <h2>Customer Pricing</h2>
+          <p>Starting prices. Final quotes depend on travel, parts, machine condition, and project scope.</p>
+        </div>
+        <div class="kicker">Parts and materials are quoted separately.</div>
+      </div>
+
+      <div class="priceTable" aria-label="Arcade repair pricing">
+        <div class="priceRow"><strong>Phone/text photo review</strong><span>Free</span></div>
+        <div class="priceRow"><strong>On-site diagnostic visit</strong><span>$129+</span></div>
+        <div class="priceRow"><strong>Standard repair labor</strong><span>$95/hr</span></div>
+        <div class="priceRow"><strong>After-hours or urgent service</strong><span>$135/hr</span></div>
+        <div class="priceRow"><strong>Button, joystick, switch replacement</strong><span>$45+ plus parts</span></div>
+        <div class="priceRow"><strong>Coin mech or bill acceptor troubleshooting</strong><span>$95+</span></div>
+        <div class="priceRow"><strong>Ticket dispenser setup or repair</strong><span>$150+</span></div>
+        <div class="priceRow"><strong>Card reader installation support</strong><span>$250+</span></div>
+        <div class="priceRow"><strong>Claw machine tuning</strong><span>$150+</span></div>
+        <div class="priceRow"><strong>3D-printed replacement parts</strong><span>$25+</span></div>
+        <div class="priceRow"><strong>Preventive maintenance visit</strong><span>$199+</span></div>
+        <div class="priceRow"><strong>Monthly maintenance plan</strong><span>$399+/mo</span></div>
+        <div class="priceRow"><strong>Custom arcade game build</strong><span>$2,500+</span></div>
+        <div class="priceRow"><strong>Custom redemption game build</strong><span>$3,500+</span></div>
+        <div class="priceRow"><strong>Full custom cabinet build</strong><span>Quote required</span></div>
+      </div>
+
+      <p class="kicker" style="margin-top:12px;">
+        Pricing is designed to set expectations before a request. High-complexity electrical, monitor, board, cabinet,
+        or third-party reader issues may require additional parts or specialty service.
+      </p>
+    </section>
+
+    <section id="plans">
+      <div class="sectionTitle">
+        <div>
+          <h2>Maintenance Plans</h2>
+          <p>Prevent downtime before it costs you revenue.</p>
+        </div>
+        <div class="kicker">Best for businesses with machines that need to stay running.</div>
+      </div>
+
+      <div class="pricing">
+        <div class="priceCard">
+          <h3>Basic</h3>
+          <div class="price">$399 <small>/ month</small></div>
+          <p>Best for small locations with 1-5 machines.</p>
+          <ul>
+            <li>One scheduled visit per month</li>
+            <li>Controls, sensors, coin/card checks</li>
+            <li>Basic cleaning and inspection</li>
+            <li>Priority scheduling</li>
+          </ul>
+        </div>
+
+        <div class="priceCard featured">
+          <div class="ribbon">Recommended</div>
+          <h3>Business</h3>
+          <div class="price">$799 <small>/ month</small></div>
+          <p>Best for venues with multiple games or steady foot traffic.</p>
+          <ul>
+            <li>Two scheduled visits per month</li>
+            <li>Preventive maintenance</li>
+            <li>Ticket and credit system checks</li>
+            <li>Discounted hourly repair rate</li>
+          </ul>
+        </div>
+
+        <div class="priceCard">
+          <h3>Game Room</h3>
+          <div class="price">Custom <small>/ quote</small></div>
+          <p>Best for FECs, route operators, and higher-traffic game rooms.</p>
+          <ul>
+            <li>Weekly or biweekly options</li>
+            <li>Machine condition reports</li>
+            <li>Part replacement planning</li>
+            <li>Emergency service availability</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="why">
+      <div class="sectionTitle">
+        <div>
+          <h2>Why Technicade?</h2>
+          <p>Not just repair — software, hardware, controls, tickets, cabinet parts, and game logic together.</p>
+        </div>
+      </div>
+
+      <div class="grid3">
+        <div class="projectBox">
+          <h3>Software + hardware</h3>
+          <p>Unity game logic, Arduino controls, wiring, sensors, and payout systems can be handled as one complete system.</p>
+        </div>
+        <div class="projectBox">
+          <h3>Practical custom fixes</h3>
+          <p>When a part is discontinued or a machine needs a custom bracket, chute, mount, or panel, Technicade can design a workable fix.</p>
+        </div>
+        <div class="projectBox">
+          <h3>Built for earning machines</h3>
+          <p>For business locations, the goal is simple: reduce downtime, keep games playable, and protect revenue.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="sectionTitle">
+        <div>
+          <h2>Request Arcade Service</h2>
+          <p>Send machine details, photos, or a short video and Technicade will reply with next steps.</p>
+        </div>
+        <div class="kicker">Email: technicadegaming@gmail.com</div>
+      </div>
+
+      <div class="contactGrid">
+        <div class="card">
+          <div class="cardPad">
+            <h3 style="margin:0 0 8px; font-size: 14px;">Send a request</h3>
+            <p style="margin:0 0 12px; color:var(--muted); font-size: 13px;">
+              Include the machine type, brand/model if available, what happens when powered on, photos of the outside,
+              photos of the inside electronics if possible, your location, and whether this is for home, business, or event use.
+            </p>
+
+            <form id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+              <input type="hidden" name="access_key" value="b6c503e9-95e9-45a7-8685-67423e055f2c" />
+              <input type="hidden" name="subject" value="Technicade Arcade Service Request" />
+              <input type="hidden" name="from_name" value="Technicade Arcade Services Page" />
+              <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" autocomplete="off" />
+              <div>
+                <label for="name">Name</label>
+                <input id="name" name="name" autocomplete="name" placeholder="Your name" required />
+              </div>
+              <div>
+                <label for="email">Your email</label>
+                <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required />
+              </div>
+              <div>
+                <label for="service">What machine or service do you need?</label>
+                <input id="service" name="service" placeholder="Claw machine repair, ticket dispenser, card reader, custom game build…" required />
+              </div>
+              <div>
+                <label for="details">Details</label>
+                <textarea id="details" name="message" placeholder="Machine type, issue, business/home/event use, location, photos/video link if available…" required></textarea>
+              </div>
+              <button class="btn primary" type="submit"><span class="icon" aria-hidden="true">📨</span>Send arcade service request</button>
+              <p id="formStatus" class="kicker" style="margin:0; display:none;"></p>
+              <div class="note">
+                <strong>Tip:</strong> Photos or a short video usually help diagnose arcade and claw machine problems faster.
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="cardPad">
+            <h3 style="margin:0 0 10px; font-size: 14px;">Service area & good-fit customers</h3>
+            <p style="margin:0 0 10px; color:var(--muted); font-size: 13px;">
+              Based in <strong>Wausau, Wisconsin</strong>. In-person arcade service is available locally depending on job scope and travel.
+              Custom game planning and software/hardware consultation may also be available remotely.
+            </p>
+
+            <div class="service" style="min-height:auto;">
+              <h3 style="margin:0;">Good fits</h3>
+              <ul>
+                <li>Arcades and family entertainment centers</li>
+                <li>Bowling alleys, skating rinks, bars, restaurants, and laundromats</li>
+                <li>Party rental companies and event businesses</li>
+                <li>Schools, makerspaces, and private game rooms</li>
+              </ul>
+              <div class="pillRow">
+                <span class="pill">Transparent pricing</span>
+                <span class="pill">Clear scope</span>
+                <span class="pill">No surprises</span>
+              </div>
+            </div>
+
+            <div style="height:12px;"></div>
+
+            <a class="btn" href="mailto:technicadegaming@gmail.com?subject=Arcade%20Service%20Request&body=Hi%20Technicade%2C%0A%0AI%20need%20help%20with%3A%20%0A%0AMachine%20type%2Fbrand%3A%20%0A%0AWhat%20happens%20when%20powered%20on%3A%20%0A%0ALocation%3A%20%0A%0AHome%2Fbusiness%2Fevent%3A%20%0A%0AThanks%2C%0A" style="width:100%; justify-content:center;">
+              <span class="icon" aria-hidden="true">✉️</span>
+              Email Technicade
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footRow">
+        <div>
+          <div style="font-weight:700; color:var(--text);">Technicade</div>
+          <div>Arcade repair • custom games • tech services</div>
+        </div>
+        <div>
+          <div>Contact: <a href="mailto:technicadegaming@gmail.com">technicadegaming@gmail.com</a></div>
+          <div style="margin-top:6px;">© <span id="year"></span> Technicade. All rights reserved.</div>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    (function(){
+      const root = document.documentElement;
+      const btn = document.getElementById('themeBtn');
+      const year = document.getElementById('year');
+      year.textContent = String(new Date().getFullYear());
+
+      const saved = localStorage.getItem('technicade_theme');
+      if(saved === 'light' || saved === 'dark') root.setAttribute('data-theme', saved);
+
+      btn.addEventListener('click', () => {
+        const current = root.getAttribute('data-theme') || 'dark';
+        const next = current === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', next);
+        localStorage.setItem('technicade_theme', next);
+      });
+
+      const form = document.getElementById('contactForm');
+      const statusEl = document.getElementById('formStatus');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        statusEl.style.display = 'block';
+        statusEl.textContent = 'Sending…';
+
+        try {
+          const formData = new FormData(form);
+          const res = await fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: { 'Accept': 'application/json' }
+          });
+
+          const data = await res.json().catch(() => ({}));
+          if (res.ok && (data.success === true || data.message)) {
+            statusEl.textContent = '✅ Sent! I’ll get back to you soon.';
+            form.reset();
+          } else {
+            statusEl.textContent = '❌ Something went wrong. Please email technicadegaming@gmail.com.';
+          }
+        } catch (err) {
+          statusEl.textContent = '❌ Network error. Please email technicadegaming@gmail.com.';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
