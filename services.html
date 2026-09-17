@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Technicade services and packages in Wausau, Wisconsin: quick tech help, local fix-it visits, replacement 3D printed parts, custom brackets, electronics diagnostics, installs, arcade repair, and custom projects." />
+  <title>Services & Packages | Technicade</title>
+  <meta property="og:title" content="Technicade | Services & Packages" />
+  <meta property="og:description" content="Small tech jobs, repairs, custom parts, installs, 3D printing, arcade support, and practical fixes in the Wausau area and remotely." />
+  <meta property="og:type" content="website" />
+  <style>
+    :root{
+      --bg:#0b1220; --panel:rgba(255,255,255,.06); --panel2:rgba(255,255,255,.09);
+      --text:rgba(255,255,255,.93); --muted:rgba(255,255,255,.72); --soft:rgba(255,255,255,.12);
+      --brand:#7c3aed; --brand2:#22c55e; --warn:#f59e0b; --shadow:0 18px 55px rgba(0,0,0,.42);
+      --radius:18px; --max:1120px; --ring:0 0 0 3px rgba(124,58,237,.45);
+    }
+    [data-theme="light"]{
+      --bg:#e9eef5; --panel:rgba(15,23,42,.07); --panel2:rgba(15,23,42,.11);
+      --text:rgba(2,6,23,.95); --muted:rgba(2,6,23,.72); --soft:rgba(2,6,23,.15);
+      --shadow:0 16px 44px rgba(2,6,23,.12); --ring:0 0 0 3px rgba(124,58,237,.30);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;background:var(--bg)}
+    body{margin:0;min-height:100vh;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--text);line-height:1.5;background:radial-gradient(1100px 750px at 8% 8%,rgba(124,58,237,.28),transparent 60%),radial-gradient(950px 650px at 95% 18%,rgba(34,197,94,.16),transparent 55%),radial-gradient(850px 600px at 45% 105%,rgba(245,158,11,.09),transparent 55%),var(--bg)}
+    a{color:inherit;text-decoration:none} a:hover{text-decoration:underline}
+    .wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
+    header{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:linear-gradient(to bottom,rgba(0,0,0,.42),rgba(0,0,0,.08));border-bottom:1px solid rgba(255,255,255,.08)}
+    [data-theme="light"] header{background:linear-gradient(to bottom,rgba(246,247,251,.94),rgba(246,247,251,.76));border-bottom-color:rgba(2,6,23,.10)}
+    .topbar{display:flex;align-items:center;justify-content:space-between;padding:13px 0;gap:14px}
+    .brand{display:flex;align-items:center;gap:11px;min-width:190px}.logo{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--brand),rgba(34,197,94,.75));box-shadow:0 10px 30px rgba(124,58,237,.35)}
+    .brand strong{display:block;font-size:15px}.brand small{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+    nav{display:flex;gap:5px;align-items:center;flex-wrap:wrap;justify-content:center}.navlink{font-size:13px;color:var(--muted);padding:8px 10px;border-radius:10px}.navlink:hover{background:var(--panel);color:var(--text);text-decoration:none}
+    .actions{display:flex;gap:8px;align-items:center;justify-content:flex-end}
+    .btn{border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:var(--text);padding:10px 13px;border-radius:12px;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:7px;font-weight:650}
+    [data-theme="light"] .btn{border-color:rgba(2,6,23,.14)} .btn:hover{background:rgba(255,255,255,.11);text-decoration:none}.btn.primary{border-color:rgba(124,58,237,.55);background:linear-gradient(135deg,rgba(124,58,237,.97),rgba(34,197,94,.67));color:white}.btn.small{padding:8px 10px;font-size:12px}.btn.full{width:100%}
+    main{padding-bottom:30px}.hero{padding:54px 0 22px}.heroGrid{display:grid;grid-template-columns:1.18fr .82fr;gap:16px}.card{background:var(--panel);border:1px solid rgba(255,255,255,.10);border-radius:var(--radius);box-shadow:var(--shadow)}[data-theme="light"] .card{border-color:rgba(2,6,23,.10)}.pad{padding:22px}
+    .kicker{font-size:12px;color:var(--muted)}.eyebrow{display:inline-flex;gap:7px;align-items:center;padding:7px 10px;border-radius:999px;border:1px solid rgba(124,58,237,.30);background:rgba(124,58,237,.12);font-size:12px;margin-bottom:12px}.headline{font-size:clamp(31px,5vw,52px);line-height:1.02;letter-spacing:-1px;margin:0 0 12px}.subhead{margin:0;color:var(--muted);font-size:15px;max-width:66ch}.heroCtas{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:17px}.chip{font-size:11px;padding:6px 9px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.11)}[data-theme="light"] .chip{background:rgba(2,6,23,.04);border-color:rgba(2,6,23,.10)}
+    .mini{display:grid;gap:10px}.stat{padding:13px;border-radius:15px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.09)}[data-theme="light"] .stat{background:rgba(2,6,23,.035);border-color:rgba(2,6,23,.09)}.stat strong{font-size:13px}.stat p{font-size:12px;color:var(--muted);margin:4px 0 0}
+    section{padding:19px 0}.sectionTitle{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;margin:12px 0}.sectionTitle h2{margin:0;font-size:21px}.sectionTitle p{margin:3px 0 0;color:var(--muted);font-size:13px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}
+    .package{position:relative;padding:18px;border-radius:18px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.10);display:flex;flex-direction:column;min-height:294px}[data-theme="light"] .package{background:rgba(2,6,23,.04);border-color:rgba(2,6,23,.10)}.package.featured{border-color:rgba(124,58,237,.48);box-shadow:0 18px 45px rgba(124,58,237,.14);background:linear-gradient(180deg,rgba(124,58,237,.13),rgba(255,255,255,.045))}.tag{position:absolute;top:12px;right:12px;font-size:10px;padding:5px 8px;border-radius:999px;background:rgba(34,197,94,.14);border:1px solid rgba(34,197,94,.30)}.package h3{margin:0;padding-right:62px;font-size:15px}.price{font-size:29px;line-height:1.1;font-weight:800;margin:9px 0 4px}.price small{font-size:11px;font-weight:650;color:var(--muted)}.package p{font-size:12.5px;color:var(--muted);margin:6px 0}.package ul{font-size:12.5px;color:var(--muted);padding-left:18px;margin:9px 0 15px}.package li{margin:5px 0}.package .btn{margin-top:auto}
+    .service{padding:17px;border-radius:17px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.09)}[data-theme="light"] .service{background:rgba(2,6,23,.035);border-color:rgba(2,6,23,.09)}.service h3{font-size:14px;margin:0}.service p{font-size:12.5px;color:var(--muted);margin:6px 0 0}.service ul{font-size:12.5px;color:var(--muted);padding-left:18px;margin:10px 0 0}.service li{margin:5px 0}
+    .callout{padding:20px;border-radius:18px;border:1px solid rgba(34,197,94,.28);background:linear-gradient(135deg,rgba(34,197,94,.10),rgba(124,58,237,.09));display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center}.callout h2{margin:0;font-size:21px}.callout p{margin:6px 0 0;color:var(--muted);font-size:13px}
+    .process{counter-reset:step;display:grid;grid-template-columns:repeat(4,1fr);gap:11px}.step{padding:16px;border-radius:16px;background:var(--panel);border:1px solid rgba(255,255,255,.09)}[data-theme="light"] .step{border-color:rgba(2,6,23,.09)}.step:before{counter-increment:step;content:counter(step);display:grid;place-items:center;width:28px;height:28px;border-radius:10px;background:rgba(124,58,237,.18);border:1px solid rgba(124,58,237,.35);font-size:12px;font-weight:800;margin-bottom:9px}.step strong{font-size:13px}.step p{font-size:12px;color:var(--muted);margin:4px 0 0}
+    .quoteGrid{display:grid;grid-template-columns:1.15fr .85fr;gap:13px}.formCard{padding:20px}form{display:grid;gap:10px}.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}label{font-size:11px;color:var(--muted)}input,select,textarea{width:100%;padding:11px 12px;border-radius:13px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);color:var(--text);outline:none;font:inherit;font-size:13px}[data-theme="light"] input,[data-theme="light"] select,[data-theme="light"] textarea{border-color:rgba(2,6,23,.14);background:rgba(2,6,23,.04)}select option{color:#111}input:focus,select:focus,textarea:focus{box-shadow:var(--ring)}textarea{min-height:130px;resize:vertical}.note{font-size:11.5px;color:var(--muted);padding:10px 11px;border-radius:13px;border:1px solid rgba(245,158,11,.25);background:rgba(245,158,11,.10)}
+    .faq details{border-bottom:1px solid var(--soft);padding:11px 0}.faq summary{cursor:pointer;font-weight:700;font-size:13px}.faq p{font-size:12.5px;color:var(--muted);margin:7px 0 0}
+    footer{padding:30px 0 36px;color:var(--muted);font-size:12px}.foot{border-top:1px solid var(--soft);padding-top:18px;display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}
+    @media(max-width:960px){.heroGrid,.quoteGrid{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 1fr}.process{grid-template-columns:1fr 1fr}.actions .ghost{display:none}}
+    @media(max-width:650px){nav{display:none}.grid3,.grid2,.process,.two{grid-template-columns:1fr}.callout{grid-template-columns:1fr}.topbar{padding:11px 0}.brand small{display:none}.headline{font-size:36px}.hero{padding-top:34px}.actions{gap:5px}.actions .btn{padding:9px 10px}.package{min-height:0}}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap topbar">
+    <a class="brand" href="index.html" aria-label="Technicade home">
+      <span class="logo" aria-hidden="true"></span>
+      <span><strong>Technicade</strong><small>Tech services • troubleshooting • practical fixes</small></span>
+    </a>
+    <nav aria-label="Primary">
+      <a class="navlink" href="index.html">Home</a>
+      <a class="navlink" href="#packages">Packages</a>
+      <a class="navlink" href="#more-services">More services</a>
+      <a class="navlink" href="arcade-repair-custom-games.html">Arcade</a>
+      <a class="navlink" href="#quote">Quote</a>
+    </nav>
+    <div class="actions">
+      <button class="btn ghost" id="themeBtn" type="button" aria-label="Toggle theme">🌗 Theme</button>
+      <a class="btn primary" href="#quote">Get a quote</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="heroGrid">
+      <div class="card pad">
+        <div class="eyebrow">🛠️ Small jobs welcome</div>
+        <h1 class="headline">Got an annoying little problem? Send it to me.</h1>
+        <p class="subhead">Technicade handles the tech fixes, custom parts, installs, oddball repairs, and small projects that are often too small or too unusual for a traditional contractor. Based in Wausau, Wisconsin, with remote help available anywhere.</p>
+        <div class="heroCtas">
+          <a class="btn primary" href="#packages">See packages</a>
+          <a class="btn" href="#quote">Tell me the problem</a>
+          <a class="btn" href="mailto:technicadegaming@gmail.com?subject=Technicade%20Service%20Request">Email me</a>
+        </div>
+        <div class="chips">
+          <span class="chip">3D printed replacement parts</span><span class="chip">Computer help</span><span class="chip">Custom brackets & mounts</span><span class="chip">Electronics diagnostics</span><span class="chip">LED / device setup</span><span class="chip">Arcade repair</span><span class="chip">Code / Unity fixes</span>
+        </div>
+      </div>
+      <div class="card pad mini">
+        <div class="stat"><strong>📸 Start with a photo</strong><p>For broken parts or weird jobs, send a few pictures and a short description. I can usually tell quickly whether I can help.</p></div>
+        <div class="stat"><strong>💵 Price before work</strong><p>You get a clear starting price or quote before I begin. Parts, materials, shipping, or unusual travel are listed separately when needed.</p></div>
+        <div class="stat"><strong>⚡ Small jobs are fine</strong><p>You do not need a huge project. A broken clip, bad connector, PC problem, awkward mount, or one-off part is exactly the kind of job Technicade is built for.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="packages">
+    <div class="sectionTitle"><div><h2>Simple packages</h2><p>Easy starting points for the jobs people need most often.</p></div><span class="kicker">Starting prices • final scope confirmed first</span></div>
+    <div class="grid3">
+      <article class="package featured">
+        <span class="tag">Fastest start</span><h3>Quick Tech Help</h3><div class="price">$30 <small>/ session</small></div>
+        <p>For a small computer, software, setup, or troubleshooting problem.</p>
+        <ul><li>15–30 minutes of remote help</li><li>One primary issue</li><li>Basic setup, errors, updates, drivers, or guidance</li><li>Clear next steps if the issue needs more work</li></ul>
+        <button class="btn primary packageBtn" data-package="Quick Tech Help — $30 session">Choose this package</button>
+      </article>
+
+      <article class="package featured">
+        <span class="tag">Local favorite</span><h3>Fix-It Hour</h3><div class="price">$60 <small>/ hour</small></div>
+        <p>One hour of practical local help for the little jobs piling up.</p>
+        <ul><li>Device setup and troubleshooting</li><li>Smart-home / plug-in device setup</li><li>Mounting, cable management, small tech installs</li><li>Multiple small tasks if time allows</li></ul>
+        <button class="btn primary packageBtn" data-package="Fix-It Hour — $60/hour">Choose this package</button>
+      </article>
+
+      <article class="package">
+        <span class="tag">Great for odd parts</span><h3>Broken Part Rescue</h3><div class="price">$25 <small>starting</small></div>
+        <p>Have a broken plastic piece that is hard to buy or no longer available?</p>
+        <ul><li>Review photos and measurements</li><li>Recreate a simple clip, knob, spacer, bracket, retainer, cover, or similar part</li><li>3D print a replacement</li><li>Complex modeling, specialty material, or repeat copies quoted separately</li></ul>
+        <button class="btn packageBtn" data-package="Broken Part Rescue — starting at $25">Send the broken part</button>
+      </article>
+
+      <article class="package">
+        <h3>Custom Bracket or Mount</h3><div class="price">$30 <small>starting</small></div>
+        <p>A purpose-built little part for something that does not mount, sit, fit, or stay where you need it.</p>
+        <ul><li>Basic custom CAD design</li><li>Prototype 3D print</li><li>Useful for cameras, routers, remotes, sensors, controllers, organizers, RVs, boats, shops, and more</li></ul>
+        <button class="btn packageBtn" data-package="Custom Bracket or Mount — starting at $30">Request a bracket</button>
+      </article>
+
+      <article class="package">
+        <h3>3D Print My File</h3><div class="price">$10 <small>starting</small></div>
+        <p>Already have an STL, 3MF, or printable model? I can handle the print.</p>
+        <ul><li>Basic file review</li><li>Print orientation and normal support setup</li><li>PLA / common materials when appropriate</li><li>Price depends on size, print time, material, and quantity</li></ul>
+        <button class="btn packageBtn" data-package="3D Print My File — starting at $10">Get a print quote</button>
+      </article>
+
+      <article class="package">
+        <h3>Electronics Diagnostic</h3><div class="price">$30 <small>starting</small></div>
+        <p>For an electronic device, board, cable, connector, or power problem that needs actual troubleshooting.</p>
+        <ul><li>Visual inspection and basic testing</li><li>Power / connector / wiring checks</li><li>Repairability assessment</li><li>Repair parts and extended bench time quoted before proceeding</li></ul>
+        <button class="btn packageBtn" data-package="Electronics Diagnostic — starting at $30">Request diagnostics</button>
+      </article>
+
+      <article class="package">
+        <h3>Install & Setup</h3><div class="price">$60 <small>starting</small></div>
+        <p>Local setup and clean installation for consumer technology and low-voltage / plug-in equipment.</p>
+        <ul><li>LED lighting and controllers</li><li>Smart cameras and devices</li><li>TV / game / desk technology setup</li><li>Cable routing and cleanup</li></ul>
+        <button class="btn packageBtn" data-package="Install & Setup — starting at $60">Request an install</button>
+      </article>
+
+      <article class="package">
+        <h3>Code / Unity Quick Fix</h3><div class="price">$60 <small>/ hour</small></div>
+        <p>For a bug, broken feature, build issue, deployment tweak, or small improvement in an existing project.</p>
+        <ul><li>HTML / CSS / JavaScript fixes</li><li>Unity errors, scripts, scenes, and builds</li><li>Small feature or cleanup work</li><li>Scope reviewed before starting</li></ul>
+        <button class="btn packageBtn" data-package="Code / Unity Quick Fix — $60/hour">Request code help</button>
+      </article>
+
+      <article class="package featured">
+        <span class="tag">Anything unusual</span><h3>Custom Problem</h3><div class="price">Quote <small>/ project</small></div>
+        <p>Not sure what category your problem fits into? That is completely fine.</p>
+        <ul><li>Send photos, measurements, links, error messages, or a short video description</li><li>I will tell you whether I can solve it</li><li>If yes, you get a clear scope and price</li></ul>
+        <button class="btn primary packageBtn" data-package="Custom / unusual problem — quote requested">Show me the weird problem</button>
+      </article>
+    </div>
+  </section>
+
+  <section>
+    <div class="callout">
+      <div><h2>Arcade, redemption & custom game support</h2><p>Technicade also has a dedicated arcade services page for diagnostics, ticket / card-reader issues, crane and redemption equipment, Unity / Arduino integrations, replacement parts, custom cabinets, and ongoing maintenance.</p></div>
+      <a class="btn primary" href="arcade-repair-custom-games.html">Arcade Services →</a>
+    </div>
+  </section>
+
+  <section id="more-services">
+    <div class="sectionTitle"><div><h2>More things I can help with</h2><p>The packages above are the easy-to-buy options. These are available too.</p></div></div>
+    <div class="grid3">
+      <div class="service"><h3>Computers & software</h3><ul><li>Windows setup, cleanup, updates</li><li>Slow PCs, software errors, drivers</li><li>Backups and basic organization</li><li>Remote troubleshooting</li></ul></div>
+      <div class="service"><h3>3D design & prototypes</h3><ul><li>Simple functional CAD parts</li><li>Model cleanup and repair</li><li>Prototype iteration</li><li>Small-batch printing</li></ul></div>
+      <div class="service"><h3>Electronics & wiring</h3><ul><li>Connectors and broken wires</li><li>Basic solder / repair work</li><li>Power and charging problems</li><li>Component-level troubleshooting where practical</li></ul></div>
+      <div class="service"><h3>Home / setup tech</h3><ul><li>Smart-device setup</li><li>LED accent lighting</li><li>TV / gaming / desk setups</li><li>Cable management and organization</li></ul></div>
+      <div class="service"><h3>Web, code & Unity</h3><ul><li>Small website changes</li><li>Bug fixes and deployment tweaks</li><li>Unity project troubleshooting</li><li>Small features and polish</li></ul></div>
+      <div class="service"><h3>Research & compatibility</h3><ul><li>Find the right replacement part</li><li>Compatibility checks</li><li>Product / component comparisons</li><li>Shopping and build lists</li></ul></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sectionTitle"><div><h2>How it works</h2><p>Keep it simple.</p></div></div>
+    <div class="process">
+      <div class="step"><strong>Send the problem</strong><p>Describe it and include photos, model numbers, links, measurements, or error messages when useful.</p></div>
+      <div class="step"><strong>I review it</strong><p>I will tell you whether it looks like a Technicade job and what else I need to know.</p></div>
+      <div class="step"><strong>Get the price</strong><p>You receive the package price or a custom quote before the work begins.</p></div>
+      <div class="step"><strong>Get it fixed</strong><p>Remote session, drop-off / pickup arrangement, local visit, print, repair, or project work depending on the job.</p></div>
+    </div>
+  </section>
+
+  <section id="quote">
+    <div class="sectionTitle"><div><h2>Request a quote</h2><p>You do not need to know which package you need. Just tell me what is wrong.</p></div><span class="kicker">technicadegaming@gmail.com</span></div>
+    <div class="quoteGrid">
+      <div class="card formCard">
+        <form id="quoteForm" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="b6c503e9-95e9-45a7-8685-67423e055f2c" />
+          <input type="hidden" name="subject" value="Technicade Services / Package Request" />
+          <input type="hidden" name="from_name" value="Technicade Website" />
+          <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" />
+          <div class="two">
+            <div><label for="name">Name</label><input id="name" name="name" autocomplete="name" required placeholder="Your name" /></div>
+            <div><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required placeholder="you@example.com" /></div>
+          </div>
+          <div><label for="package">Package / type of help</label><select id="package" name="service"><option value="Not sure — help me choose">Not sure — help me choose</option><option>Quick Tech Help — $30 session</option><option>Fix-It Hour — $60/hour</option><option>Broken Part Rescue — starting at $25</option><option>Custom Bracket or Mount — starting at $30</option><option>3D Print My File — starting at $10</option><option>Electronics Diagnostic — starting at $30</option><option>Install & Setup — starting at $60</option><option>Code / Unity Quick Fix — $60/hour</option><option>Arcade / redemption equipment</option><option>Custom / unusual problem — quote requested</option></select></div>
+          <div><label for="details">What is going on?</label><textarea id="details" name="message" required placeholder="Tell me what you want fixed or made. Include the device / item, what it is doing, what you have already tried, approximate location if it is an in-person job, and any important deadline."></textarea></div>
+          <button class="btn primary" type="submit">📨 Send request</button>
+          <p id="formStatus" class="kicker" style="margin:0;display:none"></p>
+          <div class="note"><strong>Photos help.</strong> After you submit, I may reply asking for pictures, measurements, a model number, or a short video. Never send passwords. Starting prices do not include special-order parts, significant material use, shipping, or unusual travel unless stated in the quote.</div>
+        </form>
+      </div>
+      <div class="card pad">
+        <h3 style="margin-top:0;font-size:15px">Service area & expectations</h3>
+        <div class="service"><h3>📍 Wausau area + remote</h3><p>Technicade is based in Wausau, Wisconsin. Remote work is available anywhere. In-person work depends on the job and location.</p></div>
+        <div style="height:10px"></div>
+        <div class="service"><h3>✅ Clear approval first</h3><p>For anything beyond the listed package scope, I will explain the work and price before moving forward.</p></div>
+        <div style="height:10px"></div>
+        <div class="service"><h3>⚡ Low-voltage / tech work</h3><p>Install work here means consumer technology, low-voltage, or plug-in equipment. Work requiring a licensed trade is outside the scope of these packages.</p></div>
+        <div style="height:12px"></div>
+        <a class="btn full" href="mailto:technicadegaming@gmail.com?subject=Technicade%20Service%20Request&body=Hi%20Technicade%2C%0A%0AI%20need%20help%20with%3A%20%0A%0ADetails%3A%20%0A%0ALocation%20(if%20needed)%3A%20%0A%0AThanks%2C%0A">Email instead</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq">
+    <div class="sectionTitle"><div><h2>Quick questions</h2></div></div>
+    <details><summary>What if my job does not match a package?</summary><p>Choose “Custom Problem” or “Not sure.” The package list is there to make common jobs easy to buy, not to exclude unusual ones.</p></details>
+    <details><summary>Can I just send a picture of the broken part?</summary><p>Yes. A few clear photos, what the part came from, and at least one known measurement are a good starting point. I may ask for the original part so I can measure it accurately.</p></details>
+    <details><summary>Do you do really small jobs?</summary><p>Yes. Small jobs are specifically welcome. If the work is so small that a full visit does not make sense, I will tell you and suggest the cheapest practical route.</p></details>
+    <details><summary>Are the prices final?</summary><p>The listed prices are starting prices for the stated scope. Anything requiring unusual parts, materials, extended labor, multiple prototypes, shipping, or additional travel is quoted before the extra work begins.</p></details>
+  </section>
+</main>
+
+<footer><div class="wrap foot"><div><strong style="color:var(--text)">Technicade</strong><br />Tech services • troubleshooting • repairs • custom parts</div><div>Wausau, Wisconsin • <a href="mailto:technicadegaming@gmail.com">technicadegaming@gmail.com</a><br />© <span id="year"></span> Technicade</div></div></footer>
+<script>
+(function(){
+  const root=document.documentElement, themeBtn=document.getElementById('themeBtn');
+  const saved=localStorage.getItem('technicade_theme'); if(saved==='light'||saved==='dark') root.setAttribute('data-theme',saved);
+  themeBtn.addEventListener('click',()=>{const next=(root.getAttribute('data-theme')||'dark')==='dark'?'light':'dark';root.setAttribute('data-theme',next);localStorage.setItem('technicade_theme',next)});
+  document.getElementById('year').textContent=String(new Date().getFullYear());
+  const packageSelect=document.getElementById('package');
+  document.querySelectorAll('.packageBtn').forEach(btn=>btn.addEventListener('click',()=>{const value=btn.dataset.package;let found=false;for(const o of packageSelect.options){if(o.text===value){o.selected=true;found=true;break}}if(!found){packageSelect.value='Not sure — help me choose'}document.getElementById('quote').scrollIntoView({behavior:'smooth'});setTimeout(()=>document.getElementById('details').focus(),450)}));
+  const form=document.getElementById('quoteForm'),statusEl=document.getElementById('formStatus');
+  form.addEventListener('submit',async(e)=>{e.preventDefault();statusEl.style.display='block';statusEl.textContent='Sending…';try{const formData=new FormData(form);const res=await fetch(form.action,{method:'POST',body:formData,headers:{Accept:'application/json'}});const data=await res.json().catch(()=>({}));if(res.ok&&(data.success===true||data.message)){statusEl.textContent='✅ Sent! I’ll get back to you soon.';form.reset()}else{statusEl.textContent='❌ Something went wrong. Please email technicadegaming@gmail.com.'}}catch(err){statusEl.textContent='❌ Network error. Please email technicadegaming@gmail.com.'}});
+})();
+</script>
+</body>
+</html>
