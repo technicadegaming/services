@@ -73,3 +73,11 @@ footer a:hover{text-decoration:underline}
 .tc-store-strip:hover{border-color:#8be5c8}
 @media(max-width:980px){.tc-product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.tc-product-grid{grid-template-columns:1fr}.tc-product-tile{min-height:0;padding:19px}.tc-store-strip{flex-direction:column;align-items:flex-start;gap:12px}}
+
+/* Software catalog: clearer card hierarchy, more readable product metadata */
+.tc-catalog-grid .product{min-height:335px;padding:28px;background:linear-gradient(155deg,rgba(135,103,207,.09),transparent 60%),var(--card,#141e30);box-shadow:0 14px 34px rgba(0,0,0,.09)}
+.tc-catalog-grid .product h3{margin-top:20px;font-size:clamp(23px,2.4vw,29px)}
+.tc-catalog-grid .product .description{font-size:14px;line-height:1.7}
+.tc-catalog-grid .product .button{min-height:44px;display:inline-flex;align-items:center;justify-content:center}
+.tc-catalog-grid .product .symbol{box-shadow:inset 0 1px rgba(255,255,255,.15)}
+@media(max-width:700px){.tc-catalog-grid .product{padding:21px;min-height:0}}
