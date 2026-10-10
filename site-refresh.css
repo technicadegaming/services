@@ -56,3 +56,20 @@ footer a:hover{text-decoration:underline}
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}
 }
+
+/* Homepage: refined, accessible application showcase */
+.tc-kicker{display:block;color:#8ddfc4;font-size:11px;letter-spacing:.15em;text-transform:uppercase;font-weight:800;margin-bottom:8px}
+.product-feature-section{padding-top:45px;padding-bottom:28px}
+.tc-product-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
+.tc-product-tile{display:flex;flex-direction:column;gap:10px;min-width:0;min-height:232px;padding:22px;border:1px solid var(--line,rgba(200,210,230,.2));border-radius:19px;background:linear-gradient(160deg,rgba(131,109,207,.1),rgba(24,36,58,.17) 65%),var(--panel,rgba(255,255,255,.05));text-decoration:none!important;transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}
+.tc-product-tile:hover{transform:translateY(-3px);border-color:#9e8af9;box-shadow:0 15px 36px rgba(0,0,0,.15)}
+.tc-tile-symbol{display:grid;place-items:center;width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,#7652ba,#20775e);color:white;font-size:22px;font-weight:800}
+.tc-tile-title{display:block;font-size:18px;font-weight:800;letter-spacing:-.035em}
+.tc-tile-copy{display:block;font-size:13px;line-height:1.55;color:var(--muted,#b9c5d8)}
+.tc-tile-link{display:block;margin-top:auto;font-size:12px;font-weight:800;color:#bfb1ff}
+.tc-store-strip{display:flex;align-items:center;justify-content:space-between;gap:22px;margin-top:14px;padding:19px 22px;border:1px solid rgba(128,206,169,.45);border-radius:18px;background:linear-gradient(115deg,rgba(39,135,101,.16),rgba(106,80,169,.12));text-decoration:none!important}
+.tc-store-strip strong{display:block;font-size:15px}.tc-store-strip small{display:block;color:var(--muted,#b9c5d8);font-size:12px;margin-top:4px}
+.tc-strip-arrow{font-weight:800;font-size:13px;white-space:nowrap}
+.tc-store-strip:hover{border-color:#8be5c8}
+@media(max-width:980px){.tc-product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.tc-product-grid{grid-template-columns:1fr}.tc-product-tile{min-height:0;padding:19px}.tc-store-strip{flex-direction:column;align-items:flex-start;gap:12px}}
