@@ -19,7 +19,7 @@ const schema = z.object({
 
 const json = (body: object, status: number) => NextResponse.json(body, {
   status,
-  headers: { 'Cache-Control': 'no-store' }
+  headers: { 'Cache-Control': 'no-store', 'Access-Control-Allow-Origin': process.env.SUPPORT_ALLOWED_ORIGIN || 'null', 'Vary': 'Origin' }
 });
 
 export async function POST(request: NextRequest) {
@@ -76,3 +76,14 @@ export async function POST(request: NextRequest) {
 }
 
 export function GET() { return json({ error: 'Method not allowed' }, 405); }
+
+export function OPTIONS(request: NextRequest) {
+  const origin = request.headers.get('origin');
+  if (!process.env.SUPPORT_ALLOWED_ORIGIN || origin !== process.env.SUPPORT_ALLOWED_ORIGIN) return json({ error: 'Origin not permitted' }, 403);
+  return new NextResponse(null, { status: 204, headers: {
+    'Access-Control-Allow-Origin': process.env.SUPPORT_ALLOWED_ORIGIN,
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Max-Age': '600', 'Vary': 'Origin'
+  }});
+}
