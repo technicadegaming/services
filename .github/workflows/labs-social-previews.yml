@@ -3,9 +3,11 @@ on:
   push:
     branches:
       - feature/labs-png-previews
+      - fix/labs-meta-preview
     paths:
       - '.github/workflows/labs-social-previews.yml'
       - 'scripts/build-labs-social-previews.py'
+      - 'assets/labs-labs-share.svg'
   workflow_dispatch:
 permissions:
   contents: write
