@@ -719,7 +719,12 @@
               </div>
               <div>
                 <label for="details">Details</label>
-                <textarea id="details" name="message" placeholder="Machine type, issue, business/home/event use, location, photos/video link if available…" required></textarea>
+                <textarea id="details" name="message" maxlength="6000" placeholder="Machine type, issue, business/home/event use, location, photos/video link if available…" required></textarea>
+              </div>
+              <div>
+                <label for="referenceLink">Optional photo, video or file link</label>
+                <input id="referenceLink" name="reference_link" type="url" inputmode="url" maxlength="500" pattern="https://.+" placeholder="https://drive.google.com/..." aria-describedby="referenceHelp" />
+                <p id="referenceHelp" class="note">Use a trusted HTTPS link you have permission to share. Technicade will review links manually; no files are uploaded through this form. Do not share passwords, sensitive records or public access to private files.</p>
               </div>
               <button class="btn primary" type="submit"><span class="icon" aria-hidden="true">📨</span>Send arcade service request</button>
               <p id="formStatus" class="kicker" style="margin:0; display:none;"></p>
