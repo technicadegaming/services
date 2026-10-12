@@ -12,6 +12,8 @@ names = {
     "fake-achievement.html": "fake-achievement",
     "challenge-wheel.html": "challenge-wheel",
     "one-more-second.html": "one-more-second",
+    "rate-my-duck.html": "rate-my-duck",
+    "useless-job-simulator.html": "useless-job-simulator",
 }
 for page, slug in names.items():
     svg = root / "assets" / f"labs-{slug}-share.svg"
