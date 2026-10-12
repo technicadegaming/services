@@ -10,4 +10,8 @@
   <url><loc>https://technicade.tech/terms.html</loc><priority>0.5</priority></url>
   <url><loc>https://technicade.tech/project-unstuck.html</loc><priority>0.8</priority></url>
   <url><loc>https://technicade.tech/products.html</loc><priority>0.8</priority></url>
+  <url><loc>https://technicade.tech/labs.html</loc><priority>0.8</priority></url>
+  <url><loc>https://technicade.tech/would-you-rather.html</loc><priority>0.6</priority></url>
+  <url><loc>https://technicade.tech/fake-achievement.html</loc><priority>0.6</priority></url>
+  <url><loc>https://technicade.tech/challenge-wheel.html</loc><priority>0.6</priority></url>
 </urlset>
