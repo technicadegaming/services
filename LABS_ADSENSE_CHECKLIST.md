@@ -1,19 +1,19 @@
 # Technicade Labs: AdSense launch-readiness checklist
 
 ## Current state — October 12, 2026
-Technicade Labs contains five original browser experiments on technicade.tech. Cloudflare Web Analytics has recorded early pageviews; Google Search Console ownership is verified, but the sitemap previously returned a Google fetch error and must be rechecked in Search Console. The site has been submitted for Google AdSense review; the last user-confirmed status was **Getting ready**, not approved or revenue-producing.
+Technicade Labs contains seven original browser experiments on technicade.tech. Cloudflare Web Analytics has recorded early pageviews; Google Search Console ownership is verified, but the sitemap previously returned a Google processing error even though an October 12 live URL Inspection reported crawl allowed and a successful fetch. Recheck the submitted sitemap status in Search Console; a successful URL fetch is not a sitemap-ingestion confirmation. The site has been submitted for Google AdSense review; the last user-confirmed status was **Getting ready**, not approved or revenue-producing.
 
 - Domain ownership metadata includes actual publisher ID `ca-pub-6059025745588128`. This is for verification, not proof of ad-serving approval.
 - Root `ads.txt` exists in the repository: `google.com, pub-6059025745588128, DIRECT, f08c47fec0942fa0`. Last user evidence confirmed public accessibility; Google had not yet recognized it. Check Sites > ads.txt status again after crawling.
 - **No live ad units, Auto ads, ad-impression claims or revenue are authorized.** Do not add or activate them before account approval and privacy/consent review.
-- PR #59 corrected social PNG generation; the full Labs regression test suite is being developed. Gameplay confidence must come from tests, not merely a merged PR.
+- PR #59 corrected social PNG generation; PRs #73, #76 and #77 added two games, seven-game social previews and automated tests. The launch PR passed 23/23 Chromium gameplay/responsive/WCAG tests; physical-device and production fetch checks remain distinct.
 
 ## Ongoing readiness and before serving ads
-1. Test all five games on desktop and mobile, including keyboard controls, scores, share behavior, and the challenge wheel layout.
+1. Test all seven games on desktop and mobile, including keyboard controls, scores, share behavior, and the challenge wheel layout.
 2. In Google Search Console, recheck the sitemap fetch status and inspect important game URLs. Search indexing is not guaranteed.
 3. Review every public page for complete original content, functional navigation and links, and accurate descriptions.
 4. Confirm the privacy policy, contact details, terms, and disclosures match how the live site actually operates.
-5. Keep adult-performer concepts as non-operational research descriptions; do not mix adult content with ad-served pages.
+5. Creator utility concepts are currently hidden from the public Labs hub. Do not add any new sensitive-content category to ad-served pages without a separate policy and consent review.
 6. Review Google Publisher Policies and ad placement policies before serving any ads.
 7. Obtain your own AdSense publisher ID and verification method. Never use a made-up ca-pub ID. Put AdSense verification code only on the correct approved site.
 8. Consider consent requirements for users in applicable jurisdictions before enabling personalized advertising. Configure Google's certified consent management platform if necessary.
