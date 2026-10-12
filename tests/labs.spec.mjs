@@ -104,7 +104,7 @@ test('One More Second target and clock complete one round', async ({ page }) => 
 for(const width of [320,390,768,1280]) {
   test('Game pages do not overflow horizontally at '+width+'px', async ({ page }) => {
     await page.setViewportSize({width,height:850});
-    for (const path of ['/labs.html','/would-you-rather.html','/fake-achievement.html','/challenge-wheel.html','/one-more-second.html']) {
+    for (const path of ['/labs.html','/would-you-rather.html','/fake-achievement.html','/challenge-wheel.html','/one-more-second.html','/rate-my-duck.html','/useless-job-simulator.html']) {
       await page.goto(path);
       const overflow=await page.evaluate(()=>document.documentElement.scrollWidth-window.innerWidth);
       expect(overflow,path+' horizontal overflow').toBeLessThanOrEqual(2);
@@ -148,5 +148,49 @@ test('Rate My Duck keeps selected images local and rejects invalid files', async
   await page.locator('#duckPhoto').setInputFiles({name:'not-an-image.txt',mimeType:'text/plain',buffer:Buffer.from('bad file')});
   await expect(page.locator('#error')).toContainText('Choose a PNG');
   expect(posted).toEqual([]);
+});
+
+
+test('Useless Job Simulator awards promotions and persists CEO memo decisions', async ({ page }) => {
+  await page.goto('/useless-job-simulator.html');
+  await expect(page.locator('#rank')).toHaveText('Unpaid Intern of Nothing');
+  await expect(page.locator('#slide')).toBeDisabled();
+  for (let i=0;i<5;i++) await page.locator('#reply').click();
+  await expect(page.locator('#memo')).toBeVisible();
+  await expect(page.locator('#reply')).toBeDisabled();
+  await page.locator('#answerA').click();
+  await expect(page.locator('#memo')).toBeHidden();
+  await expect(page.locator('#rank')).toHaveText('Assistant to the Assistant');
+  await expect(page.locator('#slide')).toBeEnabled();
+  await expect(page.locator('#points')).toHaveText('87');
+  await page.reload();
+  await expect(page.locator('#rank')).toHaveText('Assistant to the Assistant');
+  await expect(page.locator('#points')).toHaveText('87');
+  await expect(page.locator('#taskCount')).toHaveText('5');
+});
+
+test('Useless Job Simulator energy refill, ultimate promotion and reset', async ({ page }) => {
+  await page.goto('/useless-job-simulator.html');
+  await page.locator('#paper').click();
+  await expect(page.locator('#energyText')).toHaveText('93 / 100');
+  await page.locator('#coffee').click();
+  await expect(page.locator('#energyText')).toHaveText('100 / 100');
+  await expect(page.locator('#achievements')).toContainText('First Task');
+  await page.evaluate(()=>{
+    localStorage.setItem('technicade-labs-useless-job-v1',JSON.stringify({
+      points:1045,energy:100,tasks:14,memos:2,coffees:5,pending:null,log:[]
+    }));
+  });
+  await page.reload();
+  await expect(page.locator('#rank')).toHaveText('VP of Meetings');
+  await page.locator('#reply').click();
+  await expect(page.locator('#rank')).toHaveText('Senior Vice Potato');
+  await expect(page.locator('#achievements')).toContainText('✓ Senior Vice Potato');
+  page.once('dialog', d=>d.accept());
+  await page.locator('#reset').click();
+  await expect(page.locator('#rank')).toHaveText('Unpaid Intern of Nothing');
+  await expect(page.locator('#points')).toHaveText('0');
+  await page.reload();
+  await expect(page.locator('#points')).toHaveText('0');
 });
 
