@@ -61,7 +61,7 @@
 <section class="info" aria-labelledby="hallTitle"><div class="row" style="justify-content:space-between"><h2 id="hallTitle" style="margin:0">🏆 Your local Duck Hall of Fame</h2><button class="btn danger" type="button" id="clearHall">Clear history</button></div>
 <p>Up to six top ratings saved on this browser. Duck photos never enter the Hall of Fame.</p>
 <ul class="ledger" id="hall"><li>No ducks rated yet. A tragedy.</li></ul></section>
-<section class="info" aria-label="About this game"><h2>How it works</h2><p>Enter a name, pick a mood, and optionally preview an image from your device. The score and commentary are **random playful fiction**; the game doesn't identify, scan or evaluate images. Rate as many ducks as you like, save a 1200×630 verdict card, or share your score.</p><p>No account, prizes, purchases or uploads. Only a short history of names, moods and ratings is stored in your browser. You can clear it at any time.</p></section>
+<section class="info" aria-label="About this game"><h2>How it works</h2><p>Enter a name, pick a mood, and optionally preview an image from your device. The score and commentary are <strong>random playful fiction</strong>; the game doesn't identify, scan or evaluate images. Rate as many ducks as you like, save a 1200×630 verdict card, or share your score.</p><p>No account, prizes, purchases or uploads. Only a short history of names, moods and ratings is stored in your browser. You can clear it at any time.</p></section>
 <section class="more" aria-labelledby="moreTitle"><h2 id="moreTitle">Keep the nonsense going</h2><div class="more-links"><a href="labs.html#play">🔴 Don't Push the Button</a><a href="would-you-rather.html">🤔 Would You Rather?</a><a href="challenge-wheel.html">🎡 Challenge Wheel</a><a href="fake-achievement.html">🏆 Fake Achievement</a><a href="one-more-second.html">⏱️ One More Second</a></div></section>
 </main>
 <footer class="sitefooter"><div class="shell"><span>© Technicade · Play. Laugh. Repeat.</span><span><a href="labs.html">All Labs games</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a></span></div></footer>
@@ -127,7 +127,7 @@ window.addEventListener('pagehide',clearImageOnly);
 function judge(){
  const duckName=(name.value.trim().replace(/\s+/g,' ')||'Mystery Duck').slice(0,32);
  const mood=document.querySelector('input[name="mood"]:checked').value;
- const score=Math.round((35+random(66))/10*10)/10;
+ const score=(35+random(66))/10;
  const metrics=[27+random(74),27+random(74),27+random(74)].map(n=>Math.min(100,n));
  const comment=remarks[random(remarks.length)],title=titles[random(titles.length)];
  current={name:duckName,mood,score,title,comment,metrics};
