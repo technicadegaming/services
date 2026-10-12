@@ -40,6 +40,30 @@ Status definitions: MERGED = in GitHub main; USER-VERIFIED = confirmed by user's
 - **Protect monetization:** publisher verification and ads.txt kept; AdSense account approval, publisher status and consent conditions not verified as approved. No active ads were enabled by these fixes.
 - **Next quality gates:** manual keyboard/screen reader and Android/iOS QA; Lighthouse performance/SEO audits on actual production; real Search Console sitemap/index inspection; social preview scraper cache; measurable referral/returning traffic; visual design polish and feature selection from audience data.
 
+## Live crawler diagnostics and screenshot follow-up — October 12, 2026
+
+### User screenshots and verified external state
+- User opened the production `/assets/labs-labs-share.png`: numeral **5** is visible correctly, no empty-square glyph.
+- Meta Sharing Debugger screenshot still displayed the **previous empty-square cached preview** shortly after a scrape. Debugger showed 206 and warnings about `og:url`, `og:type`, `fb:app_id`; the actual `labs.html` HTML already contains explicit `og:url` and `og:type`. Do not invent a Facebook app ID. 206 is a normal response to a byte-range request; it does not establish why Meta's debugger displayed old pixels.
+- Search Console domain-property screenshot: `https://technicade.tech/sitemap.xml` submitted October 12; `Couldn't fetch`, Unknown type and **0 discovered via that sitemap**. This does not imply that no pages are indexed.
+- AdSense screenshot: site status **Getting ready**, `ads.txt` **Not found** at last crawler check, last updated October 12. No approval or revenue is confirmed; live ads remain disabled.
+
+### Independent production HTTP verification
+- PR **#69 MERGED**, GitHub Actions run **38286741709 PASSED**. A GitHub-hosted runner made actual public requests from another network (rather than relying on repo contents). All **11 fetches returned HTTP 200**: homepage, Labs (regular / Googlebot-like / facebookexternalhit-like user agents), sitemap (regular / Googlebot-like), robots, ads.txt (regular / Googlebot-like), Labs PNG (regular / Meta-like).
+- Public `sitemap.xml` was `application/xml` and parsed **15 expected Technicade URLs** with correct domain. `robots.txt` declared the sitemap.
+- Public `ads.txt` was `text/plain`, contained the configured `google.com, pub-6059025745588128, DIRECT, f08c47fec0942fa0` record.
+- Public social PNG was `image/png`, **56,537 bytes**, and byte-identical to the corrected version in GitHub main. A deliberate `Range: bytes=0-1023` request returned HTTP 206 as expected.
+- These checks simulate Googlebot/Meta user-agent strings. They **do not** prove that Google's real crawlers or Meta cache fetched the same content, nor can they query protected account statuses.
+
+### Social asset cache refresh
+- PR **#70 MERGED:** existing corrected Labs PNG now uses a stable versioned `og:image` and `twitter:image` URL (`?v=20261012-verified`) so Meta requests a new image cache identity. All **16 Chromium gameplay / automated WCAG tests PASSED** in PR CI; normal site metadata and AdSense unaffected.
+- Check latest GitHub Pages deployment success, then in Meta Sharing Debugger enter `https://technicade.tech/labs.html`, click **Scrape Again**, and confirm the thumbnail shows **5** and the constructed `og:image` URL includes the version query. Do not mark Meta-side P0 done until that is observed.
+
+### Google crawl follow-up (no speculative code changes)
+- In Search Console click the failed sitemap row for error details, use URL Inspection live test for `https://technicade.tech/sitemap.xml` and important Labs pages, and inspect Page availability / crawl allowed / page fetch. If needed, request indexing on the Labs hub and a few key game URLs. The site is newly launched and the sitemap was submitted today; allow processing time rather than repeatedly changing a valid sitemap.
+- In AdSense, leave `ads.txt` in place and do not delete/re-add the site or enable ads. Google documents potential delays of days or up to a month on low-traffic sites; recheck the Sites status periodically. Consent/CMP and policy checks still apply before actual ads.
+- Official guidance: https://support.google.com/webmasters/answer/7451001 and https://support.google.com/adsense/answer/7679060
+
 ## Ownership and hosting
 - Primary repo: https://github.com/technicadegaming/services (not SaaS factory /anvil).
 - Production: https://technicade.tech/labs.html
