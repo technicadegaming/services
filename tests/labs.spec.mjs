@@ -7,10 +7,12 @@ test.beforeEach(async ({ page }) => {
   await page.route('https://static.cloudflareinsights.com/**', route => route.abort());
 });
 
-test('Labs hub and all four standalone game links resolve', async ({ page }) => {
+test('Labs hub links to all six standalone games and hides future tools', async ({ page }) => {
   await page.goto('/labs.html');
   await expect(page.locator('#bigButton')).toBeVisible();
-  for (const href of ['would-you-rather.html','fake-achievement.html','challenge-wheel.html','one-more-second.html']) {
+  await expect(page.locator('.quickplay a')).toHaveCount(7);
+  for (const idea of ['Creator Earnings Tracker','Menu & Profile Designer','Stream Schedule Builder']) await expect(page.getByText(idea,{exact:true})).toHaveCount(0);
+  for (const href of ['would-you-rather.html','fake-achievement.html','challenge-wheel.html','one-more-second.html','rate-my-duck.html','useless-job-simulator.html']) {
     const link = page.locator('a[href="'+href+'"]').first();
     await expect(link).toBeVisible();
     await link.click();
@@ -194,3 +196,11 @@ test('Useless Job Simulator energy refill, ultimate promotion and reset', async 
   await expect(page.locator('#points')).toHaveText('0');
 });
 
+
+test('Labs hub and new game pages have canonical and social preview metadata', async ({ page }) => {
+  for (const [route,slug] of [['labs.html','labs'],['rate-my-duck.html','rate-my-duck'],['useless-job-simulator.html','useless-job-simulator']]) {
+    await page.goto('/'+route);
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href','https://technicade.tech/'+route);
+    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content',new RegExp('labs-'+slug+'-share\\.png'));
+  }
+});
