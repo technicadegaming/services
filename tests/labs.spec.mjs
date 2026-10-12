@@ -1,0 +1,113 @@
+import { test, expect } from '@playwright/test';
+import fs from 'node:fs/promises';
+
+test.use({ baseURL: 'http://127.0.0.1:8765' });
+
+test.beforeEach(async ({ page }) => {
+  await page.route('https://static.cloudflareinsights.com/**', route => route.abort());
+});
+
+test('Labs hub and all four standalone game links resolve', async ({ page }) => {
+  await page.goto('/labs.html');
+  await expect(page.locator('#bigButton')).toBeVisible();
+  for (const href of ['would-you-rather.html','fake-achievement.html','challenge-wheel.html','one-more-second.html']) {
+    const link = page.locator('a[href="'+href+'"]').first();
+    await expect(link).toBeVisible();
+    await link.click();
+    await expect(page.locator('h1').first()).toBeVisible();
+    await page.goto('/labs.html');
+  }
+});
+
+test('Button counts and achievements survive reload', async ({ page }) => {
+  await page.goto('/labs.html');
+  for (let i=0;i<10;i++) await page.locator('#bigButton').click();
+  await expect(page.locator('#count')).toHaveText('10');
+  await expect(page.locator('#badges')).toHaveText('2');
+  await page.reload();
+  await expect(page.locator('#count')).toHaveText('10');
+  await expect(page.locator('#badges')).toHaveText('2');
+});
+
+test('Would You Rather allows choices, skips and a new deck', async ({ page }) => {
+  await page.goto('/would-you-rather.html');
+  for (let i=0;i<20;i++) {
+    await expect(page.locator('#question')).toHaveText('Question '+(i+1)+' of 20');
+    if(i%2===0) {
+      await page.locator('#one').click();
+      await expect(page.locator('#verdict')).toContainText('You chose:');
+    }
+    await page.locator('#next').click();
+  }
+  await expect(page.locator('#question')).toHaveText('Question 1 of 20');
+});
+
+test('Challenge Wheel labels and pointer result align at 1, 2, 8 and 16 entries', async ({ page }) => {
+  await page.goto('/challenge-wheel.html');
+  await page.addStyleTag({ content: '.disk{transition-duration:0.01s!important}' });
+  await page.evaluate(() => { Math.random = () => 0.45; });
+  for(const n of [1,2,8,16]) {
+    const labels=Array.from({length:n},(_,i)=>'Test challenge '+(i+1));
+    await page.locator('#entries').fill(labels.join('\n'));
+    await expect(page.locator('.slice-label')).toHaveCount(n);
+    if(n>8) await expect(page.locator('.slice-label').first()).toHaveText('1');
+    await page.locator('#spin').click();
+    await expect(page.locator('#outcome')).toHaveText('Challenge: '+labels[Math.floor(0.45*n)]);
+    await expect(page.locator('#spin')).toBeEnabled();
+    // Normalize accumulated degrees to the selected slice center at the top pointer.
+    const data=await page.locator('#disk').evaluate(el=>{
+      const transform=getComputedStyle(el).transform;
+      const values=transform.match(/matrix\(([^)]+)\)/)?.[1].split(',').map(Number);
+      return values?Math.atan2(values[1],values[0])*180/Math.PI:null;
+    });
+    expect(data).not.toBeNull();
+    const expected=(360-Math.floor(0.45*n)*360/n)%360;
+    const normalized=((data%360)+360)%360;
+    const difference=Math.min(Math.abs(expected-normalized),360-Math.abs(expected-normalized));
+    expect(difference).toBeLessThan(0.5);
+  }
+});
+
+test('Challenge Wheel rejects an empty list without spinning', async ({ page }) => {
+  await page.goto('/challenge-wheel.html');
+  await page.locator('#entries').fill('');
+  await page.locator('#spin').click();
+  await expect(page.locator('#outcome')).toHaveText('Add at least one challenge first.');
+  await expect(page.locator('#spin')).toBeEnabled();
+});
+
+test('Fake Achievement can export a valid PNG with long input', async ({ page }) => {
+  await page.goto('/fake-achievement.html');
+  await page.locator('#name').fill('Long participant name '.repeat(25));
+  await page.locator('#title').fill('The champion of elaborate and whimsical achievements '.repeat(15));
+  await page.locator('#reason').fill('Because this is an extremely long description '.repeat(30));
+  const [download]=await Promise.all([page.waitForEvent('download'),page.locator('#save').click()]);
+  expect(download.suggestedFilename()).toBe('technicade-achievement.png');
+  const bytes=await fs.readFile(await download.path());
+  expect(bytes.subarray(0,8).toString('hex')).toBe('89504e470d0a1a0a');
+  expect(bytes.readUInt32BE(16)).toBe(1200);
+  expect(bytes.readUInt32BE(20)).toBe(630);
+});
+
+test('One More Second target and clock complete one round', async ({ page }) => {
+  await page.clock.install();
+  await page.goto('/one-more-second.html');
+  await page.locator('#start').click();
+  await expect(page.locator('#target')).toBeVisible();
+  await page.locator('#target').click();
+  await expect(page.locator('#score')).toHaveText('1');
+  await page.clock.fastForward(30100);
+  await expect(page.locator('#headline')).toHaveText('Time is up!');
+  await expect(page.locator('#best')).toHaveText('1');
+});
+
+for(const width of [320,390,768,1280]) {
+  test('Game pages do not overflow horizontally at '+width+'px', async ({ page }) => {
+    await page.setViewportSize({width,height:850});
+    for (const path of ['/labs.html','/would-you-rather.html','/fake-achievement.html','/challenge-wheel.html','/one-more-second.html']) {
+      await page.goto(path);
+      const overflow=await page.evaluate(()=>document.documentElement.scrollWidth-window.innerWidth);
+      expect(overflow,path+' horizontal overflow').toBeLessThanOrEqual(2);
+    }
+  });
+}
