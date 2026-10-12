@@ -1,0 +1,21 @@
+name: Labs public crawler diagnostics
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/labs-public-crawler-diagnostics.yml'
+      - 'scripts/check-labs-public-crawlers.sh'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-public-crawlers:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Check sitemap, ads.txt, social PNG and Google/Meta agents
+        run: bash scripts/check-labs-public-crawlers.sh
