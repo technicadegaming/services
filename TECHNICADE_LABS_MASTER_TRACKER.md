@@ -2,6 +2,25 @@
 Updated: 2026-10-12
 Status definitions: MERGED = in GitHub main; USER-VERIFIED = confirmed by user's screenshots/browser; NEEDS QA = no reliable live test; BLOCKED = waiting on third party; IDEA = not implemented.
 
+## Current verified state — October 12, 2026, after Meta/GSC screenshots
+
+### Meta Facebook Sharing Debugger: P0 CLOSED — USER-VERIFIED
+- Fresh user screenshot of `https://technicade.tech/labs.html` shows the corrected **5** inside the Facebook link-preview image; `og:url`, `og:type`, `og:title`, `og:description` and the versioned `og:image` URL are all present in debugger's resolved properties.
+- Only remaining debugger warning is **`fb:app_id` missing**. An App ID is not required for normal sharing of a web page; no need to create an app or add an invented ID.
+- Confirmed completion of previously open homepage share-image cache P0 from PR #70. **Four other standalone game previews remain to be checked individually** if promotion uses their URLs.
+
+### Google Search Console sitemap: ACCOUNT-REPORTED ERROR, NOT CODE-VERIFIED FAILURE
+- User screenshot of the sitemap detail page: `https://technicade.tech/sitemap.xml`, **Last read 10/12/26**, **Sitemap could not be read**, **0 discovered pages via this sitemap**. This is not evidence that all website URLs are unindexed.
+- User browser screenshot shows the XML tree and 15 absolute Technicade URLs. The browser's "does not appear to have any style information" is expected for raw XML and **not an error**.
+- Independent GitHub Actions run **38286741709** (PR #69) already retrieved the live sitemap over HTTPS as HTTP **200**, `application/xml`, valid XML with 15 URLs; same for simulated Googlebot UA. `robots.txt` is public and allows crawling, references sitemap.
+- **No demonstrated sitemap encoding, structure or public HTTP defect to fix in code.** Search Console still reports a read/processing problem; actual Google crawl/index state cannot be verified from GitHub's simulated-agent tests. Google may retry failed sitemap fetches for a few days, per official Search Console Help.
+- Recommended one-time user diagnostic: Search Console URL Inspection for `https://technicade.tech/sitemap.xml`, **Test live URL**, expand `Page availability` / `Page fetch` / `Crawl allowed?`. For a sitemap XML file, indexability itself is irrelevant; the live fetch status is what matters. Also test `https://technicade.tech/labs.html` and review **Security & Manual Actions → Manual actions**. If Google can fetch both, wait a few days and recheck sitemap status; do not repeatedly replace/resubmit the unchanged sitemap. If a concrete Google fetch error is reported, investigate that exact error.
+- Official guidance: https://support.google.com/webmasters/answer/7451001 and https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap
+
+### AdSense: PENDING — NO LIVE ADS
+- Last account screenshot: `technicade.tech` **Getting ready**, `ads.txt` **Not found**, despite live public `/ads.txt` being HTTP 200 `text/plain` with configured publisher record. Google status has not been checked again in this new screenshot set.
+- Leave verification metadata, `ads.txt`, Cloudflare Analytics and no-live-ad posture unchanged; wait for Google recognition/approval before considering actual ad serving and applicable consent requirements.
+
 ## October 12 earlier follow-up audit (historical snapshot; later verified updates above)
 - **P0 social preview pipeline: FIXED IN CODE AND CI.** PR #59 merged. Generator now accepts PNG URLs already present in HTML, validates 1200x630 PNG output, and is tested for repeatable output on PRs. GitHub Actions post-merge regeneration succeeded, adding a new commit `91c55813826f18a69b6c7f0c3b92a1c791bf13aa`; `assets/labs-labs-share.png` changed from recorded stale blob SHA `8650faeeae370700458a5926f85dc4595e7876c3` to `7de693573e04bfa2a8793451207654fa57236eb4` (56,537 bytes). **The corrected bytes are committed in main.** Public Pages deployment and Facebook re-scrape remain separate checks. The other four preview blobs were unchanged because only the Labs SVG numeral changed.
 - **Static code review of five games: IN PROGRESS, not end-to-end browser verified.** Wheel computes uniform choices and rotates chosen sector center to the top pointer. Known remaining risk: high label density at 16 challenges, long descriptions, wheel selection after entries edits and mobile view; test 1, 2, 8 and 16 entries with repeated spins. Reflex game's timer uses a `performance.now()` deadline, saves personal best, and ends when tab is hidden. Achievement maker uses four-line canvas wraps which may overlap footer for long entries. Would You Rather shows fictional random split figures rather than user poll data. Button progress stores local per-browser data.
@@ -93,7 +112,7 @@ Status definitions: MERGED = in GitHub main; USER-VERIFIED = confirmed by user's
   AdSense previously showed 'Not found'; await crawl update.
 - privacy.html updated for analytics and future ads. Audit wording, real-world implementation, regional consent and ad placement before enabling ads.
 
-## Social preview assets and OPEN ISSUE P0
+## Social preview assets — historical P0 now closed for Labs share image
 - Five 1200x630 share PNGs and source SVGs are in assets/; og:image/twitter metadata points at PNGs.
 - Facebook Sharing Debugger USER-VERIFIED it reads preview/title/description. Reported warnings og:url, og:type, fb:app_id although explicit og:url and og:type are now present; fb:app_id is not necessary for ordinary link sharing.
 - PRIOR P0: stale preview PNG (old blob 8650faeeae370700458a5926f85dc4595e7876c3) has been regenerated by fixed PR #59 workflow, new blob 7de693573e04bfa2a8793451207654fa57236eb4; visually verify published URL and social re-scrape.
@@ -108,7 +127,8 @@ Status definitions: MERGED = in GitHub main; USER-VERIFIED = confirmed by user's
 ## Priority backlog for next full audit
 P0
 [x] Replace stale Labs preview PNG bytes in GitHub main (PR #59, generated new blob SHA).
-[ ] Confirm new PNG on public GitHub Pages, purge/refresh social cache; test all five previews.
+[x] Confirm new Labs homepage PNG on public GitHub Pages and verify corrected image in Meta Sharing Debugger (user screenshot 2026-10-12).
+[ ] Verify all four standalone game URLs' social previews separately.
 [ ] Complete end-to-end browser QA on all five games; repair visual regressions and interaction errors before promotion.
 [ ] Verify production scripts, meta tags, sitemap, analytics and ads.txt via deployed pages, not just repo.
 P1
