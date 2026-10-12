@@ -76,7 +76,7 @@
     <div class="heroGrid">
       <div class="card pad">
         <div class="eyebrow">🛠️ Small jobs welcome</div>
-        <h1 class="headline">Got an annoying little problem? Send it to me.</h1>
+        <h1 class="headline">Can't find your project on the list? Tell me what you need.</h1>
         <p class="subhead">Technicade handles the tech fixes, custom parts, installs, oddball repairs, and small projects that are often too small or too unusual for a traditional contractor. Based in Wausau, Wisconsin. Remote-control support sessions are not currently offered; software projects can be reviewed by request.</p>
         <div class="heroCtas">
           <a class="btn primary" href="#packages">See packages</a>
@@ -193,7 +193,7 @@
   </section>
 
   <section id="quote">
-    <div class="sectionTitle"><div><h2>Request a quote</h2><p>You do not need to know which package you need. Just tell me what is wrong.</p></div><span class="kicker">technicadegaming@gmail.com</span></div>
+    <div class="sectionTitle"><div><h2>Request a review, not a commitment</h2><p>Anything from a broken part to a custom workflow is welcome to describe. No payment is needed to ask.</p></div><span class="kicker">support@technicade.tech</span></div>
     <div class="quoteGrid">
       <div class="card formCard">
         <form id="quoteForm" action="https://api.web3forms.com/submit" method="POST">
@@ -207,9 +207,10 @@
           </div>
           <div><label for="package">Package / type of help</label><select id="package" name="service"><option value="Not sure — help me choose">Not sure — help me choose</option><option>Quick Tech Help — $30 session</option><option>Fix-It Hour — $60/hour</option><option>Broken Part Rescue — starting at $25</option><option>Custom Bracket or Mount — starting at $30</option><option>3D Print My File — starting at $10</option><option>Electronics Diagnostic — starting at $30</option><option>Install & Setup — starting at $60</option><option>Code / Unity Quick Fix — $60/hour</option><option>Arcade / redemption equipment</option><option>Computer troubleshooting consultation (no remote access)</option><option>Phone or tablet help</option><option>Small business IT maintenance</option><option>Business process automation</option><option>Website, SaaS or software project</option><option>Custom / unusual problem — quote requested</option></select></div>
           <div><label for="deviceType">Device (optional)</label><select id="deviceType" name="device_type"><option value="">Select if applicable</option><option>Windows PC</option><option>Mac</option><option>Android phone / tablet</option><option>iPhone / iPad</option><option>Printer / network equipment</option><option>Business equipment</option><option>Other</option></select></div><div><label for="details">What is going on?</label><textarea id="details" name="message" required placeholder="Tell me what you want fixed or made. Include the device / item, what it is doing, what you have already tried, approximate location if it is an in-person job, and any important deadline."></textarea></div>
-          <button class="btn primary" type="submit">📨 Send request</button>
+          <div><label for="referenceLink">Reference link (optional)</label><input id="referenceLink" name="reference_link" type="url" inputmode="url" maxlength="500" pattern="https://.+" placeholder="https://drive.google.com/..." aria-describedby="referenceHelp"><p id="referenceHelp" class="note">If useful, include a link to photos, a drawing or a file you have permission to share. HTTPS only. No direct public uploads yet; avoid sharing credentials or personal records.</p></div>
+          <button class="btn primary" type="submit">📨 Request a review</button>
           <p id="formStatus" class="kicker" style="margin:0;display:none"></p>
-          <div class="note"><strong>Remote-control assistance:</strong> sessions are not currently offered. Technicade can review remote software/project requests and provide guidance by agreement; never share passwords or verification codes.</div><div class="note"><strong>Photos help.</strong> After you submit, I may reply asking for pictures, measurements, a model number, or a short video. Never send passwords. Starting prices do not include special-order parts, significant material use, shipping, or unusual travel unless stated in the quote.</div>
+          <div class="note"><strong>Remote-control assistance:</strong> sessions are not currently offered. Technicade can review remote software/project requests and provide guidance by agreement; never share passwords or verification codes.</div><div class="note"><strong>Photos help.</strong> You can include a private link, or I may reply with a safer file-transfer option after reviewing the request. Files are not automatically imported or scanned from the link. Never send passwords. Starting prices do not include special-order parts, significant material use, shipping, or unusual travel unless stated in the quote.</div>
         </form>
       </div>
       <div class="card pad">
