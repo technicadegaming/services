@@ -42,11 +42,22 @@ fetch sitemap-google "$base/sitemap.xml" "$google"
 fetch robots "$base/robots.txt" "$google"
 fetch ads "$base/ads.txt" "$normal"
 fetch ads-google "$base/ads.txt" "$google"
+# Verify the root HTTP path also serves the same ads.txt file after redirects.
+fetch ads-http "http://technicade.tech/ads.txt" "$normal"
+fetch ads-adsbot "$base/ads.txt" "Mediapartners-Google"
 fetch social "$base/assets/labs-labs-share.png" "$normal"
 fetch social-meta "$base/assets/labs-labs-share.png" "$meta"
 fetch duck-preview "$base/assets/labs-rate-my-duck-share.png" "$normal"
 fetch job-preview "$base/assets/labs-useless-job-simulator-share.png" "$normal"
 
+if ! cmp -s "$temp/ads-http.body" "$temp/ads.body"; then
+  echo "::error::HTTP ads.txt and HTTPS ads.txt differ"
+  errors=$((errors+1))
+fi
+if ! cmp -s "$temp/ads-adsbot.body" "$temp/ads.body"; then
+  echo "::error::Ads crawler user-agent received different ads.txt content"
+  errors=$((errors+1))
+fi
 if ! grep -q 'google.com, pub-6059025745588128, DIRECT, f08c47fec0942fa0' "$temp/ads.body"; then
   echo "::error::ads.txt publisher record missing"
   errors=$((errors+1))
