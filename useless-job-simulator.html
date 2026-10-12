@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b1220">
+<title>Useless Job Simulator — Climb the Corporate Ladder | Technicade Labs</title>
+<meta name="description" content="Become Senior Vice Potato in a free absurd office game. Reply all, shuffle papers, survive pointless meetings, earn promotions and share your title.">
+<link rel="canonical" href="https://technicade.tech/useless-job-simulator.html">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Technicade Labs"><meta property="og:url" content="https://technicade.tech/useless-job-simulator.html">
+<meta property="og:title" content="Useless Job Simulator 🥔 | Technicade Labs">
+<meta property="og:description" content="An extremely important career doing almost nothing. Can you become Senior Vice Potato?">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="google-adsense-account" content="ca-pub-6059025745588128">
+<link rel="stylesheet" href="labs-play.css">
+<style>
+.office-scene{padding:20px 24px;border:1px solid #58638d;border-radius:19px;background:radial-gradient(circle at 80% 25%,#6950b47c,transparent 60%),linear-gradient(150deg,#213e54,#1b2141);margin:18px 0;display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px}
+.office-scene strong{font-size:clamp(17px,3vw,22px);display:block;margin:6px 0}.office-scene .office-icon{font-size:clamp(60px,10vw,96px);line-height:1;filter:drop-shadow(0 12px 13px #030910a0)}
+.career-progress{margin:17px 0 20px}
+.career-progress .meter{height:14px}
+.career-rank{font-weight:900;color:#a9fcd0}
+.report{padding:17px;background:#102e3c;border:1px solid #477d85;border-radius:17px;margin:20px 0}
+.report h3{font-size:18px;margin:3px 0 9px}.report p{font-size:14px}
+.report .actions{margin-top:13px}
+.achievement-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;list-style:none;padding:0}
+.achievement-list li{border:1px solid var(--line);border-radius:12px;background:#17283f;padding:9px 11px;font-size:13px;opacity:.55}
+.achievement-list li.unlocked{opacity:1;border-color:#428675;background:#17362e}
+@media(max-width:430px){.office-scene{padding:14px}.achievement-list{grid-template-columns:1fr}.office-scene .office-icon{font-size:58px}}
+</style>
+</head>
+<body>
+<header class="sitebar"><div class="shell"><a class="logo" href="labs.html">TECHNICADE <span>LABS</span></a><nav class="navlinks" aria-label="Main navigation"><a href="index.html">Home</a><a href="labs.html">All games</a></nav></div></header>
+<main class="shell">
+<a class="backlink" href="labs.html">← Back to all games</a>
+<section class="hero"><div><span class="eyebrow">Human Resources says you're doing great</span><h1>Useless Job <span style="color:var(--mint)">Simulator.</span></h1><p>Rise through the ranks of a company that has no idea what it does. Your ultimate goal: <strong>Senior Vice Potato</strong>.</p></div><div class="hero-icon" aria-hidden="true">🥔</div></section>
+<div class="game-grid">
+<section class="card" aria-labelledby="deskTitle">
+<h2 id="deskTitle">Your desk of questionable importance</h2><p>Perform highly visible busywork. Gain points, earn promotions and answer completely unnecessary executive memos.</p>
+<div class="office-scene" role="img" aria-label="Satirical office with a computer and a potato executive"><div><span class="smallcap">Employee dashboard v0.00001</span><strong id="deskRank">Unpaid Intern of Nothing</strong><span class="chip" id="deskStatus">Available for busywork</span></div><div class="office-icon" aria-hidden="true">🖥️🥔</div></div>
+<div class="task-buttons" role="group" aria-label="Office busywork tasks">
+<button class="task-btn" type="button" id="reply" data-work="reply">📧 Reply All <span>+13 important points · costs 10 energy</span></button>
+<button class="task-btn" type="button" id="paper" data-work="paper">📄 Shuffle Paper <span>+10 important points · costs 7 energy</span></button>
+<button class="task-btn" type="button" id="slide" data-work="slide" disabled>📊 Add Another Slide <span>+16 points · unlocked at first promotion</span></button>
+<button class="task-btn" type="button" id="kpi" data-work="kpi" disabled>🌀 Rename a KPI <span>+21 points · unlocked at second promotion</span></button>
+</div>
+<div class="actions"><button type="button" class="btn alt" id="coffee">☕ Strategic coffee break (+35 energy)</button></div>
+<div class="report" id="memo" hidden aria-live="polite">
+<span class="smallcap">Urgent CEO memo</span><h3 id="memoTitle">An unexpected meeting</h3><p id="memoText"></p>
+<div class="actions"><button id="answerA" class="btn primary" type="button"></button><button id="answerB" class="btn alt" type="button"></button></div>
+</div>
+<p class="message" role="status" aria-live="polite" id="feedback">Your inbox is empty. Corporate leadership finds that deeply suspicious.</p>
+</section>
+<section class="card" aria-labelledby="careerTitle">
+<h2 id="careerTitle">Corporate ladder</h2><p>Progress is stored on this device, not on a server. These points have no cash value (obviously).</p>
+<div class="counts" aria-label="Career statistics">
+<div class="counter"><small>Busywork</small><strong id="points">0</strong></div>
+<div class="counter"><small>Tasks done</small><strong id="taskCount">0</strong></div>
+<div class="counter"><small>Promotions</small><strong id="promoCount">0</strong></div>
+</div>
+<span class="smallcap">Current job title</span><div class="career-rank" id="rank" style="font-size:clamp(22px,3.8vw,31px);margin:4px 0 11px">Unpaid Intern of Nothing</div>
+<div class="career-progress">
+<div class="metric-label"><span id="nextRank">Next: Assistant to the Assistant</span><span id="nextPoints">0 / 80</span></div>
+<div class="meter" id="rankProgress" role="progressbar" aria-label="Progress to next promotion" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="rankFill"></span></div>
+</div>
+<div class="metric-label"><span>Energy</span><span id="energyText">100 / 100</span></div>
+<div class="meter" id="energyBar" role="progressbar" aria-label="Work energy" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><span id="energyFill" style="width:100%"></span></div>
+<h3>Achievements</h3><ul class="achievement-list" id="achievements" aria-label="Office achievements"><li>First Task</li><li>10 Tasks</li><li>3 CEO Memos</li><li>5 Coffee Breaks</li><li>Senior Vice Potato</li></ul>
+<div class="actions"><button class="btn primary" id="share" type="button">↗ Share my title</button><button class="btn danger" id="reset" type="button">Reset career</button></div>
+<p class="notice" id="shareNotice" role="status" aria-live="polite"></p>
+<h3>Recent activity</h3><ul class="ledger" id="activity"><li>Orientation: follow the potato.</li></ul>
+</section>
+</div>
+<section class="info" aria-label="How to play"><h2>How to become Senior Vice Potato</h2>
+<p>Choose a task to earn points and spend energy. Grab coffee when you need a recharge. Every fifth task brings a hilariously urgent management memo—pick a response to continue. Promotions unlock new busywork. Unlock the top title at 1,050 points and keep playing if corporate life calls.</p>
+<p>This game uses fictional scores and nonsense job titles. It does not offer real employment, currency, rewards or a leaderboard. Progress is saved only in your browser; use Reset career to clear it.</p></section>
+<section class="more" aria-labelledby="moreTitle"><h2 id="moreTitle">Escape your next meeting</h2><div class="more-links"><a href="labs.html#play">🔴 Don't Push the Button</a><a href="would-you-rather.html">🤔 Would You Rather?</a><a href="challenge-wheel.html">🎡 Challenge Wheel</a><a href="fake-achievement.html">🏆 Fake Achievement</a><a href="one-more-second.html">⏱️ One More Second</a></div></section>
+</main>
+<footer class="sitefooter"><div class="shell"><span>© Technicade · Nothing accomplished. Excellent work.</span><span><a href="labs.html">All Labs games</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a></span></div></footer>
+<script>
+(function(){
+'use strict';
+const $=id=>document.getElementById(id),storageKey='technicade-labs-useless-job-v1';
+const positions=[
+ {title:'Unpaid Intern of Nothing',min:0},
+ {title:'Assistant to the Assistant',min:80},
+ {title:'Associate Director of Paper',min:250},
+ {title:'VP of Meetings',min:550},
+ {title:'Senior Vice Potato',min:1050}
+];
+const work={
+ reply:{points:13,energy:10,detail:'Replied all to an email that required no reply.'},
+ paper:{points:10,energy:7,detail:'Moved a paper from one pile to an equally important pile.'},
+ slide:{points:16,energy:14,detail:'Added an unnecessary slide titled "Opportunities".'},
+ kpi:{points:21,energy:18,detail:'Renamed a KPI. No one knows what the K stands for.'}
+};
+const memos=[
+ {title:'The urgent alignment initiative',text:'The CEO wants everyone aligned. Nobody knows on what.',
+  a:'Schedule a meeting (+22)',b:'Send a vague thumbs-up (+14)'},
+ {title:'The all-hands meeting about meetings',text:'Executives need suggestions for making meetings more effective.',
+  a:'Request a pre-meeting (+22)',b:'Rename the meeting (+14)'},
+ {title:'A spreadsheet emergency',text:'A spreadsheet has too many rows and not enough feelings.',
+  a:'Make a pivot table (+22)',b:'Add a motivational color (+14)'},
+ {title:'Friday is now called Thursday Plus',text:'The rebranding committee insists that this will help morale.',
+  a:'Create brand guidelines (+22)',b:'Enthusiastically agree (+14)'},
+ {title:'The potato needs a title',text:'A potato has been spotted in the boardroom.',
+  a:'Appoint it as VP (+22)',b:'Give it an ID badge (+14)'}
+];
+function blank(){return {points:0,energy:100,tasks:0,memos:0,coffees:0,pending:null,log:[]};}
+let state=blank();
+try{
+ const raw=JSON.parse(localStorage.getItem(storageKey)||'null');
+ if(raw&&typeof raw==='object'&&!Array.isArray(raw)){
+  for(const name of ['points','tasks','memos','coffees'])if(Number.isInteger(raw[name])&&raw[name]>=0)state[name]=Math.min(raw[name],10000000);
+  if(Number.isFinite(raw.energy))state.energy=Math.max(0,Math.min(100,Math.round(raw.energy)));
+  if(Number.isInteger(raw.pending)&&raw.pending>=0&&raw.pending<memos.length)state.pending=raw.pending;
+  if(Array.isArray(raw.log))state.log=raw.log.filter(v=>typeof v==='string').slice(0,5).map(v=>v.slice(0,175));
+ }
+}catch(e){}
+function rankIndex(){let rank=0;for(let i=0;i<positions.length;i++)if(state.points>=positions[i].min)rank=i;return rank;}
+function save(){try{localStorage.setItem(storageKey,JSON.stringify(state));}catch(e){$('shareNotice').textContent='Progress cannot be saved on this browser.';}}
+function activity(text){state.log.unshift(text);state.log=state.log.slice(0,5);}
+function render(){
+ const level=rankIndex(),pos=positions[level],next=positions[level+1];
+ $('points').textContent=state.points.toLocaleString();$('taskCount').textContent=state.tasks.toLocaleString();
+ $('promoCount').textContent=level;
+ $('rank').textContent=pos.title;$('deskRank').textContent=pos.title;
+ $('deskStatus').textContent=state.pending!==null?'Urgent memo requires attention':state.energy<7?'Need more coffee':'Available for busywork';
+ $('energyText').textContent=state.energy+' / 100';$('energyFill').style.width=state.energy+'%';
+ $('energyBar').setAttribute('aria-valuenow',String(state.energy));
+ const progress=next?Math.min(100,Math.max(0,Math.round((state.points-pos.min)/(next.min-pos.min)*100))):100;
+ $('rankFill').style.width=progress+'%';$('rankProgress').setAttribute('aria-valuenow',String(progress));
+ $('nextRank').textContent=next?'Next: '+next.title:'🏆 Ultimate rank achieved';
+ $('nextPoints').textContent=next?state.points+' / '+next.min:'Maximum nonsense';
+ for(const button of document.querySelectorAll('[data-work]')){
+  const action=work[button.dataset.work];
+  const unlocked=button.dataset.work==='slide'?level>=1:button.dataset.work==='kpi'?level>=2:true;
+  button.disabled=!unlocked||state.pending!==null||state.energy<action.energy;
+  button.setAttribute('aria-label',button.textContent.trim()+(unlocked?'':'. Locked until promotion'));
+ }
+ $('coffee').disabled=state.pending!==null||state.energy===100;
+ const memo=state.pending!==null?memos[state.pending]:null;
+ $('memo').hidden=!memo;
+ if(memo){
+  $('memoTitle').textContent=memo.title;$('memoText').textContent=memo.text;
+  $('answerA').textContent=memo.a;$('answerB').textContent=memo.b;
+ }
+ const requirements=[state.tasks>=1,state.tasks>=10,state.memos>=3,state.coffees>=5,level>=4];
+ for(const [i,li] of $('achievements').querySelectorAll('li').entries()){
+  li.classList.toggle('unlocked',requirements[i]);li.textContent=(requirements[i]?'✓ ':'○ ')+['First Task','10 Tasks','3 CEO Memos','5 Coffee Breaks','Senior Vice Potato'][i];
+ }
+ const log=$('activity');log.replaceChildren();
+ if(!state.log.length){const li=document.createElement('li');li.textContent='Orientation: follow the potato.';log.append(li);}
+ else for(const entry of state.log){const li=document.createElement('li');const span=document.createElement('span');span.textContent=entry;li.append(span);log.append(li);}
+}
+function workTask(key){
+ const act=work[key];
+ if(!act||state.pending!==null||state.energy<act.energy)return;
+ if((key==='slide'&&rankIndex()<1)||(key==='kpi'&&rankIndex()<2))return;
+ const previous=rankIndex();
+ state.points=Math.min(10000000,state.points+act.points);state.energy-=act.energy;state.tasks++;
+ let feedback=act.detail+' +'+act.points+' busywork.';
+ activity(feedback);
+ if(rankIndex()>previous){feedback+=' PROMOTION: '+positions[rankIndex()].title+'!';activity('🎉 Promoted to '+positions[rankIndex()].title+'.');}
+ if(state.tasks%5===0){state.pending=(Math.floor(state.tasks/5)-1)%memos.length;feedback+=' A crucial memo has arrived!';}
+ $('feedback').textContent=feedback;save();render();
+}
+for(const button of document.querySelectorAll('[data-work]'))button.addEventListener('click',()=>workTask(button.dataset.work));
+$('coffee').addEventListener('click',()=>{
+ if(state.pending!==null||state.energy===100)return;
+ const gain=Math.min(35,100-state.energy);state.energy+=gain;state.coffees++;
+ activity('☕ Took a strategic coffee break (+'+gain+' energy).');
+ $('feedback').textContent='Coffee acquired. Looks productive from a distance.';
+ save();render();
+});
+function decide(option){
+ if(state.pending===null)return;
+ const previous=rankIndex();
+ const gain=option==='a'?22:14;
+ const label=option==='a'?'Scheduled an important meeting.':'Sent a reassuring but meaningless response.';
+ state.points=Math.min(10000000,state.points+gain);state.memos++;state.pending=null;activity(label+' +'+gain+' points.');
+ let feedback=label+' Memo resolved.';
+ if(rankIndex()>previous){feedback+=' PROMOTION: '+positions[rankIndex()].title+'!';activity('🎉 Promoted to '+positions[rankIndex()].title+'.');}
+ $('feedback').textContent=feedback;save();render();
+}
+$('answerA').addEventListener('click',()=>decide('a'));
+$('answerB').addEventListener('click',()=>decide('b'));
+$('share').addEventListener('click',async()=>{
+ const text='I reached '+positions[rankIndex()].title+' with '+state.points+' important points in Useless Job Simulator. Can you top my corporate nonsense?';
+ const url='https://technicade.tech/useless-job-simulator.html';
+ try{
+  if(navigator.share){await navigator.share({title:'Useless Job Simulator',text,url});}
+  else if(navigator.clipboard){await navigator.clipboard.writeText(text+' '+url);$('shareNotice').textContent='Your ridiculous job title was copied!';}
+  else $('shareNotice').textContent='Share this URL: '+url;
+ }catch(e){if(e.name!=='AbortError')$('shareNotice').textContent='Share unavailable; copy this page URL.';}
+});
+$('reset').addEventListener('click',()=>{
+ if(!window.confirm('Reset your entire pretend career on this browser?'))return;
+ state=blank();save();$('feedback').textContent='Welcome back to orientation. The potato remembers nothing.';$('shareNotice').textContent='';render();
+});
+render();
+})();
+</script>
+<!-- Cloudflare Web Analytics --><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"07096958fe5944d397232733dc2ca4b4"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
