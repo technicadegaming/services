@@ -4,6 +4,7 @@ on:
     branches:
       - feature/labs-png-previews
       - fix/labs-meta-preview
+      - fix/labs-social-png-cache
     paths:
       - '.github/workflows/labs-social-previews.yml'
       - 'scripts/build-labs-social-previews.py'
