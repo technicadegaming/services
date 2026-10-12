@@ -1,0 +1,37 @@
+name: Labs browser smoke tests
+on:
+  pull_request:
+    paths:
+      - 'labs.html'
+      - 'would-you-rather.html'
+      - 'fake-achievement.html'
+      - 'challenge-wheel.html'
+      - 'one-more-second.html'
+      - 'tests/labs.spec.mjs'
+      - '.github/workflows/labs-browser-smoke.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  browser-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Playwright Chromium
+        run: |
+          npm install --no-save @playwright/test@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Start local static web server
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 >/tmp/technicade-labs-http.log 2>&1 &
+          for i in 1 2 3 4 5 6 7 8 9 10; do
+            if curl -fsS http://127.0.0.1:8765/labs.html >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          exit 1
+      - name: Run Chromium browser smoke suite
+        run: npx playwright test tests/labs.spec.mjs --workers=1 --reporter=line
