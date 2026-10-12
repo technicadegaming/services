@@ -111,3 +111,42 @@ for(const width of [320,390,768,1280]) {
     }
   });
 }
+
+test('Rate My Duck creates a verdict, local hall, shareable 1200x630 PNG and reset', async ({ page }) => {
+  await page.goto('/rate-my-duck.html');
+  await page.locator('#duckName').fill('Professor Pond');
+  await page.getByLabel('Chaotic').check();
+  await page.locator('#judge').click();
+  await expect(page.locator('#result')).toBeVisible();
+  await expect(page.locator('#rating')).toHaveText(/^\d{1,2}\.\d\/10$/);
+  await expect(page.locator('#comment')).toContainText('Professor Pond (Chaotic)');
+  await expect(page.locator('#hall li').first()).toContainText('Professor Pond');
+  const [download]=await Promise.all([page.waitForEvent('download'),page.locator('#save').click()]);
+  expect(download.suggestedFilename()).toBe('technicade-duck-verdict.png');
+  const bytes=await fs.readFile(await download.path());
+  expect(bytes.subarray(0,8).toString('hex')).toBe('89504e470d0a1a0a');
+  expect(bytes.readUInt32BE(16)).toBe(1200);
+  expect(bytes.readUInt32BE(20)).toBe(630);
+  await page.reload();
+  await expect(page.locator('#hall li').first()).toContainText('Professor Pond');
+  page.once('dialog', dialog=>dialog.accept());
+  await page.locator('#clearHall').click();
+  await expect(page.locator('#hall')).toContainText('No ducks rated yet');
+});
+
+test('Rate My Duck keeps selected images local and rejects invalid files', async ({ page }) => {
+  await page.goto('/rate-my-duck.html');
+  const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIHWP4z8DwHwAFgAI/ScL/nwAAAABJRU5ErkJggg==','base64');
+  const posted=[];
+  page.on('request', request=>{if(request.method()==='POST')posted.push(request.url());});
+  await page.locator('#duckPhoto').setInputFiles({name:'duck.png',mimeType:'image/png',buffer:png});
+  await expect(page.locator('#duckImage')).toBeVisible();
+  await page.locator('#judge').click();
+  await expect(page.locator('#result')).toBeVisible();
+  await page.locator('#clearPhoto').click();
+  await expect(page.locator('#duckImage')).toBeHidden();
+  await page.locator('#duckPhoto').setInputFiles({name:'not-an-image.txt',mimeType:'text/plain',buffer:Buffer.from('bad file')});
+  await expect(page.locator('#error')).toContainText('Choose a PNG');
+  expect(posted).toEqual([]);
+});
+

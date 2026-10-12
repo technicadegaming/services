@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b1220">
+<title>Rate My Duck — Free Funny Duck Rating Game | Technicade Labs</title>
+<meta name="description" content="Put your duck, doodle or plushie on trial. Get a ridiculous duck score, funny verdict and shareable certificate in this free browser game.">
+<link rel="canonical" href="https://technicade.tech/rate-my-duck.html">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Technicade Labs"><meta property="og:url" content="https://technicade.tech/rate-my-duck.html">
+<meta property="og:title" content="Rate My Duck 🦆 | The Very Serious Duck Court">
+<meta property="og:description" content="Name your duck, face the entirely fictional duck judges, and earn a shareable verdict. Free and ridiculous.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="google-adsense-account" content="ca-pub-6059025745588128">
+<link rel="stylesheet" href="labs-play.css">
+<style>
+.duck-preview-foot{padding:13px 0 4px;font-size:13px;color:var(--muted)}
+.mood-choice{display:flex;flex-wrap:wrap;gap:8px;margin:9px 0 0}
+.mood-choice label{display:inline-flex;align-items:center;gap:6px;border:1px solid #526381;border-radius:12px;padding:9px 11px;background:#20314d;font-size:13px;font-weight:800;cursor:pointer}
+.mood-choice label:has(input:checked){background:#473477;border-color:#b59bff}
+.mood-choice input{accent-color:#92f1be}
+</style>
+</head>
+<body>
+<header class="sitebar"><div class="shell"><a class="logo" href="labs.html">TECHNICADE <span>LABS</span></a><nav class="navlinks" aria-label="Main navigation"><a href="index.html">Home</a><a href="labs.html">All games</a></nav></div></header>
+<main class="shell">
+<a class="backlink" href="labs.html">← Back to all games</a>
+<section class="hero"><div><span class="eyebrow">The Duck Appreciation Bureau · Case #001</span><h1>Rate My <span style="color:var(--mint)">Duck.</span></h1><p>Bring a duck. Name the duck. Submit it to a panel of completely unqualified imaginary judges.</p></div><div class="hero-icon" aria-hidden="true">🦆</div></section>
+<div class="game-grid">
+<section class="card" aria-label="Duck submission">
+<h2>Enter the duck zone</h2><p>Real duck, rubber duck, drawing or suspicious-looking potato. We're not picky.</p>
+<label class="field" for="duckName">Duck's name</label>
+<input class="input" id="duckName" maxlength="32" placeholder="e.g. Sir Quacksalot" value="Sir Quacksalot" autocomplete="off">
+<fieldset style="border:0;padding:0;margin:18px 0 0"><legend class="field">Duck energy</legend><div class="mood-choice">
+<label><input type="radio" name="mood" value="Regal" checked> 👑 Regal</label>
+<label><input type="radio" name="mood" value="Chaotic"> ⚡ Chaotic</label>
+<label><input type="radio" name="mood" value="Sleepy"> 💤 Sleepy</label>
+<label><input type="radio" name="mood" value="Mysterious"> 🕵️ Mysterious</label>
+</div></fieldset>
+<label class="field" for="duckPhoto">Optional duck photo or drawing</label>
+<input class="input" id="duckPhoto" type="file" accept="image/png,image/jpeg,image/webp" aria-describedby="photoHelp">
+<p id="photoHelp" class="micro" style="margin:7px 0 0">Only shown on your device. Photos are never uploaded, analyzed, or saved; images must be under 6 MB.</p>
+<div class="actions"><button class="btn primary" id="judge" type="button">⚖️ Judge my duck</button><button class="btn alt" id="clearPhoto" type="button">Remove photo</button></div>
+<p id="error" class="notice" role="status" aria-live="polite"></p>
+</section>
+<section class="card" aria-label="Duck rating results">
+<div class="preview" id="preview"><span class="duck-mark" id="duckSymbol" aria-hidden="true">🦆</span><img id="duckImage" alt="Your locally selected duck photo" hidden><span class="photo-note" id="previewLabel">DEFENDANT: SIR QUACKSALOT</span></div>
+<div class="duck-preview-foot">The verdict is randomly generated comedy, <strong>not an image assessment</strong> or professional duck opinion.</div>
+<div class="empty message" id="beforeResult">Court is now in session. Submit a duck to receive a verdict.</div>
+<div class="verdict" id="result" hidden aria-live="polite" aria-atomic="true">
+<div class="scoreline"><div><span class="smallcap">Officially unofficial score</span><div class="score" id="rating">—</div></div><div class="stars" id="stars" aria-hidden="true">★★★★★</div></div>
+<h3 id="award">Pending duck judgment</h3><p id="comment">The court remains silent.</p>
+<div class="metrics" aria-label="Fictional duck quality metrics">
+<div><div class="metric-label"><span>Waddle influence</span><span id="waddleN">0%</span></div><div class="meter"><span id="waddle"></span></div></div>
+<div><div class="metric-label"><span>Quack authority</span><span id="quackN">0%</span></div><div class="meter"><span id="quack"></span></div></div>
+<div><div class="metric-label"><span>Suspicious charm</span><span id="charmN">0%</span></div><div class="meter"><span id="charm"></span></div></div>
+</div>
+<div class="actions"><button class="btn primary" id="save" type="button">↓ Save verdict PNG</button><button class="btn alt" id="share" type="button">↗ Share the verdict</button></div>
+<p class="notice" id="shareNotice" role="status" aria-live="polite"></p>
+</div>
+</section>
+</div>
+<section class="info" aria-labelledby="hallTitle"><div class="row" style="justify-content:space-between"><h2 id="hallTitle" style="margin:0">🏆 Your local Duck Hall of Fame</h2><button class="btn danger" type="button" id="clearHall">Clear history</button></div>
+<p>Up to six top ratings saved on this browser. Duck photos never enter the Hall of Fame.</p>
+<ul class="ledger" id="hall"><li>No ducks rated yet. A tragedy.</li></ul></section>
+<section class="info" aria-label="About this game"><h2>How it works</h2><p>Enter a name, pick a mood, and optionally preview an image from your device. The score and commentary are <strong>random playful fiction</strong>; the game doesn't identify, scan or evaluate images. Rate as many ducks as you like, save a 1200×630 verdict card, or share your score.</p><p>No account, prizes, purchases or uploads. Only a short history of names, moods and ratings is stored in your browser. You can clear it at any time.</p></section>
+<section class="more" aria-labelledby="moreTitle"><h2 id="moreTitle">Keep the nonsense going</h2><div class="more-links"><a href="labs.html#play">🔴 Don't Push the Button</a><a href="would-you-rather.html">🤔 Would You Rather?</a><a href="challenge-wheel.html">🎡 Challenge Wheel</a><a href="fake-achievement.html">🏆 Fake Achievement</a><a href="one-more-second.html">⏱️ One More Second</a></div></section>
+</main>
+<footer class="sitefooter"><div class="shell"><span>© Technicade · Play. Laugh. Repeat.</span><span><a href="labs.html">All Labs games</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a></span></div></footer>
+<script>
+(function(){
+'use strict';
+const $=id=>document.getElementById(id),key='technicade-labs-duck-hall-v1';
+const name=$('duckName'),photo=$('duckPhoto'),img=$('duckImage'),previewLabel=$('previewLabel'),result=$('result');
+const remarks=[
+ 'A powerful presence at any pond-side committee meeting.',
+ 'The jury requests more bread. The jury has been told bread is not recommended for ducks.',
+ 'An unmistakable aura of tiny waterproof leadership.',
+ 'Could convincingly run the entire park by Thursday.',
+ 'The feet-to-confidence ratio is beyond scientific comprehension.',
+ 'We have no idea what this duck is plotting. We approve.',
+ 'This duck has never answered an email and is thriving.',
+ 'An excellent candidate for Mayor of the Birdbath.',
+ 'The beak speaks volumes. Mostly quacks.',
+ 'Rumor has it this duck invented the concept of floating.',
+ 'Our expert panel resigned in admiration.',
+ 'Certified to oversee all future puddle inspections.'
+];
+const titles=[
+ 'Deputy Assistant Quack', 'Supreme Puddle Consultant', 'Honorable Pond Diplomat',
+ 'Waterproof Icon', 'Feathered Visionary', 'Chief of Waddle Operations',
+ 'Ambassador of Breadless Brunch', 'Minister of Mild Chaos'
+];
+let history=[],current=null,photoURL=null;
+try{
+ const saved=JSON.parse(localStorage.getItem(key)||'[]');
+ if(Array.isArray(saved))history=saved.filter(r=>r&&typeof r.name==='string'&&Number.isFinite(r.score)&&r.score>=1&&r.score<=10&&typeof r.title==='string').slice(0,6);
+}catch(e){}
+function random(max){return Math.floor(Math.random()*max);}
+function writeHistory(){try{localStorage.setItem(key,JSON.stringify(history));}catch(e){$('error').textContent='History could not be saved on this browser.';}}
+function renderHall(){
+ const hall=$('hall');hall.replaceChildren();
+ if(!history.length){const li=document.createElement('li');li.textContent='No ducks rated yet. A tragedy.';hall.append(li);return;}
+ history.forEach((record,i)=>{
+  const li=document.createElement('li'),part=document.createElement('span'),point=document.createElement('strong');
+  part.textContent=(i+1)+'. '+record.name+' · '+record.mood+' · '+record.title;
+  point.textContent=record.score.toFixed(1)+'/10';li.append(part,point);hall.append(li);
+ });
+}
+function syncName(){previewLabel.textContent='DEFENDANT: '+(name.value.trim()||'MYSTERY DUCK').toLocaleUpperCase();}
+name.addEventListener('input',syncName);
+function clearPhoto(){
+ if(photoURL){URL.revokeObjectURL(photoURL);photoURL=null;}
+ photo.value='';img.removeAttribute('src');img.hidden=true;$('error').textContent='';
+}
+$('clearPhoto').addEventListener('click',clearPhoto);
+photo.addEventListener('change',()=>{
+ clearImageOnly();
+ const file=photo.files&&photo.files[0];
+ if(!file)return;
+ if(!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>6*1024*1024){
+  photo.value='';$('error').textContent='Choose a PNG, JPG or WebP image smaller than 6 MB.';return;
+ }
+ try{photoURL=URL.createObjectURL(file);img.src=photoURL;img.hidden=false;$('error').textContent='Image previewed locally. The judge does not analyze it.';}
+ catch(e){photo.value='';$('error').textContent='This device could not preview that image.';}
+});
+function clearImageOnly(){if(photoURL){URL.revokeObjectURL(photoURL);photoURL=null;}img.removeAttribute('src');img.hidden=true;}
+window.addEventListener('pagehide',clearImageOnly);
+function judge(){
+ const duckName=(name.value.trim().replace(/\s+/g,' ')||'Mystery Duck').slice(0,32);
+ const mood=document.querySelector('input[name="mood"]:checked').value;
+ const score=(35+random(66))/10;
+ const metrics=[27+random(74),27+random(74),27+random(74)].map(n=>Math.min(100,n));
+ const comment=remarks[random(remarks.length)],title=titles[random(titles.length)];
+ current={name:duckName,mood,score,title,comment,metrics};
+ $('rating').textContent=score.toFixed(1)+'/10';
+ $('award').textContent=title;
+ $('comment').textContent=duckName+' ('+mood+') — '+comment;
+ $('stars').textContent='★'.repeat(Math.min(5,Math.max(1,Math.round(score/2))))+'☆'.repeat(5-Math.min(5,Math.max(1,Math.round(score/2))));
+ for(const [i,label] of ['waddle','quack','charm'].entries()){
+  $(label).style.width=metrics[i]+'%';$(label+'N').textContent=metrics[i]+'%';
+ }
+ $('beforeResult').hidden=true;result.hidden=false;
+ $('shareNotice').textContent='';
+ history.unshift({name:duckName,mood,score,title});
+ history.sort((a,b)=>b.score-a.score);
+ history=history.slice(0,6);
+ writeHistory();renderHall();syncName();
+}
+$('judge').addEventListener('click',judge);
+$('clearHall').addEventListener('click',()=>{
+ if(!history.length)return;
+ if(!window.confirm('Clear the Duck Hall of Fame saved on this browser?'))return;
+ history=[];writeHistory();renderHall();$('error').textContent='Duck history cleared.';
+});
+$('share').addEventListener('click',async()=>{
+ if(!current)return;
+ const text=current.name+' earned '+current.score.toFixed(1)+'/10: '+current.title+'! Get a duck verdict at Technicade Labs.';
+ const url='https://technicade.tech/rate-my-duck.html';
+ try{
+  if(navigator.share){await navigator.share({title:'Rate My Duck | Technicade Labs',text,url});}
+  else if(navigator.clipboard){await navigator.clipboard.writeText(text+' '+url);$('shareNotice').textContent='Duck verdict copied!';}
+  else{$('shareNotice').textContent='Share this link: '+url;}
+ }catch(e){if(e.name!=='AbortError')$('shareNotice').textContent='Sharing unavailable; copy this page URL.';}
+});
+$('save').addEventListener('click',()=>{
+ if(!current)return;
+ try{
+  const canvas=document.createElement('canvas');canvas.width=1200;canvas.height=630;
+  const ctx=canvas.getContext('2d');if(!ctx)throw Error('Canvas unavailable');
+  const grad=ctx.createLinearGradient(0,0,1200,630);grad.addColorStop(0,'#35266d');grad.addColorStop(1,'#087f77');ctx.fillStyle=grad;ctx.fillRect(0,0,1200,630);
+  ctx.fillStyle='#17223c';ctx.beginPath();ctx.roundRect(48,46,1104,540,35);ctx.fill();
+  ctx.textAlign='center';ctx.fillStyle='#a4f4cf';ctx.font='bold 24px system-ui';ctx.fillText('TECHNICADE LABS · DUCK COURT',600,118);
+  ctx.fillStyle='#fff';ctx.font='bold 54px system-ui';ctx.fillText('OFFICIALLY UNOFFICIAL VERDICT',600,188);
+  let duck=current.name;
+  ctx.font='bold 47px system-ui';
+  while(duck.length>1&&ctx.measureText(duck).width>980)duck=duck.slice(0,-1);
+  ctx.fillText(duck,600,265);
+  ctx.fillStyle='#a7ffde';ctx.font='bold 112px system-ui';ctx.fillText(current.score.toFixed(1)+'/10',600,403);
+  ctx.font='bold 29px system-ui';ctx.fillStyle='#ecdaff';
+  let title=current.title;while(title.length>1&&ctx.measureText(title).width>1000)title=title.slice(0,-1);
+  ctx.fillText(title,600,478);
+  ctx.font='22px system-ui';ctx.fillStyle='#e5eafc';ctx.fillText('No ducks were professionally evaluated · technicade.tech',600,545);
+  canvas.toBlob(blob=>{
+   if(!blob){$('shareNotice').textContent='PNG export not supported on this browser.';return;}
+   const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='technicade-duck-verdict.png';a.click();
+   setTimeout(()=>URL.revokeObjectURL(url),4000);$('shareNotice').textContent='PNG generated. Share your duck!';
+  },'image/png');
+ }catch(e){$('shareNotice').textContent='Unable to save PNG on this device.';}
+});
+renderHall();syncName();
+})();
+</script>
+<!-- Cloudflare Web Analytics --><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"07096958fe5944d397232733dc2ca4b4"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
