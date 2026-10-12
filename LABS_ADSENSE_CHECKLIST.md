@@ -1,9 +1,14 @@
 # Technicade Labs: AdSense launch-readiness checklist
 
-## Current state
-Technicade Labs contains five original browser experiments and is served from technicade.tech. Cloudflare Web Analytics pageviews have been observed. Google Search Console ownership is verified; sitemap submission previously returned a fetch error, even though a live page inspection succeeded.
+## Current state — October 12, 2026
+Technicade Labs contains five original browser experiments on technicade.tech. Cloudflare Web Analytics has recorded early pageviews; Google Search Console ownership is verified, but the sitemap previously returned a Google fetch error and must be rechecked in Search Console. The site has been submitted for Google AdSense review; the last user-confirmed status was **Getting ready**, not approved or revenue-producing.
 
-## Before requesting review
+- Domain ownership metadata includes actual publisher ID `ca-pub-6059025745588128`. This is for verification, not proof of ad-serving approval.
+- Root `ads.txt` exists in the repository: `google.com, pub-6059025745588128, DIRECT, f08c47fec0942fa0`. Last user evidence confirmed public accessibility; Google had not yet recognized it. Check Sites > ads.txt status again after crawling.
+- **No live ad units, Auto ads, ad-impression claims or revenue are authorized.** Do not add or activate them before account approval and privacy/consent review.
+- PR #59 corrected social PNG generation; the full Labs regression test suite is being developed. Gameplay confidence must come from tests, not merely a merged PR.
+
+## Ongoing readiness and before serving ads
 1. Test all five games on desktop and mobile, including keyboard controls, scores, share behavior, and the challenge wheel layout.
 2. In Google Search Console, recheck the sitemap fetch status and inspect important game URLs. Search indexing is not guaranteed.
 3. Review every public page for complete original content, functional navigation and links, and accurate descriptions.
@@ -22,5 +27,5 @@ Technicade Labs contains five original browser experiments and is served from te
 - Request review only when the site is ready.
 - Approval can take days or weeks and is not guaranteed.
 
-## Current exclusions
-No AdSense verification snippet, ad unit, ads.txt publisher record, automatic ads, or payment settings have been installed as part of this change. None should be invented.
+## Current exclusions and release gate
+Account verification metadata and publisher-specific ads.txt **are installed**. No ad placements or Auto ads have been enabled by the Labs rollout; payment onboarding details remain unknown. Site must show **Ready** in AdSense before ad activation. If serving ads to EEA/UK/Swiss visitors, review Google-certified CMP and TCF requirements first (https://support.google.com/adsense/answer/13554116). Recheck the official Sites status and ads.txt status (https://support.google.com/adsense/answer/12170222).
