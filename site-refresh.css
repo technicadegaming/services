@@ -92,3 +92,19 @@ footer a:hover{text-decoration:underline}
   .mobile-nav-links a{display:block;padding:9px;border-radius:8px;text-decoration:none;color:inherit}
   .mobile-nav-links a:focus-visible,.mobile-nav-links a:hover{outline:2px solid var(--tc-focus);background:rgba(128,128,128,.18)}
 }
+
+/* Video audit: unwrapped desktop Arcade header and accessible mobile navigation. */
+.tc-arcade-header .topbar{gap:9px}
+.tc-arcade-header .brand{min-width:165px;flex:0 0 auto}
+.tc-arcade-header nav{flex-wrap:nowrap;gap:2px;min-width:0}
+.tc-arcade-header nav .navlink{font-size:12px;padding:8px 6px;white-space:nowrap}
+.tc-arcade-header .actions{min-width:0;flex:0 0 auto;gap:6px}
+@media(min-width:761px) and (max-width:1120px){
+  .tc-arcade-header .topbar{flex-wrap:wrap}
+  .tc-arcade-header nav{order:3;flex:1 0 100%;justify-content:center;overflow-x:auto}
+}
+@media(max-width:650px){
+  /* Earlier shared responsive styles force the primary nav visible; the
+     homepage and services pages have a dedicated details menu instead. */
+  header.tc-has-mobile-nav nav[aria-label="Primary"]{display:none!important}
+}
