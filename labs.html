@@ -24,7 +24,7 @@
 <a href="fake-achievement.html"><span class="emoji">🏆</span><strong>Fake Achievements</strong><small>Create · save a PNG</small></a>
 <a href="#play"><span class="emoji">🔴</span><strong>Don't Push the Button</strong><small>Surprises · secret achievements</small></a>
 </div></section>
-<section aria-labelledby="daily-heading" class="daily-card"><div><span class="daily-date" id="dailyDate">DAILY LABS CHALLENGE</span><h2 id="daily-heading">One weird challenge. Every day.</h2><p id="dailyPrompt">Loading today's silly challenge…</p><div class="actions"><a id="dailyLink" class="btn primary" href="challenge-wheel.html">Try today's challenge ↗</a><button class="btn" id="dailyCopy" type="button">Copy challenge</button></div><p class="streakline" id="visitStreak">🔥 Your visit streak is loading…</p><p class="small">Challenges rotate with your local calendar date. Your streak is stored in this browser only; switching devices or clearing site data resets it.</p></div><div class="daily-icon" aria-hidden="true">🎲</div></section><div class="lab-stats"><span>🎮 5 free games</span><span>📱 Mobile friendly</span><span>🔒 No account required</span><span>🎯 New daily prompt</span></div>
+<section aria-labelledby="daily-heading" class="daily-card"><div><span class="daily-date" id="dailyDate">DAILY LABS CHALLENGE</span><h2 id="daily-heading">One weird challenge. Every day.</h2><p id="dailyPrompt">Loading today's silly challenge…</p><div class="actions"><a id="dailyLink" class="btn primary" href="challenge-wheel.html">Try today's challenge ↗</a><button class="btn" id="dailyCopy" type="button">Copy challenge</button><button class="btn" id="dailyDone" type="button" aria-pressed="false">Mark completed ✓</button></div><p class="streakline" id="visitStreak">🔥 Your visit streak is loading…</p><p class="small">Challenges rotate with your local calendar date. Your streak is stored in this browser only; switching devices or clearing site data resets it.</p></div><div class="daily-icon" aria-hidden="true">🎲</div></section><div class="lab-stats"><span>🎮 5 free games</span><span>📱 Mobile friendly</span><span>🔒 No account required</span><span>🎯 New daily prompt</span></div>
 <section id="play" aria-labelledby="game-heading"><div class="heading"><div><h2 id="game-heading">🔴 Don't Push the Button</h2><p>Seriously. We put it there for a reason.</p></div><span class="pill">PLAYABLE NOW</span></div>
 <div class="game"><div class="panel game-main"><p class="tag">Absolutely unnecessary entertainment</p><button id="bigButton" class="button" type="button" aria-label="Push the forbidden button">DO NOT<br>PUSH</button><div class="message" id="reaction" aria-live="polite">You look like someone who's about to push that button.</div><div class="stats"><span>Pushes: <b id="count">0</b></span><span>Unique reactions: <b id="unique">0</b></span><span>Achievements: <b id="badges">0</b>/5</span></div><div class="actions" style="justify-content:center"><button class="btn" id="share" type="button">Share my chaos ↗</button><button class="btn" id="reset" type="button">Reset progress</button></div></div>
 <aside class="panel side"><h3>How far will you take this?</h3><p>A little piece of pointlessness made for the sheer joy of wasting a perfectly good minute.</p><h3 style="margin-top:26px">Secret achievements</h3><div class="progress" aria-label="Achievement progress"><div id="progress"></div></div><p class="small" id="achievementText">0 of 5 discovered</p><ul id="achievementList"><li>First Offense — push once</li><li>Repeat Offender — push 10 times</li><li>Dedicated Menace — push 25 times</li><li>Button Problem — push 50 times</li><li>Certified Chaos — push 100 times</li></ul><p class="small">Progress is stored only in this browser. No account needed. This is an early experiment—not a competition or prize game.</p></aside></div></section>
@@ -90,6 +90,29 @@ const date=new Date(), day=Math.floor(Date.UTC(date.getFullYear(),date.getMonth(
 document.getElementById('dailyDate').textContent='DAILY LABS CHALLENGE · '+date.toLocaleDateString(undefined,{month:'short',day:'numeric'});
 document.getElementById('dailyPrompt').textContent=item[0];
 document.getElementById('dailyLink').href=item[1];
+const completionKey='technicade-labs-daily-completions-v1';
+let completions={};
+try{
+ const raw=JSON.parse(localStorage.getItem(completionKey)||'{}');
+ if(raw&&typeof raw==='object'&&!Array.isArray(raw))completions=raw;
+}catch(e){}
+const dayKey=[date.getFullYear(),String(date.getMonth()+1).padStart(2,'0'),String(date.getDate()).padStart(2,'0')].join('-');
+const doneButton=document.getElementById('dailyDone');
+function updateCompletion(){
+ const done=completions[dayKey]===true;
+ doneButton.setAttribute('aria-pressed',String(done));
+ doneButton.textContent=done?'✓ Completed today':'Mark completed ✓';
+}
+doneButton.addEventListener('click',function(){
+ completions[dayKey]=completions[dayKey]!==true;
+ const sorted=Object.keys(completions).sort().slice(-90);
+ const trimmed={};
+ sorted.forEach(k=>{if(completions[k]===true)trimmed[k]=true;});
+ completions=trimmed;
+ try{localStorage.setItem(completionKey,JSON.stringify(completions));}catch(e){}
+ updateCompletion();
+});
+updateCompletion();
 document.getElementById('dailyCopy').addEventListener('click',async function(){try{await navigator.clipboard.writeText(item[0]+' — https://technicade.tech/labs.html');this.textContent='Copied!';}catch(e){this.textContent='Select the challenge text to copy';}});
 })();
 </script>
