@@ -2,6 +2,18 @@
 Updated: 2026-10-12
 Status definitions: MERGED = in GitHub main; USER-VERIFIED = confirmed by user's screenshots/browser; NEEDS QA = no reliable live test; BLOCKED = waiting on third party; IDEA = not implemented.
 
+## Latest delivery — seven-game Labs launch (October 12, 2026)
+- **SEVEN FREE LIVE-DEPLOYED GAME PAGES / NO ACCOUNTS / NO LIVE ADS:** Five previously released games plus `rate-my-duck.html` and `useless-job-simulator.html`. Both added to hub Quick Play cards, detailed experiment grid, inter-game navigation, share links and daily challenge rotation. The primary home and SaaS/services site remain intact.
+- **PR #73 MERGED:** Rate My Duck — name, mood, optional image preview using browser-local object URLs, explicitly **fictional randomized rating** (not AI or image analysis), three funny metrics, local-only top-six Hall of Fame, PNG verdict export and web-share/copy fallback. 19/19 Chromium checks on its PR. Photos are never uploaded, scored by vision, or stored.
+- **PR #75 MERGED:** Hide unpublished Creator Earnings Tracker, Menu & Profile Designer and Stream Schedule Builder section from public Labs. Ideas remain for later; not released or advertised.
+- **PR #74 CLOSED unmerged**, superseded after shared CSS landed; **PR #76 MERGED** Useless Job Simulator — office busywork, coffee/energy, five promotion tiers to Senior Vice Potato, decision memos every fifth task, five achievements, local persistence/reset, share/copy. 22/22 Chromium checks on #76.
+- **PR #77 MERGED:** Seven-game Labs hub/discoverability launch. **23/23 browser checks PASS**, covering seven pages' navigation/mobile widths, new game interactions, WCAG axe checks, existing games and social metadata. Static quality and seven-image SVG-to-PNG CI passed. Sitemaps now list **17 URLs** (Labs page includes Don't Push the Button; six other games have dedicated URLs).
+- **Production:** GitHub Actions post-merge preview generator committed all seven PNGs to main in **`9df4d652bdc415a9dceba6b041df99590f6e4a29`**. Updated Labs preview PNG SHA **`798e48fd59b4e2c77e7b76bcb538a64eeb3448c6`**, plus duck share PNG SHA `9b836d928f3d068852c84677be426496fe8a2ba4`, job share PNG SHA `252bea36c99067865bff1af0933dd2a60776772a`. GitHub Pages deployment **run 38297820632 passed** for generated commit.
+- **Search Console (user screenshot):** Live inspection of `https://technicade.tech/sitemap.xml` reports **URL available to Google, Crawled as Google Inspection Tool smartphone, Crawl allowed Yes, Page fetch Successful, Indexing allowed Yes** at October 12, 2:14 PM local. This proves Google's *live inspection fetched XML*, but the separately submitted sitemap still showed **Sitemap could not be read / 0 discovered via sitemap**. Don't request indexing on XML solely to fix ingestion. Wait and recheck submitted sitemap; inspect any new error details.
+- **AdSense** last user-confirmed status: `technicade.tech` **Getting ready**, `ads.txt` **Not found** in account, despite public HTTP 200 correct publisher record. This is not approval. No ad placements enabled. Preserve Cloudflare Analytics, ads.txt, privacy/terms and Google account verification.
+- **Still-needed:** user mobile/Safari/Firefox visual/gameplay QA; actual Meta Sharing Debugger for refreshed **7**-game social image and each new game; Google sitemap ingestion recheck and AdSense recognition/approval; performance Lighthouse + focus/keyboard manual audit. No real traffic/revenue claims made.
+- **Read-only production diagnostics** have been expanded in a follow-up PR to verify the 17-entry sitemap, all seven pages, shared CSS and each new PNG, after the new Pages deployment. Record its GitHub Actions run result before closing that QA gate.
+
 ## Current verified state — October 12, 2026, after Meta/GSC screenshots
 
 ### Meta Facebook Sharing Debugger: P0 CLOSED — USER-VERIFIED
@@ -94,17 +106,19 @@ Status definitions: MERGED = in GitHub main; USER-VERIFIED = confirmed by user's
 2. would-you-rather.html — 20 prompts, randomized order, selection/share. Displayed split is fictional, not actual votes.
 3. fake-achievement.html — Editable name/title/reason, random ideas, browser-side PNG canvas export; test long text and mobile downloads.
 4. challenge-wheel.html — Editable custom list up to 16, wheel/spin/results; PR #43 corrected selection math; PR #44 added labels; PR #46 corrected labels floating outside wheel. USER-REPORTED bug and correction merged; rerun mobile/desktop and test alignment for 1, 2, 8, 16 items.
-5. one-more-second.html — 30-second timed target game; personal best saved locally; share/replay. NEEDS QA for touch, timer end, tab switching, local persistence.
+5. one-more-second.html — 30-second timed target game; personal best saved locally; share/replay. Automated full round and persistence verified; mobile touch still needs manual QA.
+6. rate-my-duck.html — fictional duck verdicts, local photos, six-entry browser-only Hall of Fame, share/canvas PNG; Chromium interactions passed.
+7. useless-job-simulator.html — rank/energy/CEO memo office game, local save/reset/share; Chromium interactions passed.
 
 ## Homepage and UX — MERGED
 - Labs added to main site navigation (desktop and relevant mobile links).
-- Quick Play cards link to five games; info/FAQ/how-to sections; inter-game navigation.
+- Quick Play cards link to seven games; info/FAQ/how-to sections; inter-game navigation.
 - Daily challenge rotates with device local date and links to corresponding game; copy challenge, mark completed locally.
 - Local daily visit streak; share Labs and copy link. Daily prompt selection/completion are not server verified.
-- Creator earnings tracker, streaming profile/menu designer and schedule builder remain RESEARCH CONCEPTS ONLY; no product integrations, billing, or adult content.
+- Creator Earnings Tracker, Menu/Profile Designer and Stream Schedule Builder are hidden from public Labs by PR #75. Future concepts only; no product integrations, billing or ads.
 
 ## Analytics / SEO / AdSense
-- Cloudflare Web Analytics on main home, services, products, Labs and four standalone games; user screenshot: 7 pageviews, 0 visits in early sample. USER-VERIFIED ingestion. Reevaluate metric definitions and coverage of remaining site pages.
+- Cloudflare Web Analytics on main home, services, products, Labs and six standalone games; user screenshot: 7 pageviews, 0 visits in early sample. USER-VERIFIED ingestion. Reevaluate metric definitions and coverage of remaining site pages.
 - Google Search Console DNS-domain property USER-VERIFIED. Sitemap: https://technicade.tech/sitemap.xml submitted but screenshot showed 'Couldn't fetch', while direct XML loads and Labs live URL inspection reported indexable. Pending recheck.
 - AdSense publisher: pub-6059025745588128; site verification and 'Review requested' USER-VERIFIED on October 12, 2026, 11:31 AM. Status 'Getting ready'. NOT approved. No live ads / ad units / Auto ads.
 - Root ads.txt record USER-VERIFIED publicly:
@@ -113,7 +127,7 @@ Status definitions: MERGED = in GitHub main; USER-VERIFIED = confirmed by user's
 - privacy.html updated for analytics and future ads. Audit wording, real-world implementation, regional consent and ad placement before enabling ads.
 
 ## Social preview assets — historical P0 now closed for Labs share image
-- Five 1200x630 share PNGs and source SVGs are in assets/; og:image/twitter metadata points at PNGs.
+- Seven 1200x630 share PNGs and source SVGs are in assets/; og:image/twitter metadata points at PNGs.
 - Facebook Sharing Debugger USER-VERIFIED it reads preview/title/description. Reported warnings og:url, og:type, fb:app_id although explicit og:url and og:type are now present; fb:app_id is not necessary for ordinary link sharing.
 - PRIOR P0: stale preview PNG (old blob 8650faeeae370700458a5926f85dc4595e7876c3) has been regenerated by fixed PR #59 workflow, new blob 7de693573e04bfa2a8793451207654fa57236eb4; visually verify published URL and social re-scrape.
 - Workflow: .github/workflows/labs-social-previews.yml; generator scripts/build-labs-social-previews.py. Investigate GitHub Actions trigger/permissions/output and SHA. Generate and commit actual corrected PNG, compare SHA, verify at public URL, then Facebook 'Scrape Again'. Inspect all other four PNGs for unsupported glyphs and potential need to replace icons with ASCII/numerals.

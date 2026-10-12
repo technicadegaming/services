@@ -34,6 +34,9 @@ fetch home "$base/" "$normal"
 fetch labs "$base/labs.html" "$normal"
 fetch labs-google "$base/labs.html" "$google"
 fetch labs-meta "$base/labs.html" "$meta"
+fetch duck "$base/rate-my-duck.html" "$normal"
+fetch job "$base/useless-job-simulator.html" "$normal"
+fetch styles "$base/labs-play.css" "$normal"
 fetch sitemap "$base/sitemap.xml" "$normal"
 fetch sitemap-google "$base/sitemap.xml" "$google"
 fetch robots "$base/robots.txt" "$google"
@@ -41,6 +44,8 @@ fetch ads "$base/ads.txt" "$normal"
 fetch ads-google "$base/ads.txt" "$google"
 fetch social "$base/assets/labs-labs-share.png" "$normal"
 fetch social-meta "$base/assets/labs-labs-share.png" "$meta"
+fetch duck-preview "$base/assets/labs-rate-my-duck-share.png" "$normal"
+fetch job-preview "$base/assets/labs-useless-job-simulator-share.png" "$normal"
 
 if ! grep -q 'google.com, pub-6059025745588128, DIRECT, f08c47fec0942fa0' "$temp/ads.body"; then
   echo "::error::ads.txt publisher record missing"
@@ -59,6 +64,30 @@ fi
 if [[ -s "$temp/social.body" ]] && ! cmp -s "$temp/social.body" assets/labs-labs-share.png; then
   echo "::warning::Public Labs social PNG differs from repository image"
 fi
+for page in duck job; do
+  if ! grep -q 'property="og:image"' "$temp/$page.body" ||
+     ! grep -q 'google-adsense-account' "$temp/$page.body" ||
+     ! grep -q 'static.cloudflareinsights.com/beacon.min.js' "$temp/$page.body"; then
+    echo "::error::$page missing OG image or shared verification/analytics markup"
+    errors=$((errors+1))
+  fi
+done
+for filename in labs-rate-my-duck-share.png labs-useless-job-simulator-share.png; do
+  label="duck-preview"
+  if [[ "$filename" == "labs-useless-job-simulator-share.png" ]]; then label="job-preview"; fi
+  if ! cmp -s "$temp/$label.body" "assets/$filename"; then
+    echo "::error::$filename public bytes differ from GitHub main"
+    errors=$((errors+1))
+  fi
+done
+if ! grep -q 'rate-my-duck.html' "$temp/labs.body" || ! grep -q 'useless-job-simulator.html' "$temp/labs.body"; then
+  echo "::error::New games missing from the published Labs directory"
+  errors=$((errors+1))
+fi
+if grep -q 'Creator Earnings Tracker' "$temp/labs.body"; then
+  echo "::error::Hidden creator-tool concept visible in public Labs HTML"
+  errors=$((errors+1))
+fi
 if [[ ! -s "$temp/social.body" ]]; then
   echo "::error::Social PNG is empty"
   errors=$((errors+1))
@@ -69,7 +98,9 @@ from xml.etree import ElementTree
 root = ElementTree.parse(sys.argv[1]).getroot()
 ns = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9"}
 urls = [n.text for n in root.findall("s:url/s:loc", ns)]
-assert len(urls) >= 15, f"Expected >=15 sitemap URLs; found {len(urls)}"
+assert len(urls) >= 17, f"Expected >=17 sitemap URLs; found {len(urls)}"
+assert "https://technicade.tech/rate-my-duck.html" in urls
+assert "https://technicade.tech/useless-job-simulator.html" in urls
 assert "https://technicade.tech/labs.html" in urls
 assert all(u.startswith("https://technicade.tech/") for u in urls)
 print(f"XML sitemap parsed: {len(urls)} Technicade URLs")
