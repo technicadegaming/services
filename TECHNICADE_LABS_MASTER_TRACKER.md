@@ -2,7 +2,7 @@
 Updated: 2026-10-12
 Status definitions: MERGED = in GitHub main; USER-VERIFIED = confirmed by user's screenshots/browser; NEEDS QA = no reliable live test; BLOCKED = waiting on third party; IDEA = not implemented.
 
-## October 12 follow-up audit (evidence-based)
+## October 12 earlier follow-up audit (historical snapshot; later verified updates above)
 - **P0 social preview pipeline: FIXED IN CODE AND CI.** PR #59 merged. Generator now accepts PNG URLs already present in HTML, validates 1200x630 PNG output, and is tested for repeatable output on PRs. GitHub Actions post-merge regeneration succeeded, adding a new commit `91c55813826f18a69b6c7f0c3b92a1c791bf13aa`; `assets/labs-labs-share.png` changed from recorded stale blob SHA `8650faeeae370700458a5926f85dc4595e7876c3` to `7de693573e04bfa2a8793451207654fa57236eb4` (56,537 bytes). **The corrected bytes are committed in main.** Public Pages deployment and Facebook re-scrape remain separate checks. The other four preview blobs were unchanged because only the Labs SVG numeral changed.
 - **Static code review of five games: IN PROGRESS, not end-to-end browser verified.** Wheel computes uniform choices and rotates chosen sector center to the top pointer. Known remaining risk: high label density at 16 challenges, long descriptions, wheel selection after entries edits and mobile view; test 1, 2, 8 and 16 entries with repeated spins. Reflex game's timer uses a `performance.now()` deadline, saves personal best, and ends when tab is hidden. Achievement maker uses four-line canvas wraps which may overlap footer for long entries. Would You Rather shows fictional random split figures rather than user poll data. Button progress stores local per-browser data.
 - **CI evidence:** static-site quality and social preview generation checks passed for PR #59. This is not a substitute for functional click/touch QA or independent Lighthouse/axe tests.
@@ -16,6 +16,22 @@ Status definitions: MERGED = in GitHub main; USER-VERIFIED = confirmed by user's
 4. **P1** Address long award canvas text clipping, wheel compact labeling and accessibility, game navigation consistency, keyboard announcements, and unified mobile styles in isolated PRs.
 5. **P1** Verify Search Console sitemap state, indexed pages, canonical/robots and AdSense/account-level status. Verify site and policy content for real monetization eligibility and consent requirements.
 6. **P2** Add privacy-respecting interaction signals (no personal prompts/names), then prioritize retention features based on real pageviews/returning usage, without assuming any existing audience.
+
+## Confirmed follow-up delivery — October 12 (after handoff)
+- **PR #59 MERGED:** fix idempotent social PNG generator and GitHub Actions. PNG action completed successfully; new PNG blob SHA `7de693573e04bfa2a8793451207654fa57236eb4` on main. Pages deployment for its generated commit (`91c558138`) completed successfully. Facebook's cached preview still requires Scrape Again or independent visual confirmation; do not conflate with GitHub blob proof.
+- **PR #60 MERGED:** update this tracker with source-linked checks and open manual QA gates.
+- **PR #61 MERGED:** wheel displays readable numbered sectors and matching challenge legend for 9–16 items. Static CI and GitHub Pages deployment passed.
+- **PR #62 MERGED:** achievement PNG export bounds long text inside fixed canvas regions. Static CI and GitHub Pages deployment passed.
+- **PR #63 MERGED:** new `.github/workflows/labs-browser-smoke.yml` and `tests/labs.spec.mjs`; first Chromium run **11/11 PASSED** (run 38282375500, 2026-10-12). Checked hub links; local button counts/achievements across reload; full Would You Rather deck; Challenge Wheel text and measured pointer alignment at 1/2/8/16 entries; empty-wheel behavior; 1200×630 PNG download with long inputs; reflex round and timer; no horizontal overflow at 320, 390, 768 and 1280px for all five pages. Runs against local static HTTP server using Playwright Chromium, **not a production browser audit**.
+- **PR #64 MERGED:** correct AdSense readiness checklist so verification metadata and ads.txt are properly recorded; status remains pending and no ads activated.
+
+### Still-open audit work (not falsely marked done)
+- Human inspect public social preview PNG and rescrape in Facebook Sharing Debugger, verify visible numeral. Check all five share previews using external scrapers.
+- Physical Android/iPhone and Safari/Firefox gameplay and visual checks; keyboard-only and screen reader audit, reduced motion, focus recovery, high-contrast, long text/localization, audio/visual clarity; run axe or equivalent accessibility audit.
+- PageSpeed Insights / Lighthouse production mobile performance and Core Web Vitals; verify actual image bytes and compression, lazy resource behavior.
+- Search Console sitemap status, game URL index coverage, per-page SEO social preview fetchers; inspect live analytics by page (no claims of real traffic beyond prior user samples).
+- AdSense dashboard site approval and ads.txt Authorized status, region-appropriate consent plan, payout/tax account setup; no live ads until ready/approved.
+- Discovery/retention: review actual Cloudflare metrics before adding features; improve cohesive game layouts and navigation in subsequent scoped visual PRs.
 
 ## Ownership and hosting
 - Primary repo: https://github.com/technicadegaming/services (not SaaS factory /anvil).
