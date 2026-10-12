@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Would You Rather? | Technicade Labs</title><meta name="description" content="A free, silly Would You Rather game from Technicade Labs. Make weird choices and challenge a friend.">
+<link rel="canonical" href="https://technicade.tech/would-you-rather.html">
+<style>
+:root{color-scheme:dark;--bg:#0b1220;--panel:#172238;--line:#384766;--text:#f1f4ff;--muted:#c4cde0;--purple:#936aff;--green:#62dfae}*{box-sizing:border-box}body{margin:0;background:radial-gradient(900px 620px at 12% 0,#3d275d,transparent 65%),var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}a{color:inherit;text-decoration:none}.wrap{width:min(920px,calc(100% - 32px));margin:auto}.top{border-bottom:1px solid var(--line);background:#0b1220dc}.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:17px 0}.brand{font-weight:850;letter-spacing:-.03em}.brand b{color:var(--green)}.back{font-size:14px;color:var(--muted)}main{padding:60px 0 75px}.eyebrow{display:inline-block;color:#ddcfff;background:#342650;border:1px solid #64488a;padding:5px 12px;border-radius:50px;font-weight:750;font-size:12px}h1{font-size:clamp(39px,7vw,65px);letter-spacing:-.055em;line-height:1.07;margin:15px 0}p{color:var(--muted)}.choices{display:grid;grid-template-columns:1fr 1fr;gap:17px;margin:28px 0}.choice{min-height:215px;border-radius:22px;border:2px solid #7d5ad1;background:linear-gradient(160deg,#473375,#2c2752);color:white;text-align:center;font-weight:850;font-size:clamp(20px,3vw,27px);padding:26px;box-shadow:0 15px 35px #03061255}.choice:nth-child(2){background:linear-gradient(160deg,#155f5a,#184246);border-color:#35ac93}.choice:hover{filter:brightness(1.16)}.choice:disabled{cursor:default;opacity:.82}.choice:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid white;outline-offset:4px}.versus{text-align:center;font-weight:1000;color:#dee6f8;letter-spacing:.14em}.results{border:1px solid var(--line);border-radius:18px;padding:22px;background:#152039;margin-top:22px}.bar{display:flex;width:100%;height:22px;border-radius:100px;overflow:hidden;background:#152c30}.bar span:first-child{background:#8766f3}.bar span:last-child{background:#3bc4a3}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}button.secondary{border:1px solid var(--line);background:#263751;color:#fff;padding:12px 18px;border-radius:12px;font-weight:800}.small{font-size:13px;color:var(--muted)}.count{display:flex;justify-content:space-between;gap:12px;margin-top:22px;color:var(--muted);font-size:14px}footer{border-top:1px solid var(--line);padding:24px 0;color:var(--muted);font-size:13px}@media(max-width:600px){main{padding-top:37px}.choices{grid-template-columns:1fr}.choice{min-height:145px}}
+</style></head><body>
+<header class="top"><div class="wrap"><a class="brand" href="labs.html">TECHNICADE <b>LABS</b></a><a class="back" href="labs.html">← All experiments</a></div></header>
+<main class="wrap"><span class="eyebrow">🎲 Free mini-game</span><h1>Would You Rather?</h1><p>Two ridiculous options. One impossible decision. Choose your fate, then move on to the next question.</p>
+<section aria-labelledby="question"><div class="count"><span id="question">Question 1</span><span>Decisions made: <b id="answered">0</b></span></div>
+<div class="choices"><button class="choice" id="one" type="button"></button><button class="choice" id="two" type="button"></button></div><div class="versus">OR?</div>
+<div class="results" id="result" hidden aria-live="polite"><strong id="verdict"></strong><p id="resultText"></p><div class="bar" role="img" aria-label="Your pick versus the alternative"><span id="barOne"></span><span id="barTwo"></span></div><p class="small">The split shown is a fictional, randomized illustration for fun—not real player votes.</p></div>
+<div class="actions"><button id="next" class="secondary" type="button">Skip this question →</button><button id="share" class="secondary" type="button">Share this question ↗</button></div>
+<p class="small">No sign-in needed. This version doesn't collect or count anyone else's choices.</p></section></main>
+<footer><div class="wrap">© <span id="year">2026</span> Technicade · <a href="labs.html">More experiments</a></div></footer>
+<script>
+(function(){'use strict';
+var prompts=[
+["Have spaghetti for hair","Have popcorn for teeth"],
+["Speak only in movie quotes","Sing everything you say"],
+["Be chased by one horse-sized duck","Be chased by fifty duck-sized horses"],
+["Have a personal theme song play everywhere","Have a laugh track after every sentence"],
+["Always wear swim fins","Always wear a superhero cape"],
+["Only be able to whisper","Only be able to shout"],
+["Have a pet dragon the size of a cat","Have a pet cat the size of a dragon"],
+["Forget everyone's name","Everyone forget your name"],
+["Always smell fresh cookies","Always hear elevator music"],
+["Get stuck in a room with 100 balloons","Get stuck in a room with 100 rubber ducks"],
+["Have the ability to pause time for 5 seconds","Have the ability to rewind time 5 seconds"],
+["Be famous for a silly dance","Be famous for a ridiculous hat"],
+["Have shoes that squeak forever","Have a chair that applauds every time you sit"],
+["Only eat breakfast food for a year","Only eat dinner food for a year"],
+["Always be 10 minutes early","Always be exactly 1 minute late"],
+["Have a tiny marching band announce you","Have a spotlight follow you everywhere"],
+["Wear mittens whenever using a phone","Wear sunglasses whenever reading"],
+["Turn invisible when you sneeze","Teleport 1 foot when you hiccup"],
+["Have a talking refrigerator","Have a judgmental toaster"],
+["Be the mayor of a city of ducks","Be the principal of a school for llamas"]];
+var index=0,answered=0,locked=false,order=prompts.map(function(_,i){return i;});
+for(var i=order.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=order[i];order[i]=order[j];order[j]=t;}
+var one=document.getElementById('one'),two=document.getElementById('two'),result=document.getElementById('result'),next=document.getElementById('next');
+function render(){locked=false;result.hidden=true;one.disabled=two.disabled=false;var p=prompts[order[index]];one.textContent=p[0];two.textContent=p[1];document.getElementById('question').textContent='Question '+(index+1)+' of '+order.length;document.getElementById('answered').textContent=answered;next.textContent='Skip this question →';}
+function vote(n){if(locked)return;locked=true;answered++;one.disabled=two.disabled=true;var pct=25+Math.floor(Math.random()*51);var choice=prompts[order[index]][n];document.getElementById('verdict').textContent='You chose: '+choice;document.getElementById('resultText').textContent='Interesting choice. The imaginary jury is still deliberating.';document.getElementById('barOne').style.width=pct+'%';document.getElementById('barTwo').style.width=(100-pct)+'%';result.hidden=false;document.getElementById('answered').textContent=answered;next.textContent='Next question →';}
+one.addEventListener('click',function(){vote(0)});two.addEventListener('click',function(){vote(1)});
+next.addEventListener('click',function(){index++;if(index>=order.length){index=0;for(var i=order.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=order[i];order[i]=order[j];order[j]=t;}}render();});
+document.getElementById('share').addEventListener('click',async function(){var p=prompts[order[index]],message='Would you rather '+p[0]+' OR '+p[1]+'?';try{if(navigator.share){await navigator.share({title:'Would You Rather? — Technicade Labs',text:message,url:location.href});}else if(navigator.clipboard){await navigator.clipboard.writeText(message+' '+location.href);this.textContent='Copied!';}else{this.textContent='Copy page link to share';}}catch(e){}});
+document.getElementById('year').textContent=new Date().getFullYear();render();
+})();
+</script></body></html>
