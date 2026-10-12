@@ -398,7 +398,7 @@
 <body>
   <a class="sr" href="#main" style="position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden;">Skip to content</a>
 
-  <header>
+  <header class="tc-arcade-header">
     <div class="wrap">
       <div class="topbar">
         <a class="brand" href="index.html" aria-label="Technicade home">
@@ -415,7 +415,8 @@
           <a class="navlink" href="#pricing">Pricing</a>
           <a class="navlink" href="#plans">Maintenance</a>
           <a class="navlink" href="#contact">Contact</a>
-        <a class="navlink" href="products.html">Software &amp; Tools</a></nav>
+          <a class="navlink" href="products.html">Software &amp; Tools</a>
+        </nav>
 
         <div class="actions">
           <button class="btn" id="themeBtn" type="button" aria-label="Toggle theme">
@@ -447,7 +448,7 @@
             <div class="heroCtas">
               <a class="btn primary" href="#contact"><span class="icon" aria-hidden="true">📨</span>Request arcade service</a>
               <a class="btn" href="#pricing"><span class="icon" aria-hidden="true">💵</span>View pricing</a>
-              <a class="btn" href="mailto:technicadegaming@gmail.com?subject=Arcade%20Service%20Request"><span class="icon" aria-hidden="true">✉️</span>Email</a>
+              <a class="btn" href="mailto:support@technicade.tech?subject=Arcade%20Service%20Request"><span class="icon" aria-hidden="true">✉️</span>Email</a>
             </div>
 
             <div class="chips" aria-label="Highlights">
@@ -687,7 +688,7 @@
           <h2>Request Arcade Service</h2>
           <p>Send machine details, photos, or a short video and Technicade will reply with next steps.</p>
         </div>
-        <div class="kicker">Email: technicadegaming@gmail.com</div>
+        <div class="kicker">Email: support@technicade.tech</div>
       </div>
 
       <div class="contactGrid">
@@ -754,7 +755,7 @@
 
             <div style="height:12px;"></div>
 
-            <a class="btn" href="mailto:technicadegaming@gmail.com?subject=Arcade%20Service%20Request&body=Hi%20Technicade%2C%0A%0AI%20need%20help%20with%3A%20%0A%0AMachine%20type%2Fbrand%3A%20%0A%0AWhat%20happens%20when%20powered%20on%3A%20%0A%0ALocation%3A%20%0A%0AHome%2Fbusiness%2Fevent%3A%20%0A%0AThanks%2C%0A" style="width:100%; justify-content:center;">
+            <a class="btn" href="mailto:support@technicade.tech?subject=Arcade%20Service%20Request&body=Hi%20Technicade%2C%0A%0AI%20need%20help%20with%3A%20%0A%0AMachine%20type%2Fbrand%3A%20%0A%0AWhat%20happens%20when%20powered%20on%3A%20%0A%0ALocation%3A%20%0A%0AHome%2Fbusiness%2Fevent%3A%20%0A%0AThanks%2C%0A" style="width:100%; justify-content:center;">
               <span class="icon" aria-hidden="true">✉️</span>
               Email Technicade
             </a>
@@ -770,7 +771,7 @@
           <div>Arcade repair • custom games • tech services</div>
         </div>
         <div>
-          <div>Contact: <a href="mailto:technicadegaming@gmail.com">technicadegaming@gmail.com</a></div>
+          <div>Contact: <a href="mailto:support@technicade.tech">support@technicade.tech</a></div>
           <div style="margin-top:6px;">© <span id="year"></span> Technicade. All rights reserved.</div>
         </div>
       </div>
@@ -815,10 +816,10 @@
             statusEl.textContent = '✅ Sent! I’ll get back to you soon.';
             form.reset();
           } else {
-            statusEl.textContent = '❌ Something went wrong. Please email technicadegaming@gmail.com.';
+            statusEl.textContent = '❌ Something went wrong. Please email support@technicade.tech.';
           }
         } catch (err) {
-          statusEl.textContent = '❌ Network error. Please email technicadegaming@gmail.com.';
+          statusEl.textContent = '❌ Network error. Please email support@technicade.tech.';
         }
       });
     })();
