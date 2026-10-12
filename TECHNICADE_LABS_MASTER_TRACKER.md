@@ -2,6 +2,12 @@
 Updated: 2026-10-12
 Status definitions: MERGED = in GitHub main; USER-VERIFIED = confirmed by user's screenshots/browser; NEEDS QA = no reliable live test; BLOCKED = waiting on third party; IDEA = not implemented.
 
+## AdSense follow-up — October 12, 2026 (user screenshot)
+- **AdSense Sites:** `technicade.tech` still shows **Getting ready** (review pending) and **ads.txt: Not found**; the definition in the tooltip is about the AdSense crawler's last crawl, not the GitHub repository state.
+- **Verified repo/public evidence:** root `ads.txt` is an ASCII/plain-text one-line record `google.com, pub-6059025745588128, DIRECT, f08c47fec0942fa0`. Existing production check run `38298060009` returned HTTPS HTTP 200 and `text/plain`; `robots.txt` allows crawling. An additional GitHub-run check now tests HTTP redirect and a Mediapartners-Google-like user agent.
+- **Required manual step:** AdSense > Sites > select `technicade.tech` > **Check for updates**. If the control is not offered, leave the setup unchanged and check again later. This action cannot be taken via GitHub and has not been performed here.
+- **Official guidance:** it can take several days for ads.txt status to update, potentially up to one month for a low-traffic site. Do **not** delete/recreate the site or repeatedly edit a correct `ads.txt` file. Sources: https://support.google.com/adsense/answer/12171612 and https://support.google.com/adsense/answer/7679060
+- **Release gate:** do not enable Auto ads or live ad placements until Google site review is Ready and applicable consent/privacy requirements are checked. `ads.txt: Not found` is not approval status and neither status implies revenue.
 ## Latest delivery — seven-game Labs launch (October 12, 2026)
 - **SEVEN FREE LIVE-DEPLOYED GAME PAGES / NO ACCOUNTS / NO LIVE ADS:** Five previously released games plus `rate-my-duck.html` and `useless-job-simulator.html`. Both added to hub Quick Play cards, detailed experiment grid, inter-game navigation, share links and daily challenge rotation. The primary home and SaaS/services site remain intact.
 - **PR #73 MERGED:** Rate My Duck — name, mood, optional image preview using browser-local object URLs, explicitly **fictional randomized rating** (not AI or image analysis), three funny metrics, local-only top-six Hall of Fame, PNG verdict export and web-share/copy fallback. 19/19 Chromium checks on its PR. Photos are never uploaded, scored by vision, or stored.
