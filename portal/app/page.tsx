@@ -1,3 +1,5 @@
+import type { CSSProperties } from 'react';
+
 const packages = [
   { title: 'Technology troubleshooting', detail: 'Computer and device issues, setup, software or electronics questions.' },
   { title: 'Custom parts and repairs', detail: 'Broken plastic parts, useful brackets, small repair or 3D-print requests.' },
@@ -5,8 +7,8 @@ const packages = [
 ];
 
 export default function Page() {
-  const link = { color: '#a9f4d8', textUnderlineOffset: 4 };
-  const button = { display: 'inline-flex', padding: '13px 18px', borderRadius: 12, fontWeight: 750, color: '#fff', textDecoration: 'none', background: 'linear-gradient(120deg,#7357e2,#25836d)' };
+  const link: CSSProperties = { color: '#a9f4d8', textUnderlineOffset: 4 };
+  const button: CSSProperties = { display: 'inline-flex', padding: '13px 18px', borderRadius: 12, fontWeight: 750, color: '#fff', textDecoration: 'none', background: 'linear-gradient(120deg,#7357e2,#25836d)' };
   return (
     <main style={{ maxWidth: 1100, margin: '0 auto', padding: '22px 20px 70px' }}>
       <header style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 16, padding: '12px 0 30px' }}>
