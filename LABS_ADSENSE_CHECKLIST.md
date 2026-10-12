@@ -8,6 +8,11 @@ Technicade Labs contains seven original browser experiments on technicade.tech. 
 - **No live ad units, Auto ads, ad-impression claims or revenue are authorized.** Do not add or activate them before account approval and privacy/consent review.
 - PR #59 corrected social PNG generation; PRs #73, #76 and #77 added two games, seven-game social previews and automated tests. The launch PR passed 23/23 Chromium gameplay/responsive/WCAG tests; physical-device and production fetch checks remain distinct.
 
+## October 12 AdSense ads.txt follow-up
+- Last user screenshot: **Getting ready**, **ads.txt: Not found**. Google account-level recognition remains pending.
+- The root `ads.txt` publisher record is present, plain text and served HTTP 200 over HTTPS in a live GitHub Actions diagnostic. Confirm plain HTTP redirects to the same bytes with dedicated crawler diagnostic CI.
+- Official Google steps to request a recheck: **Sites > technicade.tech > Check for updates**. If unavailable, wait for Google's next crawl.
+- Google advises several days, and potentially up to a month when there are few ad requests/low traffic. Avoid unnecessary edits to a correctly configured file. Keep ad units disabled while awaiting site approval.
 ## Ongoing readiness and before serving ads
 1. Test all seven games on desktop and mobile, including keyboard controls, scores, share behavior, and the challenge wheel layout.
 2. In Google Search Console, recheck the sitemap fetch status and inspect important game URLs. Search indexing is not guaranteed.
