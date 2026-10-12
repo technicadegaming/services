@@ -1,3 +1,7 @@
+# Technicade Labs — rollout and monetization
+
+**Updated October 12, 2026.** This historical rollout note has been superseded by the canonical tracker: [TECHNICADE_LABS_MASTER_TRACKER.md](TECHNICADE_LABS_MASTER_TRACKER.md). Use the master tracker for current statuses, testing gaps, AdSense review, sitemap troubleshooting, stale social PNG issue, and next-chat audit plan.
+
 # Technicade Labs — traffic and monetization rollout
 
 ## Shipped experiences
