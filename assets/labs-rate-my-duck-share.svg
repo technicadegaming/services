@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#1b183b"/><stop offset="1" stop-color="#10484a"/></linearGradient><linearGradient id="tag" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#8c6af9"/><stop offset="1" stop-color="#2db68d"/></linearGradient></defs>
+<rect width="1200" height="630" fill="#0b1220"/><rect width="1200" height="630" fill="url(#bg)"/>
+<circle cx="1110" cy="80" r="270" fill="#8471e1" opacity=".15"/><circle cx="130" cy="610" r="260" fill="#35c4b9" opacity=".12"/>
+<rect x="42" y="42" width="1116" height="546" rx="36" fill="#1b2640" stroke="#687b9a" stroke-width="3"/>
+<rect x="86" y="91" width="253" height="44" rx="22" fill="url(#tag)"/><text x="212" y="119" text-anchor="middle" fill="#fff" font-family="Arial,sans-serif" font-size="20" font-weight="bold">TECHNICADE LABS</text>
+<text x="86" y="247" fill="#fff" font-family="Arial,sans-serif" font-size="69" font-weight="900">RATE MY DUCK</text>
+<text x="88" y="308" fill="#c9b9ff" font-family="Arial,sans-serif" font-size="31" font-weight="bold">THE DUCK COURT IS OPEN</text>
+<text x="88" y="477" fill="#c5ffe3" font-family="Arial,sans-serif" font-size="28" font-weight="bold">FREE / FUNNY / ENTIRELY FICTIONAL</text>
+<text x="89" y="534" fill="#cbd9ee" font-family="Arial,sans-serif" font-size="22">technicade.tech</text>
+<ellipse cx="973" cy="468" rx="166" ry="31" fill="#25b9a6" opacity=".39"/>
+<ellipse cx="975" cy="383" rx="125" ry="104" fill="#ffd765"/><ellipse cx="1031" cy="399" rx="60" ry="42" fill="#edb94e"/>
+<path d="M909 361 Q897 290 930 240 Q972 197 1015 244 Q1043 278 1020 344Z" fill="#ffdc71"/>
+<ellipse cx="970" cy="251" rx="65" ry="67" fill="#ffe182"/>
+<circle cx="989" cy="240" r="9" fill="#19243a"/><circle cx="990" cy="236" r="3" fill="#fff"/>
+<path d="M1015 260 Q1061 247 1096 276 Q1060 299 1017 286Z" fill="#f59648"/>
+<path d="M977 367 Q1037 355 1055 400 Q1008 447 953 403Z" fill="#eebf55"/>
+<path d="M894 460 Q884 489 870 498 M931 470 Q921 502 906 508" fill="none" stroke="#ed9c51" stroke-width="11" stroke-linecap="round"/>
+</svg>
