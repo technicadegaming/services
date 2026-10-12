@@ -33,6 +33,13 @@ Status definitions: MERGED = in GitHub main; USER-VERIFIED = confirmed by user's
 - AdSense dashboard site approval and ads.txt Authorized status, region-appropriate consent plan, payout/tax account setup; no live ads until ready/approved.
 - Discovery/retention: review actual Cloudflare metrics before adding features; improve cohesive game layouts and navigation in subsequent scoped visual PRs.
 
+## Final verified audit addendum — October 12, 2026
+- **PR #66 MERGED:** Added axe-core WCAG 2 A/AA + WCAG 2.1 A/AA automated accessibility checks for Labs plus four game pages. First run exposed one genuine defect: achievement progress used `aria-label` without valid semantics. Fixed by assigning `role=progressbar` with explicit range and dynamically updated `aria-valuenow`. Final GitHub Actions run **38282980043**: 16/16 tests PASS, including all five automated axe checks, eleven gameplay/responsive tests. Browser tests are Chromium on local HTTP, not Safari/Firefox/physical phone production tests.
+- **PR #67 MERGED:** consistent 1200x630 large social card metadata for Labs and four games; descriptive OG image alt text and mobile theme-color. This affects metadata, not actual social-platform cache. Re-scrape still needed.
+- **P0 fixed in code:** stale SVG vs PNG generator failure, stale PNG committed and deployed, numbered wheel segments for crowded lists, bounded award PNG export, accessibility progress semantics. **Release blockers still needing external verification:** public social crawler refresh and actual mobile/Safari/Firefox visuals.
+- **Protect monetization:** publisher verification and ads.txt kept; AdSense account approval, publisher status and consent conditions not verified as approved. No active ads were enabled by these fixes.
+- **Next quality gates:** manual keyboard/screen reader and Android/iOS QA; Lighthouse performance/SEO audits on actual production; real Search Console sitemap/index inspection; social preview scraper cache; measurable referral/returning traffic; visual design polish and feature selection from audience data.
+
 ## Ownership and hosting
 - Primary repo: https://github.com/technicadegaming/services (not SaaS factory /anvil).
 - Production: https://technicade.tech/labs.html
