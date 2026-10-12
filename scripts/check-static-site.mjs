@@ -26,9 +26,9 @@ for (const [file, html] of pages) {
     checkedLinks += 1;
     const [pathname, hash] = href.split('#');
     const clean = pathname.split('?')[0].replace(/^\.\/|^\//g, '');
-    const destination = (!clean || clean.endsWith('/'))
-      ? 'index.html'
-      : clean;
+    const destination = pathname === ''
+      ? file // An in-page #anchor stays on this page, not the homepage.
+      : (!clean || clean.endsWith('/') ? 'index.html' : clean);
     if (destination.includes('..')) {
       problems.push(file + ': relative path traversal ' + href);
       continue;
