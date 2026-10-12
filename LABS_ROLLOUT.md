@@ -4,11 +4,16 @@
 
 # Technicade Labs — traffic and monetization rollout
 
-## Shipped experiences
+## Shipped experiences (seven free games)
 - Don't Push the Button (labs.html): free interactive toy, local progress.
-- Would You Rather (would-you-rather.html): 20 questions; no vote collection.
-- Fake Achievement Generator (fake-achievement.html): local PNG rendering and shareable image.
-- Random Challenge Wheel (challenge-wheel.html): custom prompts, local random selection.
+- Would You Rather (would-you-rather.html): 20 fictional-choice questions; no vote collection.
+- Fake Achievement Generator (fake-achievement.html): local PNG award creation.
+- Random Challenge Wheel (challenge-wheel.html): up to 16 custom prompts; local selection.
+- One More Second (one-more-second.html): 30-second reflex game, personal best saved locally.
+- Rate My Duck (rate-my-duck.html): fictional duck verdicts, optional on-device preview, locally saved top ratings and PNG export; no image uploads or actual AI analysis.
+- Useless Job Simulator (useless-job-simulator.html): interactive office satire with promotions, CEO memos, energy, local progress and reset.
+
+The Creator Earnings Tracker, Menu/Profile Designer and Stream Schedule Builder concepts have been removed from the public Labs hub; they are not launched products.
 
 ## Analytics: recommended next step
 1. Verify GitHub Pages deployment of each path from a desktop and mobile browser.
@@ -29,4 +34,4 @@
 - Check keyboard accessibility, copy/share fallback, and reset behavior.
 - Ensure site-wide privacy and terms accurately cover any analytics/ads before enabling them.
 
-No analytics script, ad code, or payment integration has been installed by this change.
+Cloudflare Web Analytics is already installed on the Labs hub and all six standalone games. AdSense publisher ownership verification and ads.txt are present, but **live ad units are not enabled**, the account is not confirmed approved, and games do not require payments or accounts.
