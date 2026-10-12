@@ -3,7 +3,7 @@ import AxeBuilder from '@axe-core/playwright';
 
 test.use({ baseURL: 'http://127.0.0.1:8765' });
 
-for (const pagePath of ['/labs.html','/would-you-rather.html','/fake-achievement.html','/challenge-wheel.html','/one-more-second.html','/rate-my-duck.html']) {
+for (const pagePath of ['/labs.html','/would-you-rather.html','/fake-achievement.html','/challenge-wheel.html','/one-more-second.html','/rate-my-duck.html','/useless-job-simulator.html']) {
   test('WCAG A/AA static page audit '+pagePath, async ({ page }) => {
     await page.route('https://static.cloudflareinsights.com/**', route => route.abort());
     await page.goto(pagePath);
