@@ -173,3 +173,16 @@ header :where(.navlink,nav a,.nav a){font-size:14px}
   .mobile-nav-links{grid-template-columns:1fr}
   .tc-start-here{margin-left:14px;margin-right:14px}
 }
+
+/* Technicade Tools + knowledge-library discovery */
+.tc-tools-explainer{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(260px,.75fr);gap:16px;margin:24px 40px;padding:24px;border:1px solid rgba(158,138,249,.34);border-radius:20px;background:linear-gradient(125deg,rgba(111,81,190,.14),rgba(47,151,120,.09))}
+.tc-tools-explainer h2{font-size:clamp(25px,3vw,34px);margin:2px 0 9px}
+.tc-tools-explainer p{color:var(--muted,#b9c5d8);font-size:14px;line-height:1.7}
+.tc-tools-points{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:18px 0}
+.tc-tools-points span{display:block;padding:11px 12px;border:1px solid var(--line,rgba(255,255,255,.12));border-radius:12px;background:rgba(5,13,25,.28);font-size:12px;line-height:1.5;color:var(--muted,#b9c5d8)}
+.tc-tools-points b{display:block;color:var(--text,#fff);font-size:13px;margin-bottom:2px}
+.tc-tools-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:15px}
+.tc-guides-callout{padding:20px;border:1px solid rgba(83,210,174,.32);border-radius:17px;background:rgba(24,97,80,.10)}
+.tc-guides-callout h3{font-size:21px;margin:3px 0 6px}
+@media(max-width:800px){.tc-tools-explainer{grid-template-columns:1fr;margin:20px 18px}.tc-tools-points{grid-template-columns:1fr}}
+@media(max-width:430px){.tc-tools-explainer{margin-left:14px;margin-right:14px;padding:17px}.tc-tools-actions .btn{width:100%}}
