@@ -33,7 +33,7 @@ for (const [file, html] of pages) {
       problems.push(file + ': relative path traversal ' + href);
       continue;
     }
-    if (!rootFiles.has(destination)) {
+    if (!rootFiles.has(destination) && !(destination.includes('/') && fs.existsSync(path.join(root, destination)) && fs.statSync(path.join(root, destination)).isFile())) {
       problems.push(file + ': missing relative link ' + href);
       continue;
     }
