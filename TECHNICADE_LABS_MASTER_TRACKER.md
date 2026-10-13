@@ -1,5 +1,19 @@
 # Technicade Labs — Master Tracker and Next-Chat Handoff
 
+## SEO and Analytics cross-site checkpoint — October 12, 2026
+
+**Canonical task tracker:** [Services issue #95](https://github.com/technicadegaming/services/issues/95). This section summarizes rather than replacing the full issue.
+
+- [x] [Services PR #94](https://github.com/technicadegaming/services/pull/94) merged (`ab5266eee9947bf2db7223a594c683fc6612efd3`), fixing sitemap XML trailing literal escape sequence, keeping 20 main-host URLs and removing tools subdomain URL. `main/sitemap.xml` source rechecked.
+- [x] Static site quality GitHub Action `38343817686` passed; Vercel PR status succeeded.
+- [ ] **Live check outstanding:** GitHub Pages publish, public sitemap 200 and valid XML, actual page URLs, current Search Console ingestion status; do not claim merged = indexed.
+- [ ] **Metadata/link audit:** canonicals (three historically missing), titles/descriptions/H1, JSON-LD, OG, dead links, 404s, sitemap coverage, per-host robots/noindex.
+- [ ] **Analytics:** validate Cloudflare page coverage; inspect Vercel Analytics/GA4 status, source/referral tracking, signup/trial/checkout/lead events; deduplicate trusted Stripe revenue webhook events.
+- [ ] **Growth/performance:** mobile Lighthouse/Core Web Vitals, guides editorial/indexation launch gate, useful first-party landing pages and cross-product navigation.
+- [ ] **External:** Search Console sitemap error recheck; AdSense approval and ads.txt recognition pending. No active ads until approved, and do not alter otherwise working ads.txt.
+- **Privacy gate:** Articles/admin remain unlisted and noindex until launch. Private app data requires authorization; no personal data in analytics.
+
+
 ## Unlisted Technicade Guides and Articles Admin — released October 12
 
 - [x] [Services #91](https://github.com/technicadegaming/services/pull/91) MERGED SHA `b83d11cdf3d00cd7b38fbb8c109cc497ccf26c2c`; four researched arcade/FEC guides added to `resources/` and `resources/articles.json`. GitHub Pages deploy, static-site CI and live crawler 5/5 HTTP 200 passed.
