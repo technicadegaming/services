@@ -1,4 +1,15 @@
 # Technicade Labs — Master Tracker and Next-Chat Handoff
+
+## Unlisted Technicade Guides and Articles Admin — released October 12
+
+- [x] [Services #91](https://github.com/technicadegaming/services/pull/91) MERGED SHA `b83d11cdf3d00cd7b38fbb8c109cc497ccf26c2c`; four researched arcade/FEC guides added to `resources/` and `resources/articles.json`. GitHub Pages deploy, static-site CI and live crawler 5/5 HTTP 200 passed.
+- [x] All article pages and the Resources directory remain intentionally **noindex/nofollow**; hub unlinked from homepage and absent from `sitemap.xml`. Direct URL access is possible (not password protected).
+- [x] [Anvil #126](https://github.com/technicadegaming/anvil/pull/126) MERGED; `https://tools.technicade.tech/articles-admin` is the owner-only draft editor, with Sign out added. Vercel latest Production READY. Require exact verified `technicadegaming@gmail.com` (not `.co` typo).
+- [x] Nine unpublished private Supabase article drafts (including staged topics) retained. Admin Save draft is not public publishing.
+- [ ] Before launch: signed-in draft save/load/logout and nonowner-denial QA; AI generation API/provider test; accurate vendor-specific content and proper citation audit; staging publish workflow credential/configuration; test FB share previews, mobile UX and organic referral events.
+- [ ] Only after approval: remove noindex, add hub/articles to sitemap and site nav, enable public article sharing. Do not enable AdSense just because Guides exist.
+- Site hub: https://technicade.tech/resources.html ; article source: https://github.com/technicadegaming/services/tree/main/resources ; master tracker: https://github.com/technicadegaming/anvil/issues/93
+
 Updated: 2026-10-12
 Status definitions: MERGED = in GitHub main; USER-VERIFIED = confirmed by user's screenshots/browser; NEEDS QA = no reliable live test; BLOCKED = waiting on third party; IDEA = not implemented.
 
