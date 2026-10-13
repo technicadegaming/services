@@ -47,7 +47,7 @@ let warnings = 0;
 for (const target of targets) {
   let result = await request(target);
   // Retry transient upstream/network failures once. Do not retry missing pages.
-  if (!result.ok && !/^HTTP 4\\d\\d,/.test(result.detail)) {
+  if (!result.ok && !result.detail.startsWith("HTTP 4")) {
     await new Promise(resolve => setTimeout(resolve, 1000));
     result = await request(target);
   }
