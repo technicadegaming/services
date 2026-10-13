@@ -11,9 +11,8 @@ const targets = [
   { name: "Shift Check", url: "https://shiftcheck.technicade.tech/", required: true },
   { name: "Equipment QR", url: "https://equipmentqr.technicade.tech/", required: true },
   { name: "ExceptionDesk", url: "https://exceptiondesk.technicade.tech/", required: true },
-  // API-backed search is pending owner-supplied Google Places credentials.
-  // Keep the domain visible in monitoring without blocking the other apps.
-  { name: "WhatToDoNow (awaiting API setup)", url: "https://whattodonow.technicade.tech/", required: false },
+  // Its homepage must remain reachable even while API-backed search is not configured.
+  { name: "WhatToDoNow", url: "https://whattodonow.technicade.tech/", required: true },
 ];
 
 async function request(target) {
