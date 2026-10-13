@@ -1,1 +1,26 @@
-[]
+[
+  {
+    "slug": "intercard-iteller-plus-upsells",
+    "title": "Intercard iTeller Plus Upsells: Different Credit Offers for Different Packages",
+    "excerpt": "A practical guide to designing and testing package-specific credit upsells on Intercard iTeller Plus kiosks, with version-specific cautions.",
+    "category": "FEC operations · Intercard"
+  },
+  {
+    "slug": "cut-2-win-prize-release-early",
+    "title": "Cut 2 Win Giving Prizes Too Early? What to Check Beyond Calibration",
+    "excerpt": "For Cut 2 Win unexpectedly awarding high-value prizes, examine payout settings, hook and blade sensors, string setup, and test conditions before restocking.",
+    "category": "Arcade repair · Prize games"
+  },
+  {
+    "slug": "smart-mega-prize-error-09-cutter-stuck",
+    "title": "Smart Mega Prize Error 09 with Cutter Stuck: Safe Diagnostic Checklist",
+    "excerpt": "How to investigate a Smart Industries Mega Prize cutter that stays in the cut position with Error 09 without guessing the manufacturer's error-code definition.",
+    "category": "Arcade repair · Smart Industries"
+  },
+  {
+    "slug": "motion-shooter-arcade-game-revenue-evaluation",
+    "title": "Is a Motion-Based Arcade Shooter Worth Buying? How FEC Operators Can Judge Revenue",
+    "excerpt": "A practical way to assess guest appeal, utilization, earning potential, floor-space costs and maintenance before purchasing a motion shooter arcade game.",
+    "category": "FEC revenue · Game selection"
+  }
+]
