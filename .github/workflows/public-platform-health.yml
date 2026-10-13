@@ -28,3 +28,31 @@ jobs:
           node-version: '22'
       - name: Verify customer-facing HTTPS routes
         run: node scripts/check-technicade-public-health.mjs
+
+  report-outage:
+    # Only a scheduled/manual main-branch check may write an issue. PR code
+    # never receives issues:write and cannot create notifications.
+    if: ${{ always() && github.event_name != 'pull_request' && needs.http-health.result == 'failure' }}
+    needs: [http-health]
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - name: Create or update the open outage issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          title="Technicade public site health check failed"
+          run_url="https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+          existing="$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --search "$title in:title" --json number --jq '.[0].number // empty')"
+          body="An automated check of public Technicade HTTPS homepages failed. Review the exact results and affected domains at: $run_url. This check does not test sign-in, checkout, or external API functionality."
+          if [[ -n "$existing" ]]; then
+            gh issue comment "$existing" --repo "$GITHUB_REPOSITORY" --body "$body"
+          else
+            gh issue create --repo "$GITHUB_REPOSITORY" --title "$title" --body "$body" --label "bug" || \
+            gh issue create --repo "$GITHUB_REPOSITORY" --title "$title" --body "$body"
+          fi
