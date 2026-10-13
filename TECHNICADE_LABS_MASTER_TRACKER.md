@@ -2,6 +2,21 @@
 Updated: 2026-10-12
 Status definitions: MERGED = in GitHub main; USER-VERIFIED = confirmed by user's screenshots/browser; NEEDS QA = no reliable live test; BLOCKED = waiting on third party; IDEA = not implemented.
 
+## Cross-site organic Guides & Article Studio — October 12, 2026
+
+This is a **Technicade website acquisition project**, not a released Labs game or an AdSense approval milestone. Full articles stay freely accessible without login or reading quotas; optional paid Technicade Tools/credits are a separate later experiment.
+
+**Progress:**
+- [x] New public Guides hub, article directory/search, homepage navigation, sitemap and share-friendly article layout staged in **[services PR #89](https://github.com/technicadegaming/services/pull/89)** (**OPEN, NOT MERGED/LIVE** at last verification).
+- [x] Owner-only AI Article Studio with paste-question -> research -> edit/approve -> GitHub publish and copyable social reply staged in **[anvil PR #120](https://github.com/technicadegaming/anvil/pull/120)** (**OPEN, NOT DEPLOYED/TESTED**). Tool path proposed: `https://tools.technicade.tech/studio`.
+- [x] Marketing rule: answer the original Facebook/FEC operator question helpfully first; share the article link only where permitted; no automated group posting or intrusive paywall.
+- [ ] First Intercard iTeller Plus package-specific upsells guide is NOT published; exact configuration menus must be verified before making authoritative how-to claims.
+
+**To do:** Review/merge/deploy both PRs (public hub first); configure owner email plus server-only OpenAI/GitHub credentials; verify non-owner denial, publishing reliability, source accuracy, generated social metadata and mobile browser behavior; publish and source-check first guide; test public URL/Facebook share; track ethical referrals and conversions. Later explore optional interactive AI preview tied to Credits while keeping articles free.
+
+See **[Anvil master launch tracker #93](https://github.com/technicadegaming/anvil/issues/93)** for the detailed P0/P1/P2 launch checklist; avoid duplicating the full SaaS backlog here.
+
+
 ## AdSense follow-up — October 12, 2026 (user screenshot)
 - **AdSense Sites:** `technicade.tech` still shows **Getting ready** (review pending) and **ads.txt: Not found**; the definition in the tooltip is about the AdSense crawler's last crawl, not the GitHub repository state.
 - **Verified repo/public evidence:** root `ads.txt` is an ASCII/plain-text one-line record `google.com, pub-6059025745588128, DIRECT, f08c47fec0942fa0`. Existing production check run `38298060009` returned HTTPS HTTP 200 and `text/plain`; `robots.txt` allows crawling. An additional GitHub-run check now tests HTTP redirect and a Mediapartners-Google-like user agent.
