@@ -112,10 +112,64 @@ footer a:hover{text-decoration:underline}
 /* Video-led software discovery: scan by use case before reading full cards. */
 .tc-catalog-hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0 4px}
 .tc-catalog-hero-actions .tc-secondary-link{background:transparent;border:1px solid rgba(158,138,249,.5)}
-.tc-tool-picker{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:18px 0 19px}
+.tc-tool-picker{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:18px 0 19px}
 .tc-tool-picker>div{display:flex;flex-direction:column;gap:5px;padding:16px 17px;border-radius:14px;border:1px solid rgba(158,138,249,.32);background:rgba(105,87,171,.09)}
 .tc-tool-picker strong{font-size:14px;line-height:1.4}
 .tc-tool-picker span{color:var(--muted,#b9c5d8);font-size:12px;line-height:1.45}
 .tc-catalog-grid .status{max-width:100%;overflow-wrap:anywhere}
 @media(max-width:800px){.tc-tool-picker{grid-template-columns:1fr}.tc-tool-picker>div{padding:12px 15px}}
 @media(max-width:600px){.tc-catalog-hero-actions .button{width:100%;text-align:center}}
+
+
+/* Laptop + mobile recording pass — plain-language hierarchy and easier scanning. */
+@media(min-width:1100px){
+  .wrap{max-width:1240px!important}
+}
+body{font-size:16px}
+:where(.lead,.sub,.subhead,.description,.muted){line-height:1.7}
+:where(.card,.product,.service,.package,.step) p,
+:where(.card,.product,.service,.package,.step) li{font-size:max(14px,1em);line-height:1.65}
+:where(.sectionTitle,.section-header) p{font-size:14px;line-height:1.6}
+header :where(.navlink,nav a,.nav a){font-size:14px}
+.tc-start-here{margin:0 40px 24px;padding:20px;border:1px solid rgba(129,206,180,.32);border-radius:18px;background:linear-gradient(110deg,rgba(50,166,129,.11),rgba(113,83,192,.10))}
+.tc-start-here h2{margin:0 0 6px;font-size:22px}
+.tc-start-here>p{margin:0 0 14px;color:var(--muted,#b9c5d8);font-size:14px}
+.tc-start-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.tc-start-option{display:flex;flex-direction:column;gap:5px;min-height:106px;padding:14px 15px;border:1px solid rgba(158,138,249,.28);border-radius:14px;background:rgba(13,25,48,.68);text-decoration:none!important}
+.tc-start-option strong{font-size:14px;color:#f6f8ff}
+.tc-start-option span{font-size:12px;line-height:1.5;color:#bfcbe0}
+.tc-start-option b{margin-top:auto;font-size:11px;color:#bfb0ff}
+.tc-start-option:hover{border-color:#9e8af9;background:rgba(42,43,84,.62)}
+.tc-human-note{margin:15px 0 20px;padding:13px 15px;border-left:4px solid var(--tc-accent-two);border-radius:0 12px 12px 0;background:rgba(63,190,154,.08);color:var(--muted,#b9c5d8);font-size:14px;line-height:1.65}
+.tc-simple-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:4px 0 8px}
+.tc-simple-step{padding:15px;border:1px solid var(--line,rgba(255,255,255,.12));border-radius:14px;background:var(--panel,rgba(255,255,255,.05))}
+.tc-simple-step strong{display:block;font-size:14px;margin-bottom:4px}
+.tc-simple-step span{display:block;color:var(--muted,#b9c5d8);font-size:13px;line-height:1.55}
+.tc-for{display:block;margin:10px 0 0;font-size:12px;font-weight:800;color:#83ddc1}
+
+@media(max-width:760px){
+  body{font-size:16px}
+  :where(.wrap){padding-left:16px;padding-right:16px}
+  header :where(.top,.topbar){padding-top:10px;padding-bottom:10px}
+  header :where(nav,.nav){
+    border-top:1px solid var(--line,rgba(255,255,255,.12));
+    background:rgba(255,255,255,.025);
+    margin-top:2px;
+    padding:8px 2px 9px;
+    gap:6px;
+  }
+  header nav a{font-size:14px!important;padding:9px 11px!important;background:rgba(255,255,255,.045);border:1px solid var(--line,rgba(255,255,255,.10))}
+  .mobile-nav{margin-left:12px!important;margin-right:12px!important}
+  .mobile-nav summary{font-size:14px}
+  .mobile-nav-links{grid-template-columns:1fr 1fr;gap:6px}
+  .mobile-nav-links a{font-size:14px;line-height:1.3;padding:10px}
+  .tc-start-here{margin:0 18px 20px;padding:16px}
+  .tc-start-grid,.tc-simple-steps{grid-template-columns:1fr}
+  .tc-start-option{min-height:0}
+  :where(.hero){padding-top:38px!important}
+  :where(.headline,h1){line-height:1.05}
+}
+@media(max-width:430px){
+  .mobile-nav-links{grid-template-columns:1fr}
+  .tc-start-here{margin-left:14px;margin-right:14px}
+}
