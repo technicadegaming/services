@@ -114,8 +114,8 @@ footer a:hover{text-decoration:underline}
 .tc-catalog-hero-actions .tc-secondary-link{background:transparent;border:1px solid rgba(158,138,249,.5)}
 .tc-tool-picker{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:18px 0 19px}
 .tc-tool-picker>div{display:flex;flex-direction:column;gap:5px;padding:16px 17px;border-radius:14px;border:1px solid rgba(158,138,249,.32);background:rgba(105,87,171,.09)}
-.tc-tool-picker strong{font-size:14px;line-height:1.4}
-.tc-tool-picker span{color:var(--muted,#b9c5d8);font-size:12px;line-height:1.45}
+.tc-tool-picker strong{font-size:15px;line-height:1.4}
+.tc-tool-picker span{color:var(--muted,#b9c5d8);font-size:13px;line-height:1.5}
 .tc-catalog-grid .status{max-width:100%;overflow-wrap:anywhere}
 @media(max-width:800px){.tc-tool-picker{grid-template-columns:1fr}.tc-tool-picker>div{padding:12px 15px}}
 @media(max-width:600px){.tc-catalog-hero-actions .button{width:100%;text-align:center}}
