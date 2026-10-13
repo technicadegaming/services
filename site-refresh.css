@@ -112,7 +112,7 @@ footer a:hover{text-decoration:underline}
 /* Video-led software discovery: scan by use case before reading full cards. */
 .tc-catalog-hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0 4px}
 .tc-catalog-hero-actions .tc-secondary-link{background:transparent;border:1px solid rgba(158,138,249,.5)}
-.tc-tool-picker{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:18px 0 19px}
+.tc-tool-picker{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:18px 0 19px}
 .tc-tool-picker>div{display:flex;flex-direction:column;gap:5px;padding:16px 17px;border-radius:14px;border:1px solid rgba(158,138,249,.32);background:rgba(105,87,171,.09)}
 .tc-tool-picker strong{font-size:14px;line-height:1.4}
 .tc-tool-picker span{color:var(--muted,#b9c5d8);font-size:12px;line-height:1.45}
