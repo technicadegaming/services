@@ -82,3 +82,29 @@ body{padding-bottom:85px}
 #game-screen-play .actions{gap:5px}
 #game-screen-machines .machine{padding:11px}
 }
+
+/* v4 - single-purpose play screen, tuned from real Android recording */
+@media(max-width:780px){
+header{position:relative;border-bottom-width:1px;box-shadow:none}
+header .sub{display:none}
+header h1{font-size:17px}
+#stats{gap:5px}
+#stats .stat{border-radius:9px;background:#1e3656;box-shadow:none;min-height:44px}
+#game-screen-play>section.panel{padding:8px;background:#101e36;border:0;box-shadow:none}
+#game-screen-play>section.panel>h2{font-size:17px;margin-bottom:0}
+#game-screen-play #day{margin:0 0 4px}
+#game-screen-play #objective{font-size:11px;line-height:1.25;padding:6px 9px;margin:5px 0}
+#game-screen-play #selection{display:none}
+#game-screen-play .floor{min-height:310px;aspect-ratio:7/7.5;max-height:min(56vh,500px);padding:7px;gap:4px;border:5px solid #4c79a2;background:repeating-linear-gradient(0deg,#244663 0 18px,#264b69 19px 36px);box-shadow:inset 0 0 30px #0c1730,0 9px 0 #09182d,0 12px 16px #030c20}
+#game-screen-play .floor-cell{border-radius:7px;min-height:0}
+#game-screen-play .floor-cell.cabinet{border-radius:10px 10px 5px 5px}
+#game-screen-play .floor-cell.cabinet .floor-icon{font-size:clamp(21px,7vw,38px)}
+#game-screen-play .floor-cell.cabinet .floor-name{font-size:7px}
+#game-screen-play #floorActivity{font-size:11px;min-height:17px;margin:3px 0}
+#game-screen-play #dayReport{border:0;background:#1a3453;font-size:11px;line-height:1.25;padding:7px;margin:7px 0;max-height:54px;overflow:auto}
+#game-screen-play #open{font-size:20px;min-height:58px;border-radius:15px;letter-spacing:.3px}
+#game-screen-play #supply,#game-screen-play #advert,#game-screen-play #expand{display:none}
+#game-screen-play .actions{margin-top:6px}
+#game-screen-play #skipReplay{font-size:12px;margin:6px}
+#game-screen-play .floor-cell .visitor{font-size:25px}
+}
