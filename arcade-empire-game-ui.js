@@ -77,6 +77,31 @@ const satellitePanel=document.createElement('section');
 satellitePanel.className='panel satellite-panel';
 satellitePanel.innerHTML='<h2>🏪 Your arcade network</h2><p id="satelliteStatus" class="sub">Build your first arcade into a franchise.</p><button type="button" id="satelliteBuy">Open satellite arcade</button><p class="sub">Satellite locations are managed automatically for now and contribute profit when you operate a day. Your original arcade remains playable.</p>';
 screens.Build.append(satellitePanel);
+const network=document.createElement('div');network.className='arcade-network-list';satellitePanel.append(network);
+function updateNetwork(){
+ const count=s.locations+1;
+ network.replaceChildren();
+ for(let i=0;i<count;i++){
+  const el=document.createElement('article');el.className='arcade-location-card';
+  const daily=i?Math.round(55+Math.min(20,s.reputation)*3):null;
+  el.innerHTML='<strong>🏬 '+(i?'Satellite Arcade '+i:'Original Arcade')+'</strong><span>'+(i?'Managed remotely · estimated '+money(daily)+'/day':'Playable now · '+s.owned.length+' cabinets')+'</span>';
+  network.append(el);
+ }
+}
+const staffPanel=document.createElement('section');staffPanel.className='panel arcade-staff-team';
+staffPanel.innerHTML='<h2>👷 Maintenance team</h2><p class="sub">Hire technicians to service the most damaged machines automatically whenever you operate a day. Repairs consume cash and parts. Workers can reorder a parts pack when funds allow.</p><div class="arcade-staff-actions"><button type="button" id="hireArcadeWorker">Hire technician — $450</button><button type="button" id="reduceArcadeWorker">Release technician</button></div><p id="arcadeWorkerCount" role="status"></p>';
+screens.Staff.prepend(staffPanel);
+staffPanel.querySelector('#hireArcadeWorker').addEventListener('click',()=>hireWorker());
+staffPanel.querySelector('#reduceArcadeWorker').addEventListener('click',()=>fireWorker());
+function updateStaffUI(){
+ staffPanel.querySelector('#arcadeWorkerCount').textContent=s.workers+' hired · '+(s.staffOn?'active':'shifts paused')+' · $24/day per technician + repairs. '+(s.lastDay?s.lastDay.serviced+' repairs completed last day.':'');
+ staffPanel.querySelector('#hireArcadeWorker').disabled=s.workers>=8||s.cash<450;
+ staffPanel.querySelector('#reduceArcadeWorker').disabled=s.workers<1;
+ updateNetwork();
+}
+new MutationObserver(()=>requestAnimationFrame(updateStaffUI)).observe(document.getElementById('stats'),{childList:true});
+requestAnimationFrame(updateStaffUI);
+
 satellitePanel.querySelector('#satelliteBuy').addEventListener('click',()=>buyLocation());
 // The initial core render happens before the mobile shell exists.
 requestAnimationFrame(()=>render());
