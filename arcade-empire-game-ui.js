@@ -80,6 +80,46 @@ orderButton.hidden=s.parts>0;orderButton.disabled=s.cash<75;
 repairButton.textContent=repairButton.disabled?(s.parts<1?'Need spare parts':s.cash<price?'Not enough cash':'Repair unavailable'):'🔧 Repair now';
 modal.hidden=false;repairButton.disabled?(orderButton.hidden||orderButton.disabled?modal.querySelector('[data-cabinet-manage]'):orderButton).focus():repairButton.focus();}
 floor.addEventListener('click',event=>{const tile=event.target.closest('.floor-cell.needs-attention');if(!tile)return;const pos=Number(tile.dataset.cell),machine=s.owned.find(x=>x.pos===pos);if(!machine)return;priorFocus=tile;showIssue(machine.uid);});
+
+// Explain blockers in context instead of silently disabling actions.
+const help=document.createElement('aside');
+help.className='arcade-next-action';
+help.setAttribute('role','status');
+help.setAttribute('aria-live','polite');
+const objective=document.getElementById('objective');
+objective?.after(help);
+function updateNextAction(){
+ const broken=s.owned.filter(m=>m.condition<25).length;
+ const worn=s.owned.filter(m=>m.condition>=25&&m.condition<45).length;
+ const needParts=s.parts===0&&(broken||worn);
+ const full=s.owned.length>=s.capacity;
+ const expandMax=s.capacity>=33;
+ let message='',action='',fn=null;
+ if(needParts){
+  message='📦 Out of spare parts — '+broken+' broken and '+worn+' worn machines need service. Buy 3 parts for $75 under Build, then tap a warning on the floor to repair.';
+  action=s.cash>=75?'Buy 3 parts — $75':'Open Build for supplies';
+  fn=()=>{if(s.cash>=75)document.getElementById('supply')?.click();else select('Build')};
+ }else if(full){
+  message=expandMax?'🏁 Current arcade floor limit reached ('+s.owned.length+' cabinets). Additional games cannot be purchased until a larger-location expansion is developed. Existing games can still be repaired and upgraded.':'🏗 All '+s.capacity+' cabinet slots are occupied. Expand the floor under Build before purchasing another game.';
+  action=expandMax?'Manage cabinets':'Go to floor expansion';
+  fn=()=>select(expandMax?'Machines':'Build');
+ }else if(broken){
+  message='🔧 '+broken+' cabinet'+(broken===1?' is':'s are')+' broken and cannot earn. Tap a ! on the arcade floor to repair.';
+  action='View arcade';fn=()=>select('Play');
+ }
+ if(!message){help.hidden=true;return}
+ help.hidden=false;
+ let label=help.querySelector('span'),button=help.querySelector('button');
+ if(!label){label=document.createElement('span');button=document.createElement('button');button.type='button';help.append(label,button)}
+ if(label.textContent!==message)label.textContent=message;
+ if(button.textContent!==action)button.textContent=action;
+ button.onclick=fn;
+}
+let helpScheduled=false;
+function scheduleHelp(){if(helpScheduled)return;helpScheduled=true;requestAnimationFrame(()=>{helpScheduled=false;updateNextAction()})}
+new MutationObserver(scheduleHelp).observe(document.getElementById('stats'),{childList:true,subtree:true,characterData:true});
+scheduleHelp();
+
 if(report&&'MutationObserver'in window){let prior=report.textContent;let lastFeedbackAt=0;let activeFeedback=null;new MutationObserver(()=>{const next=report.textContent;if(next===prior)return;prior=next;if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;const amount=next.match(/\$[\d,]+\s+sales/);if(!amount)return;const now=Date.now();if(now-lastFeedbackAt<1600)return;lastFeedbackAt=now;if(activeFeedback)activeFeedback.remove();const pop=document.createElement('div');pop.className='game-feedback';pop.textContent='💰 '+amount[0].replace(' sales','')+' EARNED';document.body.append(pop);activeFeedback=pop;setTimeout(()=>{pop.remove();if(activeFeedback===pop)activeFeedback=null},1150);}).observe(report,{childList:true,subtree:true,characterData:true});}
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();})();
