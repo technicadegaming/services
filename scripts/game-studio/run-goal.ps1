@@ -31,20 +31,17 @@ try {
     $output = Join-Path $logs "session-$session-pass-$pass.txt"
     $report = Join-Path $logs "session-$session-pass-$pass-result.txt"
     $prompt = @"
-Read AGENTS.md, docs/game-studio/backlog.md, and docs/game-studio/registry.json.
-Goal: FINISH the Arcade Empire visual simulation milestone rather than one isolated edit.
-Acceptance: (1) animated responsive arcade floor showing owned machines,
-(2) customers visibly walking and interacting with machines, with behavior consistent with the daily economy,
-(3) working visual condition/popularity/earnings feedback, (4) desktop/mobile usability,
-(5) existing local save compatibility, (6) automated tests updated and passing.
-This is pass $pass of at most $MaxPasses, with approximately $remaining minutes left in the overall session.
-Inspect uncommitted changes from earlier passes; build on them rather than overwriting them.
-Write and run tests. Fix failures. Do not claim full completion without verifying every criterion.
-NO changes to payments, Supabase, auth, hosting, secrets or other applications. Do not commit, push, merge, publish, or create PRs.
-Stay within the existing project and don't install new dependencies or make external network calls.
-Update this pass report at $report with first line exactly DONE if all criteria pass, otherwise INCOMPLETE,
-then list criteria completed, tests run, blockers, and remaining work.
-Keep going until the milestone is truly satisfied or this pass ends; do not stop after only one small edit unless blocked.
+Read and follow docs/arcade-empire/master-codex-directive.md as the FULL implementation specification, after reading AGENTS.md and the Game Studio backlog.
+This is Codex development pass $pass of a maximum of $MaxPasses in this session, with approximately $remaining minutes remaining.
+Continue the existing Arcade Empire project; pick the highest-value unfinished safe task in the master directive and progress tracker.
+IMPORTANT: Implement, test and fix multiple related features toward full milestone completion. Do not stop merely because you finished a plan or a small edit.
+Inspect uncommitted changes made by earlier passes, build on them safely, and do not overwrite working changes.
+Update docs/arcade-empire/development-progress.md and docs/arcade-empire/integration-needs.md as needed, including precise blockers for optional Supabase, Stripe or other external services.
+Do not modify external services or credentials, commit, push, merge, open PRs or deploy. No unapproved spending.
+Run regression tests, document browser testing limitations and preserve local saves. Do not mistake self-reported success for verification.
+Write a UTF-8 pass summary to this exact path: $report
+The FIRST LINE must be exactly DONE if the entire CURRENT milestone acceptance criteria are implemented and verified, or INCOMPLETE otherwise.
+Subsequent lines must list what changed, exact tests and results, remaining tasks and external-service blockers. If incomplete, propose the next safe task for the next pass.
 "@
     Report "Pass $pass/$MaxPasses running. Elapsed $([math]::Round($elapsed,1)) min. Detailed log: $output"
     # Prevent Windows PowerShell 5.1 from treating native stderr diagnostics as terminating errors.
