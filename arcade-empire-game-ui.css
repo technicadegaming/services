@@ -1,0 +1,45 @@
+/* Arcade Empire - visual game shell, original CSS art. Gameplay logic and saves unchanged. */
+:root{--game-bg:#09162e;--game-ink:#f5f8ff;--game-gold:#ffd775;--game-mint:#6bf4cf}
+html{scroll-behavior:smooth;scroll-padding-top:82px}
+body{background:radial-gradient(ellipse at 50% -160px,#263d73 0,#10172d 53%,#070f21 100%);color:var(--game-ink)}
+header{position:sticky;top:0;z-index:20;padding:10px max(12px,calc((100vw - 1200px)/2));background:linear-gradient(100deg,#162448ed,#102f45f5);border-bottom:2px solid #34e9d7;box-shadow:0 5px 25px #01071e9c;backdrop-filter:blur(12px)}
+header h1{font-size:clamp(19px,4vw,29px);font-weight:1000;letter-spacing:.5px;color:#ffda7f;text-shadow:0 2px 0 #842e85,0 0 18px #dd5ef07e}
+header .sub{color:#bde7f4}header #reset{background:transparent;border-color:#4d6a8c;font-size:12px}
+.wrap{max-width:1280px}#stats{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 10px}#stats .stat{min-width:110px;flex:1;border:1px solid #4b72a0;background:linear-gradient(150deg,#263f6a,#162744);border-radius:13px;padding:8px 12px;box-shadow:0 3px 0 #09132b}#stats .stat b{font-size:21px;margin-top:2px;color:#ffdd83}
+.columns{grid-template-columns:minmax(0,1.7fr) minmax(270px,.85fr);gap:12px;margin-top:10px}
+.panel{background:linear-gradient(145deg,#1d2d50,#101d36);border:1px solid #3a6091;box-shadow:0 6px 20px #020b2375}
+.columns>div:first-child>section.panel:first-child{border:2px solid #537bb2;box-shadow:0 10px 35px #010918a0;background:linear-gradient(150deg,#21365f,#102746 45%,#12203b)}
+.columns>div:first-child>section.panel:first-child>h2{font-weight:1000;font-size:clamp(22px,4vw,30px);color:#ffdc85;letter-spacing:.4px}
+#objective{border:1px solid #42a6bc;border-radius:12px;background:linear-gradient(100deg,#123d56,#164e64);font-size:13px;padding:10px 13px;margin-bottom:8px}
+#selection{font-size:12px;color:#c8e8fa}
+.floor{width:100%;max-width:900px;aspect-ratio:7/5;margin:12px auto;background:repeating-linear-gradient(0deg,transparent 0 58px,#33527655 59px 60px),repeating-linear-gradient(90deg,#204664 0 58px,#31567a 59px 60px);border:8px solid #47629a;border-bottom:14px solid #304774;border-radius:22px;gap:5px;padding:9px;box-shadow:inset 0 0 55px #07102b,0 13px 0 #09152f,0 15px 25px #010711}
+.floor-cell{min-height:44px;overflow:visible;isolation:isolate;border:1px solid #6484a488;background:linear-gradient(145deg,#2b4d71,#20334e);border-radius:8px;transition:transform .14s,box-shadow .14s}
+.floor-cell:focus-visible{outline:3px solid var(--game-gold);z-index:4}
+.floor-cell.cabinet{border:0;--neon:#c896ff;background:linear-gradient(150deg,var(--neon),#3c315e 65%);box-shadow:inset 0 2px 0 #fff8,inset 0 -8px 0 #111634,0 5px 0 #091026,0 9px 10px #0207159c;transform:translateY(-3px);border-radius:9px 9px 5px 5px}
+.floor-cell.cabinet:before{content:"";position:absolute;z-index:-1;inset:11% 9% 35%;border:2px solid #b0fafa;border-radius:6px;background:radial-gradient(circle,#406ba3,#090f2c);box-shadow:0 0 12px var(--neon)}
+.floor-cell.cabinet .floor-icon{font-size:clamp(20px,3vw,38px);filter:drop-shadow(0 2px 3px #000);text-shadow:0 0 7px #fafafa75}
+.floor-cell.cabinet .floor-name{position:absolute;bottom:6%;left:3%;right:3%;background:#070f28cf;border-radius:3px;font-size:clamp(6px,1vw,10px);padding:3px 1px;color:white}
+.floor-cell.cabinet .floor-meter{display:none}
+.floor-cell.cabinet.broken{filter:grayscale(.7);box-shadow:inset 0 -8px #341827,0 5px #230d20}
+.floor-cell.cabinet.selected{outline:4px solid #fff1a9;z-index:4}
+.floor-cell.entrance{background:linear-gradient(145deg,#34aa8a,#196d7a);border:2px solid #b0f5d7}
+.floor-cell .visitor{font-size:clamp(20px,3vw,32px);inset:0 auto auto 20%;z-index:3;filter:drop-shadow(0 3px 1px #000)}
+#floorActivity{min-height:24px;text-align:center;color:#8de8f5;font-weight:700}
+#open{font-size:18px;background:linear-gradient(180deg,#32c788,#0b8c83);color:#041e24;border:2px solid #b7ffe1;box-shadow:0 5px 0 #075150,0 9px 18px #02161b;text-shadow:none;padding:13px 20px}
+#open:active{transform:translateY(4px);box-shadow:0 1px 0 #075150}
+#dayReport{border-left:4px solid #ffd775;background:#223c59}
+#machines .machine{border:1px solid #5b6eab;background:linear-gradient(130deg,#273764,#182842);box-shadow:0 5px 0 #0a142c}
+.machine .cab{background:radial-gradient(ellipse,#3a5b92,#142344);border:1px solid #5476a8}
+.machine h3{color:#ffdd87}
+#market .marketitem,#upgrades .marketitem,#prizeStock .marketitem{border:1px solid #3c6487}
+button:not(.floor-cell){transition:filter .15s,transform .15s}button:not(.floor-cell):active{transform:scale(.97)}
+.game-dock{position:fixed;z-index:25;bottom:0;left:0;right:0;display:flex;justify-content:space-around;gap:4px;padding:7px max(7px,env(safe-area-inset-right)) calc(7px + env(safe-area-inset-bottom)) max(7px,env(safe-area-inset-left));background:#0e1930f2;border-top:2px solid #42e8d3;box-shadow:0 -5px 23px #030816ad;backdrop-filter:blur(12px)}
+.game-dock button{min-width:0;flex:1;min-height:51px;padding:5px 2px;border:1px solid #496d93;background:#1d3559;border-radius:11px;font-size:11px;line-height:1.35;color:#e4f2ff}
+.game-dock button[aria-current=true]{background:#215f69;border-color:#74fde0;color:#fff}
+.game-dock button .nav-icon{display:block;font-size:21px}
+.game-feedback{position:fixed;left:50%;top:26%;transform:translateX(-50%);z-index:60;pointer-events:none;font-size:25px;font-weight:1000;color:#ffdf82;text-shadow:0 3px 2px #000,0 0 16px #ffa;animation:reward-pop 1.45s both}
+@keyframes reward-pop{0%{opacity:0;transform:translate(-50%,25px) scale(.7)}15%{opacity:1;transform:translate(-50%,0) scale(1.15)}80%{opacity:1}100%{opacity:0;transform:translate(-50%,-65px) scale(1)}}
+@media(min-width:900px){.game-dock{width:560px;left:50%;transform:translateX(-50%);border-left:1px solid #42e8d3;border-right:1px solid #42e8d3;border-radius:18px 18px 0 0}}
+body{padding-bottom:85px}
+@media(max-width:780px){header{padding:8px 10px}header h1{font-size:19px}header .sub{font-size:10px}header #reset{font-size:10px;padding:6px}#stats{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}#stats .stat{flex:0 0 100px;padding:8px}#stats .stat b{font-size:18px}.columns{display:flex;flex-direction:column}.columns>div:first-child>section.panel:first-child{padding:10px}.columns>div:first-child>section.panel:first-child>h2{font-size:22px}.floor{max-width:none;border-width:5px;border-bottom-width:9px;border-radius:13px;padding:5px;gap:3px;min-height:240px}.floor-cell{min-height:37px}.floor-cell.cabinet .floor-icon{font-size:clamp(19px,5vw,30px)}.floor-cell.cabinet .floor-name{font-size:7px}.floor-cell .visitor{font-size:21px}#objective{font-size:12px}.columns .panel{margin-top:12px}#open{width:100%;margin-bottom:7px}}
+@media(prefers-reduced-motion:reduce){.game-feedback{animation:none;display:none}.floor-cell,button{transition:none!important}}
