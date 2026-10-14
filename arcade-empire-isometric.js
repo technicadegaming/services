@@ -5,7 +5,7 @@
 'use strict';
 const floor=document.getElementById('floor');
 if(!floor)return;
-const COLS=7,ROWS=5;
+const COLS=9,ROWS=7;
 let scheduled=false;
 function layout(){
  scheduled=false;
@@ -24,7 +24,7 @@ function layout(){
  }else floor.style.removeProperty('height');
  const w=floor.clientWidth,h=floor.clientHeight;
  if(w<80||h<80)return;
- const tileW=Math.min((w-18)/6.1,(h-42)/3.3*1.55);
+ const tileW=Math.min((w-18)/8.2,(h-42)/5.2*1.55);
  const tileH=tileW*.52;
  const spanW=(COLS+ROWS-2)*tileW/2+tileW;
  const spanH=(COLS+ROWS-2)*tileH/2+tileH;
