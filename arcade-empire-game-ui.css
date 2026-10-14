@@ -163,3 +163,6 @@ header #reset{font-size:10px;min-height:30px}
 #game-screen-play #saveWarning:empty{display:none}
 #game-screen-play #floorActivity:empty{display:none}
 }
+
+/* Actionable gameplay blockers, shown directly below the current goal. */
+.arcade-next-action[hidden]{display:none!important}.arcade-next-action{display:flex;align-items:center;justify-content:space-between;gap:8px;background:#3e344b;border:1px solid #e8b66b;border-radius:10px;padding:8px 10px;margin:4px 0;color:#ffe6ac;font-size:12px;line-height:1.35}.arcade-next-action span{flex:1}.arcade-next-action button{flex-shrink:0;background:#9a6234;border-color:#e5bd7f;color:#fff;padding:8px;min-height:38px;font-size:11px}@media(max-width:780px){.arcade-next-action{padding:5px 7px;font-size:10px;gap:5px}.arcade-next-action button{padding:5px;min-height:32px;max-width:38%;white-space:normal}}
