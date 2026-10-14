@@ -22,6 +22,41 @@ toast('Operated '+days+' days. Net '+money(totalNet));},true);
 // Move interactive DOM nodes, preserving all IDs and game event listeners.
 screens.Play.append(main);
 const machines=document.getElementById('machines'),machineTitle=machines?.previousElementSibling;
+const manager=document.createElement('div');manager.className='arcade-management-tools';
+manager.innerHTML='<input id="arcadeMachineSearch" type="search" aria-label="Search machines" placeholder="Find a game..."><select id="arcadeMachineFilter" aria-label="Machine filter"><option value="all">All machines</option><option value="broken">Broken</option><option value="worn">Needs repair</option><option value="healthy">Healthy</option></select><button type="button" id="arcadeRepairAll">🔧 Repair available</button><small id="arcadeRepairSummary"></small>';
+screens.Machines.append(manager);
+let machineSearch='',machineFilter='all';
+function filterMachineCards(){
+ if(!machines)return;
+ let visible=0;
+ for(const card of machines.querySelectorAll('.machine')){
+  const name=(card.querySelector('h3')?.textContent||'').toLowerCase();
+  const tag=card.querySelector('.tag')?.textContent||'';
+  const condition=Number((tag.match(/(\\d+)%/)||[])[1]);
+  const matches=(!machineSearch||name.includes(machineSearch))&&(machineFilter==='all'||(machineFilter==='broken'&&condition<25)||(machineFilter==='worn'&&condition<45)||(machineFilter==='healthy'&&condition>=45));
+  card.hidden=!matches;if(matches)visible++;
+ }
+ const summary=manager.querySelector('#arcadeRepairSummary');
+ const actionable=s.owned.filter(m=>m.condition<100).length;
+ summary.textContent=visible+' shown · '+actionable+' need servicing · '+s.parts+' parts';
+ const button=manager.querySelector('#arcadeRepairAll');
+ button.disabled=!s.parts||s.cash<(s.upgrades.includes('tools')?38:50)||!actionable;
+}
+manager.querySelector('#arcadeMachineSearch').addEventListener('input',e=>{machineSearch=e.target.value.toLowerCase();filterMachineCards()});
+manager.querySelector('#arcadeMachineFilter').addEventListener('change',e=>{machineFilter=e.target.value;filterMachineCards()});
+manager.querySelector('#arcadeRepairAll').addEventListener('click',()=>{
+ const cost=s.upgrades.includes('tools')?38:50;
+ let count=0;
+ for(const machine of [...s.owned].sort((a,b)=>a.condition-b.condition)){
+  if(s.parts<1||s.cash<cost)break;
+  if(machine.condition>=100)continue;
+  repair(machine.uid);count++;
+ }
+ toast(count?'Serviced '+count+' machines.':'Need cash and spare parts to repair.');
+ filterMachineCards();
+});
+new MutationObserver(()=>requestAnimationFrame(filterMachineCards)).observe(machines,{childList:true});
+
 if(machineTitle?.tagName==='H3')screens.Machines.append(machineTitle);
 if(machines)screens.Machines.append(machines);
 for(const el of [document.getElementById('analyticsTitle')?.closest('section'),document.getElementById('cashFlowTitle')?.closest('section')])if(el)screens.Reports.append(el);
