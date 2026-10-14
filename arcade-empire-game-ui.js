@@ -93,14 +93,14 @@ function updateNextAction(){
  const worn=s.owned.filter(m=>m.condition>=25&&m.condition<45).length;
  const needParts=s.parts===0&&(broken||worn);
  const full=s.owned.length>=s.capacity;
- const expandMax=s.capacity>=33;
+ const expandMax=s.capacity>=50;
  let message='',action='',fn=null;
  if(needParts){
   message='📦 Out of spare parts — '+broken+' broken and '+worn+' worn machines need service. Buy 3 parts for $75 under Build, then tap a warning on the floor to repair.';
   action=s.cash>=75?'Buy 3 parts — $75':'Open Build for supplies';
   fn=()=>{if(s.cash>=75)document.getElementById('supply')?.click();else select('Build')};
  }else if(full){
-  message=expandMax?'🏁 Current arcade floor limit reached ('+s.owned.length+' cabinets). Additional games cannot be purchased until a larger-location expansion is developed. Existing games can still be repaired and upgraded.':'🏗 All '+s.capacity+' cabinet slots are occupied. Expand the floor under Build before purchasing another game.';
+  message=expandMax?'🏁 Current expanded arcade limit reached ('+s.owned.length+' cabinets). Additional games cannot be purchased until a larger-location expansion is developed. Existing games can still be repaired and upgraded.':'🏗 All '+s.capacity+' cabinet slots are occupied. Expand the floor under Build before purchasing another game.';
   action=expandMax?'Manage cabinets':'Go to floor expansion';
   fn=()=>select(expandMax?'Machines':'Build');
  }else if(broken){
