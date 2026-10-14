@@ -3,6 +3,8 @@ on:
   pull_request:
     paths:
       - 'arcade-empire.html'
+      - 'arcade-empire.js'
+      - 'arcade-empire.css'
       - 'labs.html'
       - 'scripts/game-studio/**'
       - '.github/workflows/arcade-empire-qa.yml'
