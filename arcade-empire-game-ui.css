@@ -191,3 +191,19 @@ header #reset{font-size:10px;min-height:30px}
 .arcade-management-tools button{background:#137d76}
 .arcade-management-tools small{color:#c1d9e9}
 @media(max-width:780px){.arcade-management-tools{padding:8px}.arcade-management-tools input{min-width:115px}}
+
+/* v14: room layout reflects actual construction and fits at 100% desktop zoom */
+#floor.iso-floor .floor-cell.locked{opacity:.16!important;filter:grayscale(1)!important;pointer-events:none!important}
+#floor.iso-floor .floor-cell.locked:before{background:#142238!important;border-color:#334154!important}
+.arcade-network-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:13px}
+.arcade-location-card{display:grid;gap:8px;padding:14px;border:1px solid #365877;border-radius:12px;background:linear-gradient(135deg,#172d49,#13213d)}
+.arcade-location-card strong{font-size:15px}.arcade-location-card span{font-size:12px;color:#b7d5e4}
+.arcade-staff-actions{display:flex;gap:9px;flex-wrap:wrap;margin:10px 0}
+@media(min-width:1000px){
+ .wrap{padding-top:10px!important}
+ #game-screen-play #floor.iso-floor{height:clamp(255px,41vh,490px)!important;min-height:255px!important;margin:5px auto 8px!important}
+ #game-screen-play>section.panel{padding:10px 18px!important}
+ #game-screen-play .actions:has(#open){margin:4px auto!important}
+ #game-screen-play #dayReport{max-height:47px;overflow:auto}
+ .game-dock button{min-height:44px}
+}
