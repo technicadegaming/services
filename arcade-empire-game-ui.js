@@ -5,21 +5,21 @@ if(!floor||!open||!wrap||!columns)return;
 const main=floor.closest('section.panel');
 const find=id=>document.getElementById(id)?.closest('section.panel');
 const screenWrap=document.createElement('div');screenWrap.className='game-screens';columns.before(screenWrap);
-const screens={};for(const name of ['Play','Machines','Build','Staff','Goals']){const s=document.createElement('section');s.className='game-screen';s.id='game-screen-'+name.toLowerCase();s.setAttribute('aria-label',name+' screen');s.hidden=name!=='Play';screenWrap.append(s);screens[name]=s;}
+const screens={};for(const name of ['Play','Machines','Build','Staff','Goals','Reports']){const s=document.createElement('section');s.className='game-screen';s.id='game-screen-'+name.toLowerCase();s.setAttribute('aria-label',name+' screen');s.hidden=name!=='Play';screenWrap.append(s);screens[name]=s;}
 const controls=open.parentElement;main.insertBefore(controls,document.getElementById('dayReport').nextSibling);
 // Move interactive DOM nodes, preserving all IDs and game event listeners.
 screens.Play.append(main);
 const machines=document.getElementById('machines'),machineTitle=machines?.previousElementSibling;
 if(machineTitle?.tagName==='H3')screens.Machines.append(machineTitle);
 if(machines)screens.Machines.append(machines);
-for(const el of [document.getElementById('analyticsTitle')?.closest('section'),document.getElementById('cashFlowTitle')?.closest('section')])if(el)screens.Machines.append(el);
+for(const el of [document.getElementById('analyticsTitle')?.closest('section'),document.getElementById('cashFlowTitle')?.closest('section')])if(el)screens.Reports.append(el);
 const plans=document.querySelector('.opening-plans');if(plans)screens.Staff.append(plans);
-for(const [name,ids] of [['Build',['market','prizeStock']],['Staff',['upgrades']],['Goals',['milestones','lastEvent','log','export']]]){
+for(const [name,ids] of [['Build',['market','prizeStock']],['Staff',['upgrades']],['Goals',['milestones','lastEvent','export']],['Reports',['log']]]){
 for(const id of ids){const el=document.getElementById(id);const panel=el?.closest('section.panel');if(panel&&panel!==main&&panel.parentElement!==screens[name])screens[name].append(panel);}
 }
 const premium=[...document.querySelectorAll('section.panel')].find(x=>x.textContent.includes('Future Premium Shop'));
 if(premium&&!screens.Goals.contains(premium))screens.Goals.append(premium);
-const labels={Play:'Run your arcade',Machines:'Manage machines',Build:'Grow your business',Staff:'Operations',Goals:'Milestones & progress'};
+const labels={Play:'Run your arcade',Machines:'Manage machines',Build:'Grow your business',Staff:'Operations',Goals:'Milestones & progress',Reports:'Business reports'};
 for(const [key,node] of Object.entries(screens)){if(key!=='Play'){const title=document.createElement('h2');title.className='screen-heading';title.textContent=labels[key];node.prepend(title);}}
 // Move secondary economy actions into Build; leave the primary Open button on Play.
 const buildActions=document.createElement('section');buildActions.className='panel quick-build-actions';buildActions.innerHTML='<h2>Supplies & expansion</h2><div class="actions"></div>';
@@ -27,10 +27,14 @@ for(const id of ['supply','advert','expand']){const button=document.getElementBy
 screens.Build.prepend(buildActions);
 columns.remove();
 const dock=document.createElement('nav');dock.className='game-dock';dock.setAttribute('aria-label','Game screens');
-const choices=[['🎮','Play'],['🕹️','Machines'],['🛒','Build'],['🔧','Staff'],['🏆','Goals']];
+const choices=[['🎮','Play'],['🕹️','Machines'],['🛒','Build'],['🔧','Staff'],['🏆','Goals'],['📊','Reports']];
 function select(name){for(const [key,node] of Object.entries(screens))node.hidden=key!==name;for(const b of dock.querySelectorAll('button')){b.setAttribute('aria-current',String(b.dataset.screen===name));}window.scrollTo({top:0,behavior:'instant'});}
 for(const [icon,name] of choices){const b=document.createElement('button');b.type='button';b.dataset.screen=name;b.innerHTML='<span class="nav-icon" aria-hidden="true">'+icon+'</span>'+name;b.addEventListener('click',()=>select(name));dock.append(b);}
 document.body.append(dock);select('Play');
-const report=document.getElementById('dayReport');if(report&&'MutationObserver'in window){let prior=report.textContent;let lastFeedbackAt=0;let activeFeedback=null;new MutationObserver(()=>{const next=report.textContent;if(next===prior)return;prior=next;if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;const amount=next.match(/\$[\d,]+\s+sales/);if(!amount)return;const now=Date.now();if(now-lastFeedbackAt<1600)return;lastFeedbackAt=now;if(activeFeedback)activeFeedback.remove();const pop=document.createElement('div');pop.className='game-feedback';pop.textContent='💰 '+amount[0].replace(' sales','')+' EARNED';document.body.append(pop);activeFeedback=pop;setTimeout(()=>{pop.remove();if(activeFeedback===pop)activeFeedback=null},1150);}).observe(report,{childList:true,subtree:true,characterData:true});}
+const report=document.getElementById('dayReport');
+// Directly expose detailed results on the Reports screen, not inside the play viewport.
+if(report){const details=document.createElement('div');details.className='game-report-panel';details.innerHTML='<h2>Last day results</h2>';report.parentElement.insertBefore(details,report);details.append(report);screens.Reports.prepend(details);}
+// Tapping an unhealthy cabinet opens its relevant controls in Machines.
+floor.addEventListener('click',event=>{const tile=event.target.closest('.floor-cell.needs-attention');if(!tile)return;const status=document.getElementById('game-issue-status');if(status){status.textContent='⚠ Cabinet needs repair or maintenance. Open Machines to service it.';}},true);if(report&&'MutationObserver'in window){let prior=report.textContent;let lastFeedbackAt=0;let activeFeedback=null;new MutationObserver(()=>{const next=report.textContent;if(next===prior)return;prior=next;if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;const amount=next.match(/\$[\d,]+\s+sales/);if(!amount)return;const now=Date.now();if(now-lastFeedbackAt<1600)return;lastFeedbackAt=now;if(activeFeedback)activeFeedback.remove();const pop=document.createElement('div');pop.className='game-feedback';pop.textContent='💰 '+amount[0].replace(' sales','')+' EARNED';document.body.append(pop);activeFeedback=pop;setTimeout(()=>{pop.remove();if(activeFeedback===pop)activeFeedback=null},1150);}).observe(report,{childList:true,subtree:true,characterData:true});}
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();})();
