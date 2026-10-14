@@ -43,6 +43,19 @@ const choices=[['🎮','Play'],['🕹️','Machines'],['🛒','Build'],['🔧','
 function select(name){for(const [key,node] of Object.entries(screens))node.hidden=key!==name;for(const b of dock.querySelectorAll('button')){b.setAttribute('aria-current',String(b.dataset.screen===name));}window.scrollTo({top:0,behavior:'instant'});}
 for(const [icon,name] of choices){const b=document.createElement('button');b.type='button';b.dataset.screen=name;b.innerHTML='<span class="nav-icon" aria-hidden="true">'+icon+'</span>'+name;b.addEventListener('click',()=>select(name));dock.append(b);}
 document.body.append(dock);select('Play');
+// Size the floor from the actual viewport and the space reserved for the controls and dock.
+function fitPlayScreen(){
+ if(window.innerWidth>780){floor.style.removeProperty('height');return;}
+ const dockTop=dock.getBoundingClientRect().top;
+ const floorTop=floor.getBoundingClientRect().top;
+ const activity=document.getElementById('floorActivity');
+ const reserve=controls.getBoundingClientRect().height+(activity?.getBoundingClientRect().height||0)+24;
+ const available=Math.floor(dockTop-floorTop-reserve);
+ floor.style.height=Math.max(145,Math.min(510,available))+'px';
+}
+requestAnimationFrame(fitPlayScreen);
+window.addEventListener('resize',fitPlayScreen);
+window.addEventListener('orientationchange',()=>requestAnimationFrame(fitPlayScreen));
 const report=document.getElementById('dayReport');
 // Directly expose detailed results on the Reports screen, not inside the play viewport.
 if(report){const details=document.createElement('div');details.className='game-report-panel';details.innerHTML='<h2>Last day results</h2>';report.parentElement.insertBefore(details,report);details.append(report);screens.Reports.prepend(details);}
