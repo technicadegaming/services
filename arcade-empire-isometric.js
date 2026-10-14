@@ -6,9 +6,22 @@
 const floor=document.getElementById('floor');
 if(!floor)return;
 const COLS=7,ROWS=5;
-let scheduled=false,observing=false;
+let scheduled=false;
 function layout(){
  scheduled=false;
+ const dock=document.querySelector('.game-dock');
+ const controls=document.getElementById('open')?.parentElement;
+ if(window.innerWidth<=780&&dock&&controls&&!document.getElementById('game-screen-play')?.hidden){
+  const top=floor.getBoundingClientRect().top;
+  const dockTop=dock.getBoundingClientRect().top;
+  const controlHeight=controls.getBoundingClientRect().height;
+  const activity=document.getElementById('floorActivity');
+  const activityHeight=activity?.getBoundingClientRect().height||0;
+  const replay=document.getElementById('skipReplay');
+  const replayHeight=replay&&!replay.hidden?replay.getBoundingClientRect().height:0;
+  const room=Math.floor(dockTop-top-controlHeight-activityHeight-replayHeight-20);
+  floor.style.setProperty('height',Math.max(155,Math.min(600,room))+'px','important');
+ }else floor.style.removeProperty('height');
  const w=floor.clientWidth,h=floor.clientHeight;
  if(w<80||h<80)return;
  const tileW=Math.min((w-18)/6.1,(h-42)/3.3*1.55);
@@ -35,5 +48,7 @@ observer.observe(floor,{childList:true});
 if(typeof ResizeObserver!=='undefined')new ResizeObserver(schedule).observe(floor);
 else window.addEventListener('resize',schedule);
 window.addEventListener('orientationchange',schedule);
+window.addEventListener('resize',schedule);
+window.visualViewport?.addEventListener('resize',schedule);
 schedule();
 })();
