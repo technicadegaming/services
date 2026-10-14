@@ -1,15 +1,32 @@
-/* Game presentation shell: no game state, wallet, or save changes. */
-(()=>{'use strict';
-function init(){
-const floor=document.getElementById('floor'),open=document.getElementById('open');if(!floor||!open)return;
-const main=floor.closest('section.panel'),columns=document.querySelector('.columns');if(!main||!columns)return;
-const first=columns.children[0],second=columns.children[1];
+/* Mobile-first game navigation. Presentation only: do not alter simulation or saved data. */
+(()=>{'use strict';function init(){
+const floor=document.getElementById('floor'),open=document.getElementById('open'),wrap=document.querySelector('main.wrap'),columns=document.querySelector('.columns');
+if(!floor||!open||!wrap||!columns)return;
+const main=floor.closest('section.panel');
+const find=id=>document.getElementById(id)?.closest('section.panel');
+const screenWrap=document.createElement('div');screenWrap.className='game-screens';columns.before(screenWrap);
+const screens={};for(const name of ['Play','Machines','Build','Staff','Goals']){const s=document.createElement('section');s.className='game-screen';s.id='game-screen-'+name.toLowerCase();s.setAttribute('aria-label',name+' screen');s.hidden=name!=='Play';screenWrap.append(s);screens[name]=s;}
 const controls=open.parentElement;main.insertBefore(controls,document.getElementById('dayReport').nextSibling);
-const dock=document.createElement('nav');dock.className='game-dock';dock.setAttribute('aria-label','Game sections');
-const getSection=(id)=>document.getElementById(id)?.closest('section')||document.getElementById(id);
-const tabs=[['🎮','Play',main],['🕹️','Machines',getSection('machines')],['🛒','Build',getSection('market')],['🔧','Staff',getSection('upgrades')],['🏆','Goals',getSection('milestones')]];
-tabs.forEach(([icon,name,target])=>{if(!target)return;const btn=document.createElement('button');btn.type='button';btn.innerHTML='<span class="nav-icon" aria-hidden="true">'+icon+'</span>'+name;btn.setAttribute('aria-label','Go to '+name);btn.addEventListener('click',()=>{dock.querySelectorAll('button').forEach(b=>b.removeAttribute('aria-current'));btn.setAttribute('aria-current','true');target.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});});dock.append(btn)});dock.firstElementChild?.setAttribute('aria-current','true');document.body.append(dock);
-const outcome=document.getElementById('dayReport');if(outcome&&'MutationObserver' in window){let started=false;new MutationObserver(()=>{if(!started){started=true;return;}if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;const t=outcome.textContent||'';const m=t.match(/\$[\d,]+\s+sales/);if(!m)return;const pop=document.createElement('div');pop.className='game-feedback';pop.textContent='💰 '+m[0].replace(' sales','')+' EARNED!';document.body.append(pop);setTimeout(()=>pop.remove(),1500)}).observe(outcome,{childList:true,characterData:true,subtree:true});}
+// Move interactive DOM nodes, preserving all IDs and game event listeners.
+screens.Play.append(main);
+const machines=document.getElementById('machines'),machineTitle=machines?.previousElementSibling;
+if(machineTitle?.tagName==='H3')screens.Machines.append(machineTitle);
+if(machines)screens.Machines.append(machines);
+for(const el of [document.getElementById('analyticsTitle')?.closest('section'),document.getElementById('cashFlowTitle')?.closest('section')])if(el)screens.Machines.append(el);
+const plans=document.querySelector('.opening-plans');if(plans)screens.Staff.append(plans);
+for(const [name,ids] of [['Build',['market','prizeStock']],['Staff',['upgrades']],['Goals',['milestones','lastEvent','log','export']]]){
+for(const id of ids){const el=document.getElementById(id);const panel=el?.closest('section.panel');if(panel&&panel!==main&&panel.parentElement!==screens[name])screens[name].append(panel);}
 }
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
-})();
+const premium=[...document.querySelectorAll('section.panel')].find(x=>x.textContent.includes('Future Premium Shop'));
+if(premium&&!screens.Goals.contains(premium))screens.Goals.append(premium);
+const labels={Play:'Run your arcade',Machines:'Manage machines',Build:'Grow your business',Staff:'Operations',Goals:'Milestones & progress'};
+for(const [key,node] of Object.entries(screens)){if(key!=='Play'){const title=document.createElement('h2');title.className='screen-heading';title.textContent=labels[key];node.prepend(title);}}
+columns.remove();
+const dock=document.createElement('nav');dock.className='game-dock';dock.setAttribute('aria-label','Game screens');
+const choices=[['🎮','Play'],['🕹️','Machines'],['🛒','Build'],['🔧','Staff'],['🏆','Goals']];
+function select(name){for(const [key,node] of Object.entries(screens))node.hidden=key!==name;for(const b of dock.querySelectorAll('button')){b.setAttribute('aria-current',String(b.dataset.screen===name));}window.scrollTo({top:0,behavior:'instant'});}
+for(const [icon,name] of choices){const b=document.createElement('button');b.type='button';b.dataset.screen=name;b.innerHTML='<span class="nav-icon" aria-hidden="true">'+icon+'</span>'+name;b.addEventListener('click',()=>select(name));dock.append(b);}
+document.body.append(dock);select('Play');
+const report=document.getElementById('dayReport');if(report&&'MutationObserver'in window){let prior=report.textContent;new MutationObserver(()=>{const next=report.textContent;if(next===prior)return;prior=next;if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;const amount=next.match(/\$[\d,]+\s+sales/);if(!amount)return;const pop=document.createElement('div');pop.className='game-feedback';pop.textContent='💰 '+amount[0].replace(' sales','')+' EARNED';document.body.append(pop);setTimeout(()=>pop.remove(),1350);}).observe(report,{childList:true,subtree:true,characterData:true});}
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();})();
