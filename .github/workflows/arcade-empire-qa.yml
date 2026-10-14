@@ -1,0 +1,43 @@
+name: Arcade Empire QA
+on:
+  pull_request:
+    paths:
+      - 'arcade-empire.html'
+      - 'arcade-empire.js'
+      - 'arcade-empire.css'
+      - 'labs.html'
+      - 'scripts/game-studio/**'
+      - '.github/workflows/arcade-empire-qa.yml'
+  workflow_dispatch:
+  schedule:
+    - cron: '15 13 * * *'
+permissions:
+  contents: read
+jobs:
+  arcade-empire-static:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Arcade Empire source checks
+        run: python3 scripts/game-studio/check_arcade_empire.py
+      - name: Verify public Labs routing (scheduled checks only)
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        run: |
+          python3 - <<'PY'
+          import urllib.request,sys
+          urls=['https://technicade.tech/labs.html','https://technicade.tech/arcade-empire.html']
+          failed=[]
+          for url in urls:
+              try:
+                  req=urllib.request.Request(url,headers={'User-Agent':'TechnicadeGameStudioQA/1.0'})
+                  with urllib.request.urlopen(req,timeout=20) as resp:
+                      content=resp.read(600000).decode('utf-8','replace')
+                      good=resp.status==200 and ('Arcade Empire' in content or 'ARCADE EMPIRE' in content)
+                      print(url,resp.status,'Content check:',good)
+                      if not good:failed.append(url)
+              except Exception as e:
+                  print(url,type(e).__name__,str(e))
+                  failed.append(url)
+          sys.exit(bool(failed))
+          PY

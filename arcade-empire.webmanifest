@@ -1,0 +1,19 @@
+{
+  "id": "/arcade-empire.html",
+  "name": "Arcade Empire by Technicade Labs",
+  "short_name": "Arcade Empire",
+  "description": "Build, manage and grow your own arcade.",
+  "start_url": "/arcade-empire.html",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#090f24",
+  "theme_color": "#10142b",
+  "icons": [
+    {
+      "src": "/arcade-empire-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

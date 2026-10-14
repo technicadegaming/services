@@ -1,0 +1,22 @@
+/* Isometric arcade view: presentation-only; original game state and event handlers remain authoritative. */
+#floor.iso-floor{position:relative!important;display:block!important;overflow:hidden;isolation:isolate;contain:layout paint;background:radial-gradient(ellipse at 50% 49%,#29446c 0%,#111d3a 67%,#090f24 100%)!important;border:2px solid #527a9b!important;border-radius:17px!important;box-shadow:inset 0 0 38px #020817,0 6px 0 #081124!important;padding:0!important;gap:0!important;touch-action:manipulation}
+#floor.iso-floor:before{content:"";position:absolute;inset:5%;background:radial-gradient(ellipse,#74d4e414,transparent 65%);pointer-events:none}
+#floor.iso-floor .floor-cell{position:absolute!important;min-width:0!important;min-height:0!important;margin:0!important;padding:0!important;width:var(--tile-w)!important;height:var(--tile-h)!important;left:var(--left)!important;top:var(--top)!important;transform:none!important;border:0!important;border-radius:0!important;display:block!important;overflow:visible!important;background:transparent!important;box-shadow:none!important;filter:none!important;outline-offset:3px;contain:layout style;transition:none!important;cursor:pointer}
+#floor.iso-floor .floor-cell:before{content:"";position:absolute;inset:0;z-index:0;transform:none;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);background:linear-gradient(135deg,#38587a,#1b354d 62%,#163349);border:0!important;border-radius:0!important;box-shadow:none!important}
+#floor.iso-floor .floor-cell:nth-child(2n):before{background:linear-gradient(135deg,#40617f,#214260 65%,#19324b)}
+#floor.iso-floor .floor-cell.selected:before{background:#b1a663!important}
+#floor.iso-floor .floor-cell:focus-visible{outline:2px dashed #9df9e2!important}
+#floor.iso-floor .floor-cell.cabinet .floor-icon{position:absolute;z-index:3;left:25%;top:-38%;height:105%;width:54%;border:2px solid #a8eafa;border-radius:7px 7px 4px 4px;display:grid;place-items:center;background:linear-gradient(140deg,#1d3164,#11172a 55%,#080e1b);box-shadow:-6px 7px 0 #0b1126,0 9px 0 #0c1222,0 0 11px var(--neon,#ba8cf9);font-size:clamp(18px,3.5vw,30px)!important;line-height:1;filter:none!important;text-shadow:0 0 6px #ffffff99;pointer-events:none}
+#floor.iso-floor .floor-cell.cabinet .floor-icon:after{content:"";position:absolute;left:10%;right:10%;bottom:13%;height:6px;background:var(--neon,#a8bcff);border-radius:3px;box-shadow:0 0 8px var(--neon,#a8bcff)}
+#floor.iso-floor .floor-cell.cabinet .floor-name{display:none!important}
+#floor.iso-floor .floor-cell.cabinet .floor-meter{display:none!important}
+#floor.iso-floor .floor-cell.cabinet.broken .floor-icon{border-color:#d88591;background:linear-gradient(140deg,#413347,#1c1723);opacity:.8}
+#floor.iso-floor .floor-cell.needs-attention:after{content:"!";position:absolute;top:-55%;right:12%;z-index:7;width:20px;height:20px;line-height:16px;background:#ffca4f;color:#24150a;border:2px solid white;border-radius:50%;font-size:14px;font-weight:900;display:grid;place-items:center;pointer-events:none;box-shadow:0 2px 8px #0009}
+#floor.iso-floor .floor-cell.broken.needs-attention:after{background:#f06b78;color:white}
+#floor.iso-floor .floor-cell.entrance:before{background:linear-gradient(120deg,#2be1a4,#18797f)!important}
+#floor.iso-floor .floor-cell.entrance .floor-icon{position:absolute;inset:-5% 25% auto;font-size:clamp(20px,4vw,30px);filter:drop-shadow(0 2px #001b25)}
+#floor.iso-floor .floor-cell.entrance .floor-name{display:block!important;position:absolute;top:58%;left:0;right:0;text-align:center;background:none;font-size:9px;font-weight:800;white-space:nowrap;color:#eafffa}
+#floor.iso-floor .floor-cell .visitor{position:absolute!important;top:-35%!important;left:1%!important;right:auto!important;z-index:6;font-size:clamp(17px,4vw,27px)!important;filter:drop-shadow(0 3px 2px #000);pointer-events:none}
+#floor.iso-floor .floor-cell.cabinet.selected .floor-icon{border-color:#fff2a5;box-shadow:0 0 0 2px #ffe07d,0 0 20px #ffdc7d}
+@media(max-width:780px){#game-screen-play #floor.iso-floor{height:clamp(210px,calc(100dvh - 320px),570px)!important;min-height:210px!important;max-height:none!important;aspect-ratio:auto!important;margin:4px 0!important}#floor.iso-floor .floor-cell.cabinet .floor-icon{font-size:clamp(17px,5vw,26px)!important}}
+@media(prefers-reduced-motion:reduce){#floor.iso-floor *{animation:none!important}}

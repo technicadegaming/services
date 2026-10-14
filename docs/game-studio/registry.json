@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "portal": {
+    "domain": "technicade.tech",
+    "source_repository": "technicadegaming/services",
+    "page": "labs.html",
+    "hosting": "CNAME configured; actual live routing needs confirmation"
+  },
+  "games": [
+    {
+      "id": "arcade-empire",
+      "name": "Arcade Empire",
+      "source": "arcade-empire.html",
+      "url": "https://technicade.tech/arcade-empire.html",
+      "status": "improving",
+      "save": "localStorage only",
+      "monetization": "disabled",
+      "known_issues": [
+        "Live production URL 404 reported; investigate GitHub Pages deployment and routing",
+        "No server-validated account-based saves",
+        "Economy balancing and mobile interaction tests outstanding"
+      ]
+    },
+    {
+      "id": "phasebloom",
+      "name": "Phasebloom",
+      "source": "phasebloom.html",
+      "url": "https://technicade.tech/phasebloom.html",
+      "status": "testing"
+    },
+    {
+      "id": "steve-on-a-boat",
+      "name": "Steve on a Boat",
+      "source": "steve-on-a-boat.html",
+      "status": "inventory-needed"
+    },
+    {
+      "id": "chickens-vs-llamas",
+      "name": "Chickens vs Llamas",
+      "source": "chickens-vs-llamas.html",
+      "status": "inventory-needed"
+    },
+    {
+      "id": "rate-my-duck",
+      "name": "Rate My Duck",
+      "source": "rate-my-duck.html",
+      "status": "inventory-needed"
+    },
+    {
+      "id": "useless-job-simulator",
+      "name": "Useless Job Simulator",
+      "source": "useless-job-simulator.html",
+      "status": "inventory-needed"
+    }
+  ]
+}
