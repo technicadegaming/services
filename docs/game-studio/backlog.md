@@ -64,3 +64,12 @@ The owner authorizes development and tests on branches, but production publishin
 - PARTIAL: the new plans need broader comparative balance and human-play review alongside VIP stocking. Browser evidence uses emulated touch, not physical devices or a screen reader.
 - BLOCKED / unverified: read-only public game, Labs and GitHub Pages API requests remained inaccessible. Live HTTP status and Pages source are unknown. No external service, commit, PR or deployment was changed.
 - NEXT: compare opening-plan and VIP choices across different cabinet counts and longer play, then test touch and accessibility on physical devices. Obtain public route and Pages evidence from an owner-accessible network.
+
+## P1 next product track — Accounts, identity and ethical optional purchases (2026-10-14)
+- [x] Architecture and security planning: `docs/arcade-empire/accounts-and-currency-roadmap.md`.
+- [ ] Let player rename arcade location; add editable player display/username preview in local prototype without falsely implying account sync.
+- [ ] Deepen staff hiring/shift/wages, machine upgrades, multiple locations and earnable achievements.
+- [ ] Supabase Google OAuth, unique user handles, server-authoritative cross-device saves, conflict detection, player export/deletion — requires project credentials and reviewed RLS/migrations.
+- [ ] Separate earnable game cash from optional paid Empire Tokens and add user-friendly purchase confirmation and free alternatives.
+- [ ] Stripe test-mode token purchases, verified webhooks, idempotent wallet ledger, refunds/restoration, transaction integrity and age/consumer safeguards — design only until approved.
+- [ ] Installable PWA phone QA, service worker update strategy and real Android/iOS testing.
