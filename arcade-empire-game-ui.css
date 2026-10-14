@@ -43,3 +43,42 @@ button:not(.floor-cell){transition:filter .15s,transform .15s}button:not(.floor-
 body{padding-bottom:85px}
 @media(max-width:780px){header{padding:8px 10px}header h1{font-size:19px}header .sub{font-size:10px}header #reset{font-size:10px;padding:6px}#stats{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}#stats .stat{flex:0 0 100px;padding:8px}#stats .stat b{font-size:18px}.columns{display:flex;flex-direction:column}.columns>div:first-child>section.panel:first-child{padding:10px}.columns>div:first-child>section.panel:first-child>h2{font-size:22px}.floor{max-width:none;border-width:5px;border-bottom-width:9px;border-radius:13px;padding:5px;gap:3px;min-height:240px}.floor-cell{min-height:37px}.floor-cell.cabinet .floor-icon{font-size:clamp(19px,5vw,30px)}.floor-cell.cabinet .floor-name{font-size:7px}.floor-cell .visitor{font-size:21px}#objective{font-size:12px}.columns .panel{margin-top:12px}#open{width:100%;margin-bottom:7px}}
 @media(prefers-reduced-motion:reduce){.game-feedback{animation:none;display:none}.floor-cell,button{transition:none!important}}
+
+/* v3: real single-screen game navigation, uncluttered mobile play */
+.game-screens{width:100%;max-width:1020px;margin:0 auto}
+.game-screen[hidden]{display:none!important}
+.game-screen{min-width:0;animation:screen-in .16s ease-out}
+@keyframes screen-in{from{opacity:.6;transform:translateY(4px)}to{opacity:1;transform:none}}
+.game-screen>section.panel{margin:0 0 12px!important}
+.game-screen .screen-heading{font-size:22px;color:#ffe19b;margin:12px 2px}
+#game-screen-play>section.panel{padding:12px}
+#game-screen-play>section.panel>h2{font-size:20px;margin:0 0 2px}
+#game-screen-play #selection{margin:4px 0 7px;font-size:11px}
+#game-screen-play #day{font-size:11px;margin:2px 0}
+#game-screen-play #objective{margin:6px 0;font-size:12px;padding:8px}
+#game-screen-play #floorActivity{font-size:11px}
+#game-screen-play .floor{margin:9px auto 12px}
+#game-screen-play .day-report{font-size:12px;margin:6px 0 12px}
+#game-screen-play>.panel .shopnote{font-size:11px}
+#game-screen-play .actions{margin-top:10px}
+#game-screen-machines>.machines{display:grid;gap:10px}
+#game-screen-machines .analytics{margin-bottom:12px}
+#game-screen-build>.panel,#game-screen-staff>.panel,#game-screen-goals>.panel{border-radius:15px}
+@media(max-width:780px){
+.wrap{padding:8px 8px 96px!important}
+#stats{margin-bottom:6px}
+#stats .stat{min-width:0;flex:1 0 0;padding:6px 7px;font-size:11px}
+#stats .stat:nth-child(n+4){display:none}
+#stats .stat b{font-size:17px}
+#game-screen-play>section.panel{padding:9px}
+#game-screen-play>section.panel>h2{font-size:19px}
+#game-screen-play .floor{width:100%;min-height:0;aspect-ratio:7/5}
+#game-screen-play .floor-cell{min-height:0}
+#game-screen-play .floor-cell.cabinet .floor-name{font-size:6px}
+#game-screen-play #open{min-height:54px}
+#game-screen-play #supply,#game-screen-play #advert,#game-screen-play #expand{font-size:11px;min-height:42px;padding:6px}
+#game-screen-play .shopnote{display:none}
+#game-screen-play #dayReport{line-height:1.4}
+#game-screen-play .actions{gap:5px}
+#game-screen-machines .machine{padding:11px}
+}
