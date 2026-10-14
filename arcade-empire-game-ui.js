@@ -21,6 +21,10 @@ const premium=[...document.querySelectorAll('section.panel')].find(x=>x.textCont
 if(premium&&!screens.Goals.contains(premium))screens.Goals.append(premium);
 const labels={Play:'Run your arcade',Machines:'Manage machines',Build:'Grow your business',Staff:'Operations',Goals:'Milestones & progress'};
 for(const [key,node] of Object.entries(screens)){if(key!=='Play'){const title=document.createElement('h2');title.className='screen-heading';title.textContent=labels[key];node.prepend(title);}}
+// Move secondary economy actions into Build; leave the primary Open button on Play.
+const buildActions=document.createElement('section');buildActions.className='panel quick-build-actions';buildActions.innerHTML='<h2>Supplies & expansion</h2><div class="actions"></div>';
+for(const id of ['supply','advert','expand']){const button=document.getElementById(id);if(button)buildActions.querySelector('.actions').append(button);}
+screens.Build.prepend(buildActions);
 columns.remove();
 const dock=document.createElement('nav');dock.className='game-dock';dock.setAttribute('aria-label','Game screens');
 const choices=[['🎮','Play'],['🕹️','Machines'],['🛒','Build'],['🔧','Staff'],['🏆','Goals']];
