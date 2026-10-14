@@ -1,0 +1,40 @@
+name: Game Studio checks
+on:
+  pull_request:
+    paths:
+      - '*.html'
+      - 'docs/game-studio/**'
+      - '.github/workflows/game-studio-ci.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  static-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate registered game links and HTML
+        run: |
+          python3 - <<'PY'
+          import json,re,pathlib,sys
+          root=pathlib.Path('.')
+          reg=json.loads((root/'docs/game-studio/registry.json').read_text())
+          errors=[]
+          for game in reg['games']:
+              src=game['source']
+              path=root/src
+              if not path.is_file():
+                  errors.append('Missing game file: '+src)
+                  continue
+              text=path.read_text(encoding='utf-8')
+              if '<title>' not in text.lower() or '</html>' not in text.lower():
+                  errors.append('HTML shell incomplete: '+src)
+          labs=(root/'labs.html').read_text(encoding='utf-8')
+          for game in reg['games']:
+              if game['source'] not in labs:
+                  errors.append('Labs index missing link: '+game['source'])
+          for e in errors:print('ERROR',e)
+          print('Validated',len(reg['games']),'registered games.')
+          sys.exit(bool(errors))
+          PY
