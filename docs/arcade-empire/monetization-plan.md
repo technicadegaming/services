@@ -13,3 +13,6 @@ Entitlements would bind to an authenticated account, not local cash or a client 
 No paid random rewards, power boosts, forced ads, artificial scarcity, misleading discounts, or pressure targeted at children. Review age suitability, privacy notice, tax and consumer protection obligations with qualified owners before any test checkout or release. Actual willingness to pay, margins, support burden and legal clearance remain unverified.
 
 See `integration-needs.md` for test account, secret-name, schema and approval dependencies.
+
+## Additional requested monetization track — optional acceleration
+Player also wants the ability to buy premium in-game currency to speed up selected upgrades/unlocks. This is a **new planned option**, not implemented or enabled. Proposed Empire Tokens are distinct from earnable game cash, with clearly disclosed cost and benefit, reasonable limits, and free-play routes. Do not make advancement intentionally painful or sell randomized rewards. Grant and spend purchased tokens only through an authenticated, server-authoritative and audited ledger after a verified test-mode Stripe event; no direct browser-wallet writes. Refund/revocation and cross-device restoration require explicit tests before production. See `accounts-and-currency-roadmap.md`.
