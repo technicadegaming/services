@@ -61,13 +61,14 @@ Keep going until the milestone is truly satisfied or this pass ends; do not stop
     if (Test-Path $report) {
       $first = Get-Content $report -TotalCount 1
       Report "Reported status: $first"
-      if ($first -eq "DONE") { $done = $true; break }
+      if ($first -eq "DONE") { $done = $true }
     } else { Report "No completion report found; task remains unverified." }
     $testOutput = & py -3 scripts/game-studio/check_arcade_empire.py 2>&1
     $testExit = $LASTEXITCODE
     $testOutput | Out-File -FilePath (Join-Path $logs "session-$session-test-$pass.txt")
     Report "Regression tests exit code: $testExit"
-    if ($testExit -ne 0) { Report "Tests failed; next pass should fix. See test log." }
+    if ($testExit -ne 0) { $done = $false; Report "Tests failed; next pass should fix. See test log." }
+    if ($done -and $testExit -eq 0) { Report "Self-reported completion and source tests passed; browser review still required."; break }
   }
   $changes = @(git status --short)
   Report "Session finished; reported complete: $done; changed entries: $($changes.Count)."
