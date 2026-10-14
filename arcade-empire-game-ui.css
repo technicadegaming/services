@@ -170,3 +170,24 @@ header #reset{font-size:10px;min-height:30px}
 /* Bigger 9x7 isometric map: allow scaled cabinets in compact viewport. */
 #floor.iso-floor .floor-cell.cabinet .floor-icon{font-size:clamp(14px,3.1vw,27px)!important}
 @media(max-width:780px){#floor.iso-floor .floor-cell.cabinet .floor-icon{font-size:clamp(12px,4vw,24px)!important}#floor.iso-floor .floor-cell.needs-attention:after{width:16px;height:16px;font-size:11px;top:-45%;right:5%}}
+
+/* Desktop gameplay overhaul: use available display instead of a narrow mobile column. */
+@media(min-width:1000px){
+ .wrap{max-width:1760px!important;padding:18px 26px 105px!important}
+ .game-screens{max-width:1660px!important;width:100%!important}
+ #game-screen-play>section.panel{padding:20px 24px!important}
+ #game-screen-play>section.panel>h2{font-size:26px!important}
+ #game-screen-play #objective{max-width:none}
+ #game-screen-play #floor.iso-floor{max-width:none!important;width:min(100%,1300px)!important;height:clamp(490px,65vh,860px)!important;min-height:490px!important;aspect-ratio:auto!important;margin:12px auto!important}
+ #game-screen-play .actions:has(#open){max-width:850px;margin:12px auto!important}
+ #game-screen-machines .machines,#game-screen-machines>.machines{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))!important}
+ #game-screen-reports{max-width:1250px;margin:auto}
+ #game-screen-build{max-width:1300px;margin:auto}
+ .game-dock{width:min(740px,100%)!important}
+}
+.arcade-management-tools{display:flex;align-items:center;gap:9px;flex-wrap:wrap;background:#182c4b;border:1px solid #466b8c;border-radius:12px;padding:12px;margin:10px 0}
+.arcade-management-tools input,.arcade-management-tools select{background:#112340;color:white;border:1px solid #6896ad;border-radius:9px;padding:10px;min-height:43px}
+.arcade-management-tools input{flex:1;min-width:160px}
+.arcade-management-tools button{background:#137d76}
+.arcade-management-tools small{color:#c1d9e9}
+@media(max-width:780px){.arcade-management-tools{padding:8px}.arcade-management-tools input{min-width:115px}}
