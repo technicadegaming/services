@@ -126,3 +126,25 @@ header h1{font-size:17px}
 .cabinet-modal-actions{display:grid;gap:9px}
 .cabinet-modal-actions button{font-size:16px;padding:13px}
 .cabinet-modal-actions [data-cabinet-repair]:not(:disabled){background:#15997e}
+
+/* Play-first controls / installed app chrome */
+header a[href="labs.html"]{display:none}
+.days-choice{display:flex;align-items:center;justify-content:center;gap:8px;font-size:13px;font-weight:800;color:#dafbf3}
+.days-choice select{min-height:42px;padding:8px 12px;border:1px solid #78e4d7;border-radius:9px;background:#193b57;color:white;font:inherit}
+#game-screen-play #open{flex:1;margin:0;min-height:52px}
+#game-screen-play .actions:has(#open){display:flex;align-items:center;gap:8px;flex-wrap:nowrap;margin:7px 0}
+@media(max-width:780px){
+header{padding:5px 10px}
+header h1{font-size:16px}
+header #reset{font-size:10px;min-height:30px}
+#stats{margin-bottom:3px}
+#stats .stat{min-height:35px;padding:4px 6px}
+#game-screen-play>section.panel>h2{font-size:15px}
+#game-screen-play #objective{margin:3px 0;font-size:10px}
+#game-screen-play #day{font-size:10px}
+#game-screen-play .actions:has(#open){gap:5px;margin:3px 0}
+#game-screen-play .days-choice{font-size:10px;gap:4px;white-space:nowrap}
+#game-screen-play .days-choice select{min-height:43px;max-width:87px;padding:5px 3px;font-size:12px}
+#game-screen-play #open{min-height:43px;font-size:15px;padding:7px 5px;white-space:nowrap}
+#game-screen-play .floor{height:clamp(175px,calc(100dvh - 305px),525px);min-height:175px}
+}
