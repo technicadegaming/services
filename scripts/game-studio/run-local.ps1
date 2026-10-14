@@ -15,7 +15,16 @@ try {
   $current = (git branch --show-current).Trim()
   if ($current -ne $branch) { throw "Wrong branch: $current. Expected $branch." }
   # Fetch is read-only to local working files. Avoid unattended pull/rebase, push, merges, or deployment.
-  git fetch origin $branch 2>&1 | Out-File -Append $logFile
+  # Git writes fetch progress to stderr even on success; do not treat it as a PowerShell terminating error.
+  $previousErrorAction = $ErrorActionPreference
+  $ErrorActionPreference = "Continue"
+  try {
+    git fetch --quiet origin $branch 2>> $logFile
+    $fetchExit = $LASTEXITCODE
+  } finally {
+    $ErrorActionPreference = $previousErrorAction
+  }
+  if ($fetchExit -ne 0) { throw "Git fetch failed with exit code $fetchExit. See $logFile" }
   $task = @'
 Read AGENTS.md, docs/game-studio/backlog.md and docs/game-studio/registry.json.
 Run Arcade Empire source tests and inspect the highest-priority unblocked Arcade Empire task.
