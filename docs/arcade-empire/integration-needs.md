@@ -10,3 +10,9 @@ All items are proposals. No remote integration was executed in passes 1–6. Pro
 | Analytics provider (none selected) | Optional aggregate gameplay telemetry after privacy review; proposed event names and retention plan would live in `docs/arcade-empire/analytics-plan.md`. No environment variable chosen. | Would transmit usage data; cost and privacy implications unknown. No tracking added to Arcade Empire in this pass. | OPTIONAL design task; approval required before external integration. |
 
 Local save import/export and all game simulation are independent of these services. Clearing browser storage or changing devices still loses unsynced progress unless the player exports a backup.
+
+## Updated account and premium-wallet dependencies (2026-10-14)
+- Google OAuth requires identifying the correct Supabase project, establishing allowed callback URLs for production and separate Vercel playtests, and confirming the current Technicade auth implementation before changing settings.
+- Proposed migrations/RLS for player profiles, unique handles, named arcade locations, staff, achievements, authoritative save revisions, premium wallet/append-only ledger, Stripe entitlement and payment event logs. **No SQL executed.**
+- A purchased-currency wallet requires server-side game-action validation, signed Stripe test webhooks, idempotent events, reconciliation, spending restrictions, refund/dispute handling, account deletion/export and age/privacy review. No Stripe settings changed and no purchases enabled.
+- Detailed plan: `docs/arcade-empire/accounts-and-currency-roadmap.md`.
