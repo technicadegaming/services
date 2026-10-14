@@ -40,9 +40,22 @@ If the repository or tests are not ready, stop and report blockers without chang
   Write-Output "Starting Codex (no automatic Git publishing)" | Tee-Object -FilePath $logFile -Append
   # Invoke through PowerShell so Windows npm-installed codex.ps1 shims work correctly.
   # Prompt is passed as a single argument; output is captured for review.
-  & $cmd.Source exec --sandbox workspace-write --ephemeral $task *> (Join-Path $logs "output-$stamp.txt")
-  $resultCode = $LASTEXITCODE
+  $codexOutput = Join-Path $logs "output-$stamp.txt"
+  $previousErrorAction = $ErrorActionPreference
+  $ErrorActionPreference = "Continue"
+  try {
+    # Codex writes progress/version diagnostics to stderr; PowerShell 5.1
+    # can otherwise turn them into terminating NativeCommandError records.
+    & $cmd.Source exec --sandbox workspace-write --ephemeral $task *> $codexOutput
+    $resultCode = $LASTEXITCODE
+  } finally {
+    $ErrorActionPreference = $previousErrorAction
+  }
   "Codex exit code: $resultCode" | Tee-Object -FilePath $logFile -Append
+  if ($resultCode -ne 0) {
+    Write-Output "Codex did not finish successfully. Review $codexOutput" | Tee-Object -FilePath $logFile -Append
+    exit 1
+  }
   git status --short | Tee-Object -FilePath $logFile -Append
   Write-Output "Review results in $logs. Changes stay local; never auto-pushed." | Tee-Object -FilePath $logFile -Append
 } catch {
