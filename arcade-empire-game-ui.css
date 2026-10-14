@@ -108,3 +108,11 @@ header h1{font-size:17px}
 #game-screen-play #skipReplay{font-size:12px;margin:6px}
 #game-screen-play .floor-cell .visitor{font-size:25px}
 }
+
+/* Mobile viewport and machine service indicator */
+.floor-cell.needs-attention::after{content:'!';position:absolute;right:-5px;top:-8px;z-index:9;background:#ffc547;color:#20130d;border:2px solid #fff;border-radius:50%;width:22px;height:22px;display:grid;place-items:center;font-weight:bold;font-size:16px;pointer-events:none}
+.floor-cell.needs-attention.broken::after{background:#ee5967;color:white}
+.game-dock button{font-size:10px;min-width:0}
+.game-dock button .nav-icon{font-size:18px}
+.game-report-panel{padding:12px;border-radius:12px;background:#1b3452;margin-bottom:12px}
+@media(max-width:780px){.game-dock{gap:2px}.game-dock button{font-size:9px;padding:4px 1px;min-height:46px}#game-screen-play .floor{height:clamp(215px,calc(100dvh - 330px),530px);min-height:215px;max-height:none;aspect-ratio:auto;grid-template-rows:repeat(5,minmax(0,1fr));margin:7px auto}#game-screen-play #open{min-height:49px;font-size:17px}#game-screen-play>section.panel{padding:6px}#game-screen-play .floor-cell.cabinet .floor-name{display:none}#game-screen-play .floor-cell.cabinet .floor-icon{font-size:clamp(18px,5vw,33px)}}
