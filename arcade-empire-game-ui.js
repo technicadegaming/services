@@ -7,7 +7,7 @@ const find=id=>document.getElementById(id)?.closest('section.panel');
 const screenWrap=document.createElement('div');screenWrap.className='game-screens';columns.before(screenWrap);
 const screens={};for(const name of ['Play','Machines','Build','Staff','Goals','Reports']){const s=document.createElement('section');s.className='game-screen';s.id='game-screen-'+name.toLowerCase();s.setAttribute('aria-label',name+' screen');s.hidden=name!=='Play';screenWrap.append(s);screens[name]=s;}
 const controls=open.parentElement;
-main.insertBefore(controls,floor);
+main.insertBefore(controls,document.getElementById('floorActivity'));
 const daysControl=document.createElement('label');daysControl.className='days-choice';daysControl.textContent='Operate for ';
 const daysSelect=document.createElement('select');daysSelect.setAttribute('aria-label','Number of business days');
 for(const n of [1,5,10,50,100]){const opt=document.createElement('option');opt.value=String(n);opt.textContent=n+' '+(n===1?'day':'days');daysSelect.append(opt);}
