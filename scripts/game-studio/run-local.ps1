@@ -28,9 +28,12 @@ Summarize changed files, test results, risks and next steps.
 If the repository or tests are not ready, stop and report blockers without changing files.
 '@
   $cmd = Get-Command codex -ErrorAction Stop
-  Write-Output "Starting Codex (read/write restricted to workspace; no Git publishing)" | Tee-Object -FilePath $logFile -Append
-  $p = Start-Process -FilePath $cmd.Source -ArgumentList @("exec","--sandbox","workspace-write","--ephemeral",$task) -Wait -PassThru -NoNewWindow -RedirectStandardOutput (Join-Path $logs "stdout-$stamp.txt") -RedirectStandardError (Join-Path $logs "stderr-$stamp.txt")
-  Write-Output "Codex exit code: $($p.ExitCode)" | Tee-Object -FilePath $logFile -Append
+  Write-Output "Starting Codex (no automatic Git publishing)" | Tee-Object -FilePath $logFile -Append
+  # Invoke through PowerShell so Windows npm-installed codex.ps1 shims work correctly.
+  # Prompt is passed as a single argument; output is captured for review.
+  & $cmd.Source exec --sandbox workspace-write --ephemeral $task *> (Join-Path $logs "output-$stamp.txt")
+  $resultCode = $LASTEXITCODE
+  "Codex exit code: $resultCode" | Tee-Object -FilePath $logFile -Append
   git status --short | Tee-Object -FilePath $logFile -Append
   Write-Output "Review results in $logs. Changes stay local; never auto-pushed." | Tee-Object -FilePath $logFile -Append
 } catch {
