@@ -37,6 +37,15 @@ for(const [key,node] of Object.entries(screens)){if(key!=='Play'){const title=do
 const buildActions=document.createElement('section');buildActions.className='panel quick-build-actions';buildActions.innerHTML='<h2>Supplies & expansion</h2><div class="actions"></div>';
 for(const id of ['supply','advert','expand']){const button=document.getElementById(id);if(button)buildActions.querySelector('.actions').append(button);}
 screens.Build.prepend(buildActions);
+// Satellite locations unlock after players have learned the core arcade economy.
+const satellitePanel=document.createElement('section');
+satellitePanel.className='panel satellite-panel';
+satellitePanel.innerHTML='<h2>🏪 Your arcade network</h2><p id="satelliteStatus" class="sub">Build your first arcade into a franchise.</p><button type="button" id="satelliteBuy">Open satellite arcade</button><p class="sub">Satellite locations are managed automatically for now and contribute profit when you operate a day. Your original arcade remains playable.</p>';
+screens.Build.append(satellitePanel);
+satellitePanel.querySelector('#satelliteBuy').addEventListener('click',()=>buyLocation());
+// The initial core render happens before the mobile shell exists.
+requestAnimationFrame(()=>render());
+
 columns.remove();
 const dock=document.createElement('nav');dock.className='game-dock';dock.setAttribute('aria-label','Game screens');
 const choices=[['🎮','Play'],['🕹️','Machines'],['🛒','Build'],['🔧','Staff'],['🏆','Goals'],['📊','Reports']];
