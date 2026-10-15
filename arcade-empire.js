@@ -132,7 +132,25 @@ function simulateDay(){const activeWorkers=s.staffOn?Math.max(s.upgrades.include
  const requiredOperating=35+s.owned.length*9+(staffed?35:0)+activeWorkers*24+(s.upgrades.includes('vip')?10:0)+eventCost+plan.cost;
  for(const m of [...s.owned].sort((a,b)=>a.condition-b.condition))if((m.autoService||staffed)&&m.condition<75&&serviced<Math.max(activeWorkers*3,staffed?3:0,m.autoService?1:0)){if(s.parts<1&&staffed&&s.cash+gross-requiredOperating-maintenance>=75+serviceCost){s.parts+=3;maintenance+=75;note('Maintenance team ordered 3 spare parts for $75.')}if(s.parts<1||s.cash+gross-requiredOperating-maintenance<serviceCost)continue;m.condition=Math.min(100,m.condition+40);s.parts--;maintenance+=serviceCost;serviced++;servicedUids.push(m.uid)}
  const operating=requiredOperating+maintenance;
- const branchNet=s.locations?Math.round(s.locations*(55+Math.min(20,s.reputation)*3))-(s.activeLocation?Math.round(55+Math.min(20,s.reputation)*3):0):0;
+ // Each inactive arcade operates its actual saved machines; no passive flat income.
+ let branchNet=0;
+ for(let i=0;i<=s.locations;i++){
+  if(i===s.activeLocation)continue;
+  const branch=s.branches?.[i];if(!branch)continue;
+  const active=branch.owned.filter(m=>m.condition>=25);
+  const branchGross=active.reduce((sum,m)=>sum+Math.round(m.price*(2+Math.min(5,m.level))),0);
+  const crew=branch.staffOn?(branch.workers||0):0;
+  let branchMaintenance=0,done=0;
+  for(const machine of [...branch.owned].sort((a,b)=>a.condition-b.condition)){
+   machine.condition=Math.max(0,machine.condition-1-(machine.level>2?1:0));
+   if(crew>0&&machine.condition<65&&done<crew*2&&branch.parts>0){
+    machine.condition=Math.min(100,machine.condition+40);branch.parts--;branchMaintenance+=branch.upgrades.includes('tools')?38:50;done++;
+   }
+  }
+  const branchOperating=20+branch.owned.length*5+crew*24+branchMaintenance;
+  branchNet+=branchGross-branchOperating;
+ }
+
  const net=gross-operating+branchNet;let support=Math.max(0,-(s.cash+net));s.cash+=net+support;recordCash('Open day: '+money(gross)+' sales - '+money(operating)+' operating + '+money(branchNet)+' satellite net + '+money(support)+' support',net+support);s.total+=gross;s.daysPlayed++;s.day++;if(s.ads)s.ads--;
  const satisfaction=plays?Math.round(satisfactionTotal/plays*20):0;
  if(plays>0&&satisfaction>=50&&walkouts<count/2)s.reputation=Math.min(20,s.reputation+1);else if(plays===0||satisfaction<30||walkouts>count*.7)s.reputation=Math.max(1,s.reputation-1);
