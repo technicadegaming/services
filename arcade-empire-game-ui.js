@@ -86,7 +86,7 @@ function updateNetwork(){
   const data=current?s:s.branches?.[i];
   const n=data?.owned?.length??1;
   const header=document.createElement('strong');header.textContent='🏬 '+(i?'Satellite Arcade '+i:'Original Arcade');
-  const status=document.createElement('span');status.textContent=n+' cabinets · '+(data?.workers||0)+' technicians'+(current?' · Current location':'');
+  const status=document.createElement('span');const worn=(data?.owned||[]).filter(m=>m.condition<45).length;status.textContent=n+' cabinets · '+(data?.workers||0)+' technicians · '+worn+' need maintenance'+(current?' · Current location':' · Simulated daily');
   const button=document.createElement('button');button.type='button';button.textContent=current?'Managing this location':'Manage this arcade';button.disabled=current;
   button.addEventListener('click',()=>{switchLocation(i);select('Play')});
   el.append(header,status,button);network.append(el);
