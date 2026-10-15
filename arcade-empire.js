@@ -1,6 +1,6 @@
 'use strict';
 // All money and customer decisions happen here; the floor animation only replays results.
-const KEY='technicade_arcade_empire_v1', VERSION=4, COLS=9, ROWS=7, ENTRANCE=57;
+const KEY='technicade_arcade_empire_v1', VERSION=5, COLS=9, ROWS=7, ENTRANCE=57;
 const catalog=[
   {id:'pinball',name:'Cosmic Pinball',icon:'🚀',buy:200,earn:90,appeal:3,price:7,type:'skill'},
   {id:'racer',name:'Turbo Street',icon:'🏎️',buy:320,earn:135,appeal:4,price:9,type:'speed'},
@@ -40,7 +40,7 @@ function fresh(){return {version:VERSION,day:1,cash:850,parts:3,reputation:1,cap
 function accessibleTiles(){const capacity=typeof s==='undefined'||!s?50:s.capacity;const unlocked=Math.min(COLS*ROWS-1,Math.max(10,capacity+9));return Array.from({length:COLS*ROWS},(_,p)=>p).filter(p=>p!==ENTRANCE).sort((a,b)=>{const distance=p=>Math.abs(p%COLS-4)+Math.abs(Math.floor(p/COLS)-3);return distance(a)-distance(b)||a-b}).slice(0,unlocked)}
 function defaultPosition(used,owned=[]){for(const p of [12,21,30,14,23,32,10,28,5,40,50,...Array.from({length:COLS*ROWS},(_,i)=>i)])if(!used.has(p)&&p!==ENTRANCE&&accessibleTiles().includes(p)){const trial=[...owned,{pos:p}];if(trial.every(m=>routeTo(m.pos,trial)))return p}return -1}
 function migrate(raw){
-  if(!raw||typeof raw!=='object'||![1,2,3,4].includes(raw.version)||!Array.isArray(raw.owned))throw Error('Unsupported or damaged save');
+  if(!raw||typeof raw!=='object'||![1,2,3,4,5].includes(raw.version)||!Array.isArray(raw.owned))throw Error('Unsupported or damaged save');
   const base=fresh(), used=new Set(), uids=new Set();
   if(raw.owned.length>50)throw Error('Too many machines');
   const owned=[];for(const m of raw.owned){if(!m||!item(m.id)||!Number.isSafeInteger(m.uid)||m.uid<1||uids.has(m.uid))throw Error('Invalid machine');uids.add(m.uid);
@@ -52,7 +52,7 @@ function migrate(raw){
   state.upgrades=Array.isArray(raw.upgrades)?[...new Set(raw.upgrades.filter(id=>upgrades.some(u=>u.id===id)))]:[];
   state.staffOn=(state.upgrades.includes('staff')||state.workers>0)&&raw.staffOn!==false;
   state.activeLocation=integer(raw.activeLocation,0,state.locations,0);
-  state.branches=Array.isArray(raw.branches)?raw.branches.slice(0,5).map((b)=>({capacity:integer(b?.capacity,3,50,3),parts:integer(b?.parts,0,100000,3),workers:integer(b?.workers,0,8,0),staffOn:b?.staffOn===true,upgrades:Array.isArray(b?.upgrades)?b.upgrades.filter(id=>upgrades.some(u=>u.id===id)):[],owned:Array.isArray(b?.owned)?b.owned.filter(x=>x&&item(x.id)&&Number.isInteger(x.pos)&&x.pos>=0&&x.pos<63&&x.pos!==ENTRANCE).slice(0,50):[],market:Array.isArray(b?.market)?b.market.filter(id=>item(id)).slice(0,3):['claw','racer','shooter'],openingPlan:Object.hasOwn(openingPlans,b?.openingPlan)?b.openingPlan:'regular',prizeInventory:b?.prizeInventory||{stickers:0,plush:0}})):[];
+  state.branches=Array.isArray(raw.branches)?raw.branches.slice(0,6).map((b)=>({capacity:integer(b?.capacity,3,50,3),parts:integer(b?.parts,0,100000,3),workers:integer(b?.workers,0,8,0),staffOn:b?.staffOn===true,upgrades:Array.isArray(b?.upgrades)?b.upgrades.filter(id=>upgrades.some(u=>u.id===id)):[],owned:Array.isArray(b?.owned)?b.owned.filter(x=>x&&item(x.id)&&Number.isInteger(x.pos)&&x.pos>=0&&x.pos<63&&x.pos!==ENTRANCE).slice(0,50):[],market:Array.isArray(b?.market)?b.market.filter(id=>item(id)).slice(0,3):['claw','racer','shooter'],openingPlan:Object.hasOwn(openingPlans,b?.openingPlan)?b.openingPlan:'regular',prizeInventory:b?.prizeInventory||{stickers:0,plush:0}})):[];
   state.openingPlan=Object.hasOwn(openingPlans,raw.openingPlan)?raw.openingPlan:'regular';
   state.prizeInventory=Object.fromEntries(prizeCatalog.map(p=>[p.id,integer(raw.prizeInventory?.[p.id],0,1e6,0)]));
   state.prizeTicketsIssued=integer(raw.prizeTicketsIssued,0,1e9,0);
@@ -76,7 +76,7 @@ function migrate(raw){
 let s,saveWarning='',corruptRaw='',selection=null,floorFocus=10,animationTimer=null,visitors=[];
 function load(){let text;try{text=localStorage.getItem(KEY);if(!text)return fresh();return migrate(JSON.parse(text))}catch(e){corruptRaw=text||'';saveWarning='Saved progress could not be read. A new game is shown. Download the damaged save before your next action replaces it.';return fresh()}}
 s=load();
-function save(){try{localStorage.setItem(KEY,JSON.stringify(s));saveWarning=''}catch(e){saveWarning='Browser storage is unavailable. This session may not save.'}}
+function save(){try{if(Array.isArray(s.branches)){s.branches[s.activeLocation]=snapshotLocation()}localStorage.setItem(KEY,JSON.stringify(s));saveWarning=''}catch(e){saveWarning='Browser storage is unavailable. This session may not save.'}}
 function note(t){s.log.unshift('Day '+s.day+': '+t);s.log=s.log.slice(0,35)}
 function toast(t){const e=$('toast');e.textContent=t;e.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display='none',2600)}
 function award(id){if(!s.achievements.includes(id)){s.achievements.push(id);note('MILESTONE: '+goalDefs.find(g=>g.id===id).name+'.')}}
@@ -112,7 +112,7 @@ function stock(){const pool=catalog.filter(c=>!s.market.includes(c.id));while(s.
 function visitorChoice(person,loads=new Map()){const choices=[];for(const m of s.owned){if(m.condition<25||m.price>person.budget)continue;const path=routeTo(m.pos),wait=Math.floor((loads.get(m.uid)||0)/4);if(!path||path.length+wait>person.patience)continue;const c=item(m.id),typeBonus=c.type===person.favorite?4:0,pricePenalty=Math.max(0,m.price-c.price)*2;
  const score=c.appeal+m.level+typeBonus+Math.round(m.condition/25)+Math.max(0,9-path.length)-pricePenalty-wait*2+rand(3);if(score>0)choices.push({m,path,score,wait})}
  choices.sort((a,b)=>b.score-a.score);return choices[0]||null}
-function simulateDay(){const activeWorkers=s.staffOn?Math.max(s.upgrades.includes('staff')?1:0,s.workers):0,staffed=activeWorkers>0,plan=openingPlans[s.openingPlan];let eventBoost=1,eventCost=0,eventMessage='Normal business day';if(s.day>=s.nextEventDay){const event=rand(5);if(event===0){eventBoost=1.5;eventMessage='School field trip: curious new visitors.'}if(event===1){eventBoost=1.3;eventMessage='Local tournament brings extra players.'}if(event===2){eventCost=90;eventMessage='Electrical repair: $90 operating expense.'}if(event===3){s.parts+=2;eventMessage='Supplier delivers 2 bonus spare parts.'}if(event===4){eventBoost=.75;eventMessage='Rainstorm reduces foot traffic.'}s.nextEventDay=s.day+3+rand(3);s.lastEvent=eventMessage;note('EVENT: '+eventMessage)}
+function simulateDay(){const activeWorkers=s.staffOn?Math.max(s.upgrades.includes('staff')?1:0,s.workers):0,staffed=activeWorkers>0,plan=openingPlans[s.openingPlan];let eventBoost=1,eventCost=0,eventMessage='Normal business day';if(s.day>=s.nextEventDay){const event=rand(8);if(event===0){eventBoost=1.5;eventMessage='School field trip: curious new visitors.'}if(event===1){eventBoost=1.3;eventMessage='Local tournament brings extra players.'}if(event===2){eventCost=90;eventMessage='Electrical repair: $90 operating expense.'}if(event===3){s.parts+=2;eventMessage='Supplier delivers 2 bonus spare parts.'}if(event===4){eventBoost=.75;eventMessage='Rainstorm reduces foot traffic.'}if(event===5){eventBoost=1.75;eventCost=70;eventMessage='Birthday party booking! Guests spend more; hosting costs $70.'}if(event===6){eventBoost=1.55;eventCost=100;eventMessage='Arcade tournament! Entry traffic increases; prize budget $100.'}if(event===7){eventBoost=1.35;eventMessage='Weekend family promotion brings more customers.'}s.nextEventDay=s.day+3+rand(3);s.lastEvent=eventMessage;note('EVENT: '+eventMessage)}
  const prizeTraffic=s.upgrades.includes('vip')?(prizeCatalog.some(p=>s.prizeInventory[p.id]>0)?10:2):0;
  const count=Math.min(48,Math.max(6,Math.round((12+s.reputation*.7+s.owned.length*2+(s.upgrades.includes('lights')?5:0)+prizeTraffic+(s.ads?7:0)+plan.visitors)*eventBoost)));
  const timeline=[],transactions=new Set(),loads=new Map(),dayMachine=new Map(s.owned.map(m=>[m.uid,{uid:m.uid,plays:0,sales:0}]));let gross=0,plays=0,walkouts=0,queued=0,satisfactionTotal=0,prizeTickets=0,prizeRedemptions=0,prizeStockValue=0;
