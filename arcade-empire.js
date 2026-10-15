@@ -1,6 +1,6 @@
 'use strict';
 // All money and customer decisions happen here; the floor animation only replays results.
-const KEY='technicade_arcade_empire_v1', VERSION=3, COLS=9, ROWS=7, ENTRANCE=57;
+const KEY='technicade_arcade_empire_v1', VERSION=4, COLS=9, ROWS=7, ENTRANCE=57;
 const catalog=[
   {id:'pinball',name:'Cosmic Pinball',icon:'🚀',buy:200,earn:90,appeal:3,price:7,type:'skill'},
   {id:'racer',name:'Turbo Street',icon:'🏎️',buy:320,earn:135,appeal:4,price:9,type:'speed'},
@@ -36,21 +36,23 @@ const $=id=>document.getElementById(id), item=id=>catalog.find(c=>c.id===id);
 const integer=(v,lo,hi,fallback)=>Number.isSafeInteger(v)&&v>=lo&&v<=hi?v:fallback;
 const money=v=>(v<0?'-$':'$')+Math.abs(Math.round(v)).toLocaleString();
 const openingPlans={regular:{name:'Regular hours',visitors:0,cost:0,wear:0},late:{name:'Extended hours',visitors:8,cost:30,wear:0},care:{name:'Preventive checks',visitors:0,cost:3,wear:1}};
-function fresh(){return {version:VERSION,day:1,cash:850,parts:3,reputation:1,capacity:3,locations:0,workers:0,owned:[{id:'pinball',condition:30,level:1,uid:1,pos:12,price:7,sales:0,plays:0,autoService:false}],market:['claw','racer','shooter'],upgrades:[],staffOn:false,openingPlan:'regular',prizeInventory:{stickers:0,plush:0},prizeTicketsIssued:0,prizeTicketsRedeemed:0,ads:0,total:0,log:['Welcome! Restore Cosmic Pinball, then open your first day.'],nextUid:2,daysPlayed:0,lastEvent:'No event yet',nextEventDay:3,lastDay:null,history:[],cashLedger:[],achievements:[]}}
+function fresh(){return {version:VERSION,day:1,cash:850,parts:3,reputation:1,capacity:3,locations:0,activeLocation:0,branches:[],workers:0,owned:[{id:'pinball',condition:30,level:1,uid:1,pos:12,price:7,sales:0,plays:0,autoService:false}],market:['claw','racer','shooter'],upgrades:[],staffOn:false,openingPlan:'regular',prizeInventory:{stickers:0,plush:0},prizeTicketsIssued:0,prizeTicketsRedeemed:0,ads:0,total:0,log:['Welcome! Restore Cosmic Pinball, then open your first day.'],nextUid:2,daysPlayed:0,lastEvent:'No event yet',nextEventDay:3,lastDay:null,history:[],cashLedger:[],achievements:[]}}
 function accessibleTiles(){const capacity=typeof s==='undefined'||!s?50:s.capacity;const unlocked=Math.min(COLS*ROWS-1,Math.max(10,capacity+9));return Array.from({length:COLS*ROWS},(_,p)=>p).filter(p=>p!==ENTRANCE).sort((a,b)=>{const distance=p=>Math.abs(p%COLS-4)+Math.abs(Math.floor(p/COLS)-3);return distance(a)-distance(b)||a-b}).slice(0,unlocked)}
 function defaultPosition(used,owned=[]){for(const p of [12,21,30,14,23,32,10,28,5,40,50,...Array.from({length:COLS*ROWS},(_,i)=>i)])if(!used.has(p)&&p!==ENTRANCE&&accessibleTiles().includes(p)){const trial=[...owned,{pos:p}];if(trial.every(m=>routeTo(m.pos,trial)))return p}return -1}
 function migrate(raw){
-  if(!raw||typeof raw!=='object'||![1,2,3].includes(raw.version)||!Array.isArray(raw.owned))throw Error('Unsupported or damaged save');
+  if(!raw||typeof raw!=='object'||![1,2,3,4].includes(raw.version)||!Array.isArray(raw.owned))throw Error('Unsupported or damaged save');
   const base=fresh(), used=new Set(), uids=new Set();
   if(raw.owned.length>50)throw Error('Too many machines');
   const owned=[];for(const m of raw.owned){if(!m||!item(m.id)||!Number.isSafeInteger(m.uid)||m.uid<1||uids.has(m.uid))throw Error('Invalid machine');uids.add(m.uid);
-    const oldPos=integer(m.pos,0,raw.version===3?62:34,-1);const pos=raw.version===3?oldPos:(oldPos<0?-1:Math.floor(oldPos/7)*9+oldPos%7),trial=[...owned,{pos}];let target=pos>=0&&pos!==ENTRANCE&&!used.has(pos)&&trial.every(x=>routeTo(x.pos,trial))?pos:defaultPosition(used,owned);if(target<0)throw Error('Floor is full');used.add(target);
+    const oldPos=integer(m.pos,0,raw.version>=3?62:34,-1);const pos=raw.version>=3?oldPos:(oldPos<0?-1:Math.floor(oldPos/7)*9+oldPos%7),trial=[...owned,{pos}];let target=pos>=0&&pos!==ENTRANCE&&!used.has(pos)&&trial.every(x=>routeTo(x.pos,trial))?pos:defaultPosition(used,owned);if(target<0)throw Error('Floor is full');used.add(target);
     owned.push({id:m.id,uid:m.uid,pos:target,condition:integer(m.condition,0,100,30),level:integer(m.level,1,5,1),price:integer(m.price,1,25,item(m.id).price),sales:integer(m.sales,0,1e9,0),plays:integer(m.plays,0,1e8,0),autoService:m.autoService===true});
   }
   const state={...base,...raw,version:VERSION,owned,cash:integer(raw.cash,0,1e12,base.cash),parts:integer(raw.parts,0,1e6,base.parts),reputation:integer(raw.reputation,1,20,base.reputation),capacity:integer(raw.capacity,3,50,base.capacity),locations:integer(raw.locations,0,5,0),workers:integer(raw.workers,0,8,0),day:integer(raw.day,1,1e8,base.day),daysPlayed:integer(raw.daysPlayed,0,1e8,base.daysPlayed),total:integer(raw.total,0,1e12,base.total),ads:integer(raw.ads,0,3,0),nextUid:Math.max(integer(raw.nextUid,1,1e8,base.nextUid),...owned.map(m=>m.uid+1)),nextEventDay:integer(raw.nextEventDay,1,1e8,3)};
   state.capacity=Math.max(state.capacity,owned.length);state.market=Array.isArray(raw.market)?[...new Set(raw.market.filter(id=>item(id)))].slice(0,3):base.market;
   state.upgrades=Array.isArray(raw.upgrades)?[...new Set(raw.upgrades.filter(id=>upgrades.some(u=>u.id===id)))]:[];
-  state.staffOn=state.upgrades.includes('staff')&&raw.staffOn!==false;
+  state.staffOn=(state.upgrades.includes('staff')||state.workers>0)&&raw.staffOn!==false;
+  state.activeLocation=integer(raw.activeLocation,0,state.locations,0);
+  state.branches=Array.isArray(raw.branches)?raw.branches.slice(0,5).map((b)=>({capacity:integer(b?.capacity,3,50,3),parts:integer(b?.parts,0,100000,3),workers:integer(b?.workers,0,8,0),staffOn:b?.staffOn===true,upgrades:Array.isArray(b?.upgrades)?b.upgrades.filter(id=>upgrades.some(u=>u.id===id)):[],owned:Array.isArray(b?.owned)?b.owned.filter(x=>x&&item(x.id)&&Number.isInteger(x.pos)&&x.pos>=0&&x.pos<63&&x.pos!==ENTRANCE).slice(0,50):[],market:Array.isArray(b?.market)?b.market.filter(id=>item(id)).slice(0,3):['claw','racer','shooter'],openingPlan:Object.hasOwn(openingPlans,b?.openingPlan)?b.openingPlan:'regular',prizeInventory:b?.prizeInventory||{stickers:0,plush:0}})):[];
   state.openingPlan=Object.hasOwn(openingPlans,raw.openingPlan)?raw.openingPlan:'regular';
   state.prizeInventory=Object.fromEntries(prizeCatalog.map(p=>[p.id,integer(raw.prizeInventory?.[p.id],0,1e6,0)]));
   state.prizeTicketsIssued=integer(raw.prizeTicketsIssued,0,1e9,0);
@@ -89,7 +91,11 @@ function upgradeMachine(uid){const m=s.owned.find(x=>x.uid===uid);if(!m||m.condi
 function locationCost(){return 25000*(s.locations+1)}
 function hireWorker(){if(s.workers>=8)return toast('Technician team is full.');if(!spend(450,'Hire maintenance technician'))return;s.workers++;s.staffOn=true;note('Hired technician '+s.workers+'. Technicians repair worn cabinets when you operate a day.');commit()}
 function fireWorker(){if(s.workers<1)return;s.workers--;note('Reduced technician team to '+s.workers+'.');commit()}
-function buyLocation(){if(s.locations>=5)return toast('Five satellite arcades is the current limit.');if(s.daysPlayed<30||s.owned.length<10)return toast('Need 30 operating days and 10 cabinets to unlock a satellite arcade.');const cost=locationCost();if(!spend(cost,'Open satellite arcade '+(s.locations+1)))return;s.locations++;note('Opened satellite arcade '+s.locations+'. Your network earns additional daily profit.');commit()}
+const branchFields=['owned','capacity','parts','workers','staffOn','upgrades','market','openingPlan','prizeInventory'];
+function snapshotLocation(){return Object.fromEntries(branchFields.map(k=>[k,structuredClone(s[k])]))}
+function newLocation(){return {owned:[{id:'pinball',condition:65,level:1,uid:s.nextUid++,pos:30,price:7,sales:0,plays:0,autoService:false}],capacity:3,parts:3,workers:0,staffOn:false,upgrades:[],market:['claw','racer','shooter'],openingPlan:'regular',prizeInventory:{stickers:0,plush:0}}}
+function switchLocation(index){if(!Number.isInteger(index)||index<0||index>s.locations||index===s.activeLocation)return;stopAnimation();if(!Array.isArray(s.branches))s.branches=[];s.branches[s.activeLocation]=snapshotLocation();const next=s.branches[index]||newLocation();for(const k of branchFields)s[k]=structuredClone(next[k]);s.activeLocation=index;selection=null;note('Switched to arcade location '+(index+1)+'.');commit()}
+function buyLocation(){if(s.locations>=5)return toast('Five satellite arcades is the current limit.');if(s.daysPlayed<30||s.owned.length<10)return toast('Need 30 operating days and 10 cabinets to unlock a satellite arcade.');const cost=locationCost();if(!spend(cost,'Open satellite arcade '+(s.locations+1)))return;s.branches[s.activeLocation]=snapshotLocation();s.locations++;s.branches[s.locations]=newLocation();note('Opened satellite arcade '+s.locations+'. Select it in Build to manage its cabinets and team.');commit()}
 function purchaseUpgrade(id){const u=upgrades.find(x=>x.id===id);if(!u||s.upgrades.includes(id)||!spend(u.cost,'Workshop upgrade: '+u.name))return;s.upgrades.push(id);if(id==='staff')s.staffOn=true;note('Installed '+u.name+'.');commit()}
 function toggleStaff(){if(!s.upgrades.includes('staff')&&s.workers===0)return;s.staffOn=!s.staffOn;note('Technician shifts '+(s.staffOn?'enabled':'paused')+'.');commit()}
 function setOpeningPlan(id){if(!Object.hasOwn(openingPlans,id)||s.openingPlan===id)return;s.openingPlan=id;commit()}
@@ -126,7 +132,7 @@ function simulateDay(){const activeWorkers=s.staffOn?Math.max(s.upgrades.include
  const requiredOperating=35+s.owned.length*9+(staffed?35:0)+activeWorkers*24+(s.upgrades.includes('vip')?10:0)+eventCost+plan.cost;
  for(const m of [...s.owned].sort((a,b)=>a.condition-b.condition))if((m.autoService||staffed)&&m.condition<75&&serviced<Math.max(activeWorkers*3,staffed?3:0,m.autoService?1:0)){if(s.parts<1&&staffed&&s.cash+gross-requiredOperating-maintenance>=75+serviceCost){s.parts+=3;maintenance+=75;note('Maintenance team ordered 3 spare parts for $75.')}if(s.parts<1||s.cash+gross-requiredOperating-maintenance<serviceCost)continue;m.condition=Math.min(100,m.condition+40);s.parts--;maintenance+=serviceCost;serviced++}
  const operating=requiredOperating+maintenance;
- const branchNet=s.locations?Math.round(s.locations*(55+Math.min(20,s.reputation)*3)):0;
+ const branchNet=s.locations?Math.round(s.locations*(55+Math.min(20,s.reputation)*3))-(s.activeLocation?Math.round(55+Math.min(20,s.reputation)*3):0):0;
  const net=gross-operating+branchNet;let support=Math.max(0,-(s.cash+net));s.cash+=net+support;recordCash('Open day: '+money(gross)+' sales - '+money(operating)+' operating + '+money(branchNet)+' satellite net + '+money(support)+' support',net+support);s.total+=gross;s.daysPlayed++;s.day++;if(s.ads)s.ads--;
  const satisfaction=plays?Math.round(satisfactionTotal/plays*20):0;
  if(plays>0&&satisfaction>=50&&walkouts<count/2)s.reputation=Math.min(20,s.reputation+1);else if(plays===0||satisfaction<30||walkouts>count*.7)s.reputation=Math.max(1,s.reputation-1);
@@ -181,7 +187,7 @@ function renderPrizeCounter(){
  $('prizeReport').textContent=d?'Last day: '+d.prizeTickets+' tickets issued from completed plays · '+d.prizeRedemptions+' prizes redeemed · '+money(d.prizeStockValue)+' prepaid stock used. Operating net after stock used: '+money(d.net-d.prizeStockValue)+'. Stock purchases are cash actions, so they are not charged again in daily operating costs.'+recentText:'Stock prizes before opening to delight visiting players.';
 }
 function render(){const focused=document.activeElement,focusData=focused&&['select','price','repair','service','boost','buy','upgrade','restock'].map(key=>[key,focused.dataset?.[key]]).find(([,value])=>value!==undefined),focusDelta=focused?.dataset?.delta;
- const stats=[['👷 Technicians',s.staffOn?Math.max(s.workers,s.upgrades.includes('staff')?1:0):0],['🏪 Locations',s.locations+1],['💵 Cash',money(s.cash)],['📦 Parts',s.parts],['⭐ Reputation',s.reputation],['🏢 Cabinets',s.owned.length+' / '+s.capacity],['💰 Lifetime sales',money(s.total)]];
+ const stats=[['🏬 Current',s.activeLocation+1+' / '+(s.locations+1)],['👷 Technicians',s.staffOn?Math.max(s.workers,s.upgrades.includes('staff')?1:0):0],['🏪 Locations',s.locations+1],['💵 Cash',money(s.cash)],['📦 Parts',s.parts],['⭐ Reputation',s.reputation],['🏢 Cabinets',s.owned.length+' / '+s.capacity],['💰 Lifetime sales',money(s.total)]];
  $('stats').innerHTML=stats.map(([k,v])=>'<div class="stat"><span class="sub">'+k+'</span><b>'+v+'</b></div>').join('');$('day').textContent='DAY '+s.day+' · '+(s.ads?'Marketing active':'Local business');$('saveWarning').textContent=saveWarning;$('corruptExport').hidden=!corruptRaw;
  const goal=goalDefs.find(g=>!s.achievements.includes(g.id));$('objective').textContent=goal?'NEXT GOAL: '+goal.name+'. '+goal.hint:'ALL STARTER GOALS COMPLETE!';$('milestones').innerHTML=goalDefs.map(g=>'<div class="goal">'+(s.achievements.includes(g.id)?'✅':'○')+' '+g.name+'</div>').join('');
  $('selection').textContent=selection===null?'Select a cabinet, then choose a free floor tile to move it. Use arrow keys to navigate the floor. Routes must stay open.':'Moving '+item(s.owned.find(m=>m.uid===selection).id).name+'. Choose a free tile or another cabinet.';
