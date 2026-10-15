@@ -20,3 +20,5 @@
 #floor.iso-floor .floor-cell.cabinet.selected .floor-icon{border-color:#fff2a5;box-shadow:0 0 0 2px #ffe07d,0 0 20px #ffdc7d}
 @media(max-width:780px){#game-screen-play #floor.iso-floor{height:clamp(210px,calc(100dvh - 320px),570px)!important;min-height:210px!important;max-height:none!important;aspect-ratio:auto!important;margin:4px 0!important}#floor.iso-floor .floor-cell.cabinet .floor-icon{font-size:clamp(17px,5vw,26px)!important}}
 @media(prefers-reduced-motion:reduce){#floor.iso-floor *{animation:none!important}}
+
+#floor.iso-floor .service-mark{position:absolute;z-index:12;top:-42%;left:8%;display:grid;place-items:center;min-width:19px;height:19px;font-size:13px;border-radius:50%;background:#065f53;border:1px solid #5af5c7;box-shadow:0 0 10px #2dffd899;pointer-events:none;animation:tech-repair 1.4s ease-in-out 2}@keyframes tech-repair{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}@media(prefers-reduced-motion:reduce){#floor.iso-floor .service-mark{animation:none}}
