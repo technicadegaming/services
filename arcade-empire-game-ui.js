@@ -22,6 +22,41 @@ toast('Operated '+days+' days. Net '+money(totalNet));},true);
 // Move interactive DOM nodes, preserving all IDs and game event listeners.
 screens.Play.append(main);
 const machines=document.getElementById('machines'),machineTitle=machines?.previousElementSibling;
+const manager=document.createElement('div');manager.className='arcade-management-tools';
+manager.innerHTML='<input id="arcadeMachineSearch" type="search" aria-label="Search machines" placeholder="Find a game..."><select id="arcadeMachineFilter" aria-label="Machine filter"><option value="all">All machines</option><option value="broken">Broken</option><option value="worn">Needs repair</option><option value="healthy">Healthy</option></select><button type="button" id="arcadeRepairAll">🔧 Repair available</button><small id="arcadeRepairSummary"></small>';
+screens.Machines.append(manager);
+let machineSearch='',machineFilter='all';
+function filterMachineCards(){
+ if(!machines)return;
+ let visible=0;
+ for(const card of machines.querySelectorAll('.machine')){
+  const name=(card.querySelector('h3')?.textContent||'').toLowerCase();
+  const tag=card.querySelector('.tag')?.textContent||'';
+  const condition=Number((tag.match(/(\\d+)%/)||[])[1]);
+  const matches=(!machineSearch||name.includes(machineSearch))&&(machineFilter==='all'||(machineFilter==='broken'&&condition<25)||(machineFilter==='worn'&&condition<45)||(machineFilter==='healthy'&&condition>=45));
+  card.hidden=!matches;if(matches)visible++;
+ }
+ const summary=manager.querySelector('#arcadeRepairSummary');
+ const actionable=s.owned.filter(m=>m.condition<100).length;
+ summary.textContent=visible+' shown · '+actionable+' need servicing · '+s.parts+' parts';
+ const button=manager.querySelector('#arcadeRepairAll');
+ button.disabled=!s.parts||s.cash<(s.upgrades.includes('tools')?38:50)||!actionable;
+}
+manager.querySelector('#arcadeMachineSearch').addEventListener('input',e=>{machineSearch=e.target.value.toLowerCase();filterMachineCards()});
+manager.querySelector('#arcadeMachineFilter').addEventListener('change',e=>{machineFilter=e.target.value;filterMachineCards()});
+manager.querySelector('#arcadeRepairAll').addEventListener('click',()=>{
+ const cost=s.upgrades.includes('tools')?38:50;
+ let count=0;
+ for(const machine of [...s.owned].sort((a,b)=>a.condition-b.condition)){
+  if(s.parts<1||s.cash<cost)break;
+  if(machine.condition>=100)continue;
+  repair(machine.uid);count++;
+ }
+ toast(count?'Serviced '+count+' machines.':'Need cash and spare parts to repair.');
+ filterMachineCards();
+});
+new MutationObserver(()=>requestAnimationFrame(filterMachineCards)).observe(machines,{childList:true});
+
 if(machineTitle?.tagName==='H3')screens.Machines.append(machineTitle);
 if(machines)screens.Machines.append(machines);
 for(const el of [document.getElementById('analyticsTitle')?.closest('section'),document.getElementById('cashFlowTitle')?.closest('section')])if(el)screens.Reports.append(el);
@@ -40,8 +75,37 @@ screens.Build.prepend(buildActions);
 // Satellite locations unlock after players have learned the core arcade economy.
 const satellitePanel=document.createElement('section');
 satellitePanel.className='panel satellite-panel';
-satellitePanel.innerHTML='<h2>🏪 Your arcade network</h2><p id="satelliteStatus" class="sub">Build your first arcade into a franchise.</p><button type="button" id="satelliteBuy">Open satellite arcade</button><p class="sub">Satellite locations are managed automatically for now and contribute profit when you operate a day. Your original arcade remains playable.</p>';
+satellitePanel.innerHTML='<h2>🏪 Your arcade network</h2><p id="satelliteStatus" class="sub">Build your first arcade into a franchise.</p><button type="button" id="satelliteBuy">Open satellite arcade</button><p class="sub">Select any location to manage its own cabinets, floor expansion, spare parts, and technicians. Other locations contribute background earnings.</p>';
 screens.Build.append(satellitePanel);
+const network=document.createElement('div');network.className='arcade-network-list';satellitePanel.append(network);
+function updateNetwork(){
+ network.replaceChildren();
+ for(let i=0;i<=s.locations;i++){
+  const el=document.createElement('article');el.className='arcade-location-card';
+  const current=i===s.activeLocation;
+  const data=current?s:s.branches?.[i];
+  const n=data?.owned?.length??1;
+  const header=document.createElement('strong');header.textContent='🏬 '+(i?'Satellite Arcade '+i:'Original Arcade');
+  const status=document.createElement('span');const worn=(data?.owned||[]).filter(m=>m.condition<45).length;status.textContent=n+' cabinets · '+(data?.workers||0)+' technicians · '+worn+' need maintenance'+(current?' · Current location':' · Simulated daily');
+  const button=document.createElement('button');button.type='button';button.textContent=current?'Managing this location':'Manage this arcade';button.disabled=current;
+  button.addEventListener('click',()=>{switchLocation(i);select('Play')});
+  el.append(header,status,button);network.append(el);
+ }
+}
+const staffPanel=document.createElement('section');staffPanel.className='panel arcade-staff-team';
+staffPanel.innerHTML='<h2>👷 Maintenance team</h2><p class="sub">Hire technicians to service the most damaged machines automatically whenever you operate a day. Repairs consume cash and parts. Workers can reorder a parts pack when funds allow.</p><div class="arcade-staff-actions"><button type="button" id="hireArcadeWorker">Hire technician — $450</button><button type="button" id="reduceArcadeWorker">Release technician</button></div><p id="arcadeWorkerCount" role="status"></p>';
+screens.Staff.prepend(staffPanel);
+staffPanel.querySelector('#hireArcadeWorker').addEventListener('click',()=>hireWorker());
+staffPanel.querySelector('#reduceArcadeWorker').addEventListener('click',()=>fireWorker());
+function updateStaffUI(){
+ staffPanel.querySelector('#arcadeWorkerCount').textContent=s.workers+' hired · '+(s.staffOn?'active':'shifts paused')+' · $24/day per technician + repairs. '+(s.lastDay?s.lastDay.serviced+' repairs completed last day.':'');
+ staffPanel.querySelector('#hireArcadeWorker').disabled=s.workers>=8||s.cash<450;
+ staffPanel.querySelector('#reduceArcadeWorker').disabled=s.workers<1;
+ updateNetwork();
+}
+new MutationObserver(()=>requestAnimationFrame(updateStaffUI)).observe(document.getElementById('stats'),{childList:true});
+requestAnimationFrame(updateStaffUI);
+
 satellitePanel.querySelector('#satelliteBuy').addEventListener('click',()=>buyLocation());
 // The initial core render happens before the mobile shell exists.
 requestAnimationFrame(()=>render());
