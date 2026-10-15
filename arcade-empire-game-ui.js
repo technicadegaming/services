@@ -75,17 +75,21 @@ screens.Build.prepend(buildActions);
 // Satellite locations unlock after players have learned the core arcade economy.
 const satellitePanel=document.createElement('section');
 satellitePanel.className='panel satellite-panel';
-satellitePanel.innerHTML='<h2>🏪 Your arcade network</h2><p id="satelliteStatus" class="sub">Build your first arcade into a franchise.</p><button type="button" id="satelliteBuy">Open satellite arcade</button><p class="sub">Satellite locations are managed automatically for now and contribute profit when you operate a day. Your original arcade remains playable.</p>';
+satellitePanel.innerHTML='<h2>🏪 Your arcade network</h2><p id="satelliteStatus" class="sub">Build your first arcade into a franchise.</p><button type="button" id="satelliteBuy">Open satellite arcade</button><p class="sub">Select any location to manage its own cabinets, floor expansion, spare parts, and technicians. Other locations contribute background earnings.</p>';
 screens.Build.append(satellitePanel);
 const network=document.createElement('div');network.className='arcade-network-list';satellitePanel.append(network);
 function updateNetwork(){
- const count=s.locations+1;
  network.replaceChildren();
- for(let i=0;i<count;i++){
+ for(let i=0;i<=s.locations;i++){
   const el=document.createElement('article');el.className='arcade-location-card';
-  const daily=i?Math.round(55+Math.min(20,s.reputation)*3):null;
-  el.innerHTML='<strong>🏬 '+(i?'Satellite Arcade '+i:'Original Arcade')+'</strong><span>'+(i?'Managed remotely · estimated '+money(daily)+'/day':'Playable now · '+s.owned.length+' cabinets')+'</span>';
-  network.append(el);
+  const current=i===s.activeLocation;
+  const data=current?s:s.branches?.[i];
+  const n=data?.owned?.length??1;
+  const header=document.createElement('strong');header.textContent='🏬 '+(i?'Satellite Arcade '+i:'Original Arcade');
+  const status=document.createElement('span');status.textContent=n+' cabinets · '+(data?.workers||0)+' technicians'+(current?' · Current location':'');
+  const button=document.createElement('button');button.type='button';button.textContent=current?'Managing this location':'Manage this arcade';button.disabled=current;
+  button.addEventListener('click',()=>{switchLocation(i);select('Play')});
+  el.append(header,status,button);network.append(el);
  }
 }
 const staffPanel=document.createElement('section');staffPanel.className='panel arcade-staff-team';
