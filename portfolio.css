@@ -18,3 +18,24 @@
 .card:focus-within{outline:2px solid #87ebc4;outline-offset:3px}
 .section{scroll-margin-top:32px}
 @media(max-width:600px){.top .links{width:100%;gap:8px}.top .links a{display:inline-flex;align-items:center;min-height:44px;padding:8px 10px;border:1px solid var(--line);border-radius:9px}.portfolio-jump{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.portfolio-jump a{font-size:13px}.card h3{overflow-wrap:anywhere}}
+
+/* Shared portfolio visual language: type, surfaces, hierarchy and accessible interaction. */
+:root{--portfolio-glow:#8d75ed;--portfolio-mint:#75dfbb}
+html{scroll-behavior:smooth}
+body{background:radial-gradient(850px 500px at 8% -3%,rgba(141,117,237,.22),transparent 72%),radial-gradient(650px 440px at 98% 16%,rgba(117,223,187,.10),transparent 75%),var(--bg);-webkit-font-smoothing:antialiased}
+.hero{position:relative;padding-top:clamp(42px,6vw,78px)}
+.hero h1{max-width:900px;text-wrap:balance}
+.hero>p{font-size:clamp(16px,1.9vw,19px);line-height:1.7}
+.eyebrow{font-weight:850}
+.section h2{letter-spacing:-.035em}
+.card{position:relative;overflow:hidden;background:linear-gradient(150deg,rgba(132,104,221,.11),transparent 55%),var(--card);box-shadow:0 12px 32px rgba(0,0,0,.12);transition:transform .2s ease,border-color .2s ease}
+.card::before{content:"";position:absolute;left:0;top:0;right:0;height:3px;background:linear-gradient(90deg,var(--portfolio-glow),var(--portfolio-mint));opacity:.7}
+.card:hover{transform:translateY(-3px);border-color:#8075b3}
+.card h3{font-size:21px;letter-spacing:-.025em}
+.card p{line-height:1.7}
+.card a{color:#d4c9ff;text-decoration-thickness:1px;text-underline-offset:4px}
+.status{background:rgba(141,117,237,.09);font-weight:650}
+.detail{max-width:900px;background:linear-gradient(140deg,rgba(132,104,221,.09),transparent 56%),var(--card)}
+.detail-extra{max-width:900px}
+.action{min-height:44px}
+@media(prefers-reduced-motion:reduce){.card{transition:none}.card:hover{transform:none}}
