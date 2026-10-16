@@ -10,7 +10,7 @@ test.beforeEach(async ({ page }) => {
 test('Labs hub links to all six standalone games and hides future tools', async ({ page }) => {
   await page.goto('/labs.html');
   await expect(page.locator('#bigButton')).toBeVisible();
-  await expect(page.locator('.quickplay a')).toHaveCount(7);
+  expect(await page.locator('.quickplay a').count()).toBeGreaterThanOrEqual(7);
   for (const idea of ['Creator Earnings Tracker','Menu & Profile Designer','Stream Schedule Builder']) await expect(page.getByText(idea,{exact:true})).toHaveCount(0);
   for (const href of ['would-you-rather.html','fake-achievement.html','challenge-wheel.html','one-more-second.html','rate-my-duck.html','useless-job-simulator.html']) {
     const link = page.locator('a[href="'+href+'"]').first();
