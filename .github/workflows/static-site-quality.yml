@@ -17,5 +17,7 @@ jobs:
           persist-credentials: false
       - name: Check static Technicade site routes, anchors and scripts
         run: node scripts/check-static-site.mjs
+      - name: Validate portfolio links, pages and metadata
+        run: node scripts/check-portfolio.mjs
       - name: Guard staged Guides against premature public launch
         run: node scripts/check-guides-prelaunch.mjs
