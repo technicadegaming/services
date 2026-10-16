@@ -8,3 +8,13 @@
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
 
 .detail-extra{max-width:850px;margin:20px 0 48px;padding:25px;border:1px solid var(--line);border-radius:20px;background:rgba(21,33,58,.7)}.detail-extra h2{font-size:23px;margin:12px 0}.feature-list{padding-left:23px;color:var(--mute)}.feature-list li{padding:5px 0}.related-links{display:flex;flex-wrap:wrap;gap:9px}.related-links a{display:inline-flex;align-items:center;min-height:44px;padding:10px 13px;border:1px solid var(--line);border-radius:10px;text-decoration:none;font-weight:700}@media(max-width:600px){.detail-extra{padding:20px}}
+
+/* Portfolio discovery polish: responsive category navigation and easier tap targets. */
+.portfolio-jump{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 10px}
+.portfolio-jump a{display:inline-flex;align-items:center;min-height:44px;padding:10px 14px;border:1px solid #556584;border-radius:12px;background:rgba(45,59,89,.75);color:#f1f5ff;text-decoration:none;font-weight:700;font-size:14px}
+.portfolio-jump a:hover,.portfolio-jump a:focus-visible{background:#344666;border-color:#a4b4ff}
+.portfolio-note{padding:14px 18px;border-left:3px solid #9beac7;background:rgba(155,234,199,.08);border-radius:8px}
+.card a{display:inline-flex;align-items:center;min-height:44px;align-self:flex-start}
+.card:focus-within{outline:2px solid #87ebc4;outline-offset:3px}
+.section{scroll-margin-top:32px}
+@media(max-width:600px){.top .links{width:100%;gap:8px}.top .links a{display:inline-flex;align-items:center;min-height:44px;padding:8px 10px;border:1px solid var(--line);border-radius:9px}.portfolio-jump{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.portfolio-jump a{font-size:13px}.card h3{overflow-wrap:anywhere}}
