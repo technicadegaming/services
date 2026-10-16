@@ -46,5 +46,17 @@
     "title": "Buying a Used Arcade Game? What to Inspect Before You Pay",
     "excerpt": "A buyer's checklist for earnings claims, gameplay, electronics, parts availability, freight, and hidden repair costs.",
     "category": "FEC operations · Buying equipment"
+  },
+  {
+    "slug": "arcade-card-reader-credits-no-start",
+    "title": "Arcade Card Reader Charges Credits but Game Won't Start",
+    "excerpt": "Trace the difference between successful card transactions, start pulses, and game-controller faults.",
+    "category": "Arcade repair · Card systems"
+  },
+  {
+    "slug": "arcade-ticket-printer-intermittent-failure",
+    "title": "Arcade Ticket Printer Stops Intermittently: What to Check Before Replacing It",
+    "excerpt": "Troubleshoot repeat printer stoppages using power, cable, sensor, paper path and controller checks.",
+    "category": "Arcade repair · Ticket printers"
   }
 ]
