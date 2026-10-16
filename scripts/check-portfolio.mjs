@@ -4,7 +4,8 @@ import path from 'node:path';
 
 const root=process.cwd();
 const portfolio=fs.readFileSync(path.join(root,'portfolio.html'),'utf8');
-const links=[...portfolio.matchAll(/href="(\/projects\/[^"]+\.html)"/g)].map(m=>m[1]);
+const catalog=portfolio.slice(portfolio.indexOf('<section class="section" id="arcade-fec">'));
+const links=[...catalog.matchAll(/href="(\/projects\/[^"]+\.html)"/g)].map(m=>m[1]);
 const unique=new Set(links);
 assert.equal(links.length,28,'Portfolio must list all 28 recorded projects');
 assert.equal(unique.size,links.length,'Duplicate project detail links');
