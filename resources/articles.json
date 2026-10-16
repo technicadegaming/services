@@ -22,5 +22,29 @@
     "title": "Is a Motion-Based Arcade Shooter Worth Buying? How FEC Operators Can Judge Revenue",
     "excerpt": "A practical way to assess guest appeal, utilization, earning potential, floor-space costs and maintenance before purchasing a motion shooter arcade game.",
     "category": "FEC revenue · Game selection"
+  },
+  {
+    "slug": "arcade-machine-not-dispensing-prize",
+    "title": "Arcade Prize Machine Takes Credits but Doesn't Dispense: A Troubleshooting Checklist",
+    "excerpt": "A safe, practical process to diagnose prize-dispense failures without buying random replacement parts.",
+    "category": "Arcade repair · Prize dispensing"
+  },
+  {
+    "slug": "arcade-parts-repair-or-replace",
+    "title": "Repair or Replace an Arcade Game? Calculate the Real Cost Before Deciding",
+    "excerpt": "Compare repair cost, downtime, lost revenue, repeat failures, and replacement value with a simple operator decision framework.",
+    "category": "FEC operations · Equipment decisions"
+  },
+  {
+    "slug": "arcade-redemption-ticket-pricing",
+    "title": "Are Your Redemption Prizes Priced Correctly? A Simple Ticket Cost Audit",
+    "excerpt": "Learn to audit redemption prize costs, effective ticket value, and shrinkage without blindly raising every prize's ticket price.",
+    "category": "FEC operations · Redemption inventory"
+  },
+  {
+    "slug": "used-arcade-machine-inspection-checklist",
+    "title": "Buying a Used Arcade Game? What to Inspect Before You Pay",
+    "excerpt": "A buyer's checklist for earnings claims, gameplay, electronics, parts availability, freight, and hidden repair costs.",
+    "category": "FEC operations · Buying equipment"
   }
 ]
