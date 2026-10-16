@@ -6,3 +6,5 @@
 .portfolio-finder p{margin:9px 0 0;font-size:13px}
 [hidden]{display:none!important}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+
+.detail-extra{max-width:850px;margin:20px 0 48px;padding:25px;border:1px solid var(--line);border-radius:20px;background:rgba(21,33,58,.7)}.detail-extra h2{font-size:23px;margin:12px 0}.feature-list{padding-left:23px;color:var(--mute)}.feature-list li{padding:5px 0}.related-links{display:flex;flex-wrap:wrap;gap:9px}.related-links a{display:inline-flex;align-items:center;min-height:44px;padding:10px 13px;border:1px solid var(--line);border-radius:10px;text-decoration:none;font-weight:700}@media(max-width:600px){.detail-extra{padding:20px}}
