@@ -8,6 +8,7 @@ const links=[...portfolio.matchAll(/href="(\/projects\/[^"]+\.html)"/g)].map(m=>
 const unique=new Set(links);
 assert.equal(links.length,28,'Portfolio must list all 28 recorded projects');
 assert.equal(unique.size,links.length,'Duplicate project detail links');
+assert.equal((portfolio.match(/<section class="section" id=/g)||[]).length,5,'Portfolio must retain five project categories');
 for(const url of links){
   const local=path.join(root,url.replace(/^\//,''));
   assert.ok(fs.existsSync(local),'Missing project page: '+url);
